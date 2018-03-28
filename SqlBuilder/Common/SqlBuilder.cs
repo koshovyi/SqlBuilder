@@ -5,94 +5,47 @@ using System.Reflection;
 namespace SqlBuilder
 {
 
-	public static partial class SqlBuilder
+	public partial class SqlBuilder<T>
 	{
-		public static Parameters Parameters { get; set; }
 
-		static SqlBuilder()
+		public string TableName { get; private set; }
+		public string TableAlias { get; private set; }
+		public Interfaces.IWhereList Where { get; set; }
+		public Interfaces.IOrderByList OrderBy { get; set; }
+		public Parameters Parameters { get; set; }
+
+		public SqlBuilder()
 		{
-			Parameters = ParametersLibrary.MsSQL;
+			this.Where = new Where();
+			this.OrderBy = new OrderBy();
+			this.Parameters = SqlBuilder.Parameters;
+			this.TableName = Reflection.GetTableName<T>();
 		}
 
-		private static IEnumerable<A> GetAttributes<T, A>()
+		public string Select(params string[] Columns)
 		{
-			Type type = typeof(T);
-			foreach(A attr in type.GetCustomAttributes(typeof(A), false))
-			{
-				yield return attr;
-			}
+			string where = this.Where.GetSql();
+			if (!string.IsNullOrEmpty(where))
+				where = " " + where;
+
+			string orderby = this.OrderBy.GetSql();
+			if (!string.IsNullOrEmpty(orderby))
+				orderby = " " + orderby;
+
+			return "SELECT " + SqlBuilder.GetColumnsList(Columns) + " FROM " + this.TableName + where + orderby + this.Parameters.EndOfStatement;
 		}
 
-		public static string GetTableName<T>(bool Escape = false)
+		public string Select(string PrimaryKey, params string[] Columns)
 		{
-			string result = typeof(T).Name.ToLower();
-			foreach (TableNameAttribute a in typeof(T).GetCustomAttributes(typeof(TableNameAttribute), false))
-			{
-				result = a.TableName;
-				break;
-			}
-			return Escape
-				? FormatTable(result)
-				: result;
-		}
+			string where = this.Where.GetSql();
+			if (!string.IsNullOrEmpty(where))
+				where = " " + where;
 
-		public static string GetPrimaryKey<T>()
-		{
-			Type type = typeof(T);
-			foreach (PropertyInfo property in type.GetProperties())
-			{
-				foreach(PrimaryKeyAttribute pk in property.GetCustomAttributes(typeof(PrimaryKeyAttribute), false))
-				{
-					return property.Name;
-				}
-			}
-			throw new Exception();
-		}
+			string orderby = this.OrderBy.GetSql();
+			if (!string.IsNullOrEmpty(orderby))
+				orderby = " " + orderby;
 
-		public static string FormatColumn(string Column)
-		{
-			return Parameters.ColumnEscapeLeft + Column + Parameters.ColumnEscapeRight;
-		}
-
-		public static string FormatParameter(string Column)
-		{
-			return Parameters.Parameter + Column;
-		}
-
-		public static string FormatTable(string TableName)
-		{
-			return Parameters.TableEscapeLeft + TableName + Parameters.TableEscapeRight;
-		}
-
-		public static string GetColumnsList(string[] Columns, bool Escape = false)
-		{
-			if (Escape)
-			{
-				string result = string.Empty;
-				foreach (string column in Columns)
-				{
-					result += Parameters.ColumnEscapeLeft + column + Parameters.ColumnEscapeRight;
-				}
-				return result;
-			}
-			else
-				return string.Join(',', Columns);
-		}
-
-		public static string SelectAll<T>()
-		{
-			return "SELECT * FROM " + GetTableName<T>(true) + Parameters.EndOfStatement;
-		}
-
-		public static string SelectAll<T>(params string[] Columns)
-		{
-			return "SELECT " + GetColumnsList(Columns, true) + " FROM " + GetTableName<T>(true) + Parameters.EndOfStatement;
-		}
-
-		public static string SelectWherePK<T>()
-		{
-			string pk = GetPrimaryKey<T>();
-			return "SELECT * FROM " + GetTableName<T>(true) + " WHERE " + FormatColumn(pk) + '=' + FormatParameter(pk) + Parameters.EndOfStatement;
+			return "SELECT " + SqlBuilder.GetColumnsList(Columns) + " FROM " + this.TableName + where + orderby + this.Parameters.EndOfStatement;
 		}
 
 	}

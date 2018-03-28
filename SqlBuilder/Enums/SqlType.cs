@@ -1,4 +1,4 @@
-﻿namespace SqlBuilder
+﻿namespace SqlBuilder.Enums
 {
 	public enum SqlType : uint
 	{

@@ -8,34 +8,36 @@ namespace SqlBuilder
 	public class ParametersLibrary
 	{
 
-		public static Parameters MySQL
+		public static Parameters MySql
 		{
 			get
 			{
 				return new Parameters()
 				{
-					Type = SqlType.MySql,
+					Type = Enums.SqlType.MySql,
 					TableEscapeLeft = '`',
 					TableEscapeRight = '`',
 					ColumnEscapeLeft = '`',
 					ColumnEscapeRight = '`',
 					Parameter = '?',
+					EndOfStatement = ';'
 				};
 			}
 		}
 
-		public static Parameters MsSQL
+		public static Parameters MsSql
 		{
 			get
 			{
 				return new Parameters()
 				{
-					Type = SqlType.MsSql,
+					Type = Enums.SqlType.MsSql,
 					TableEscapeLeft = '[',
 					TableEscapeRight = ']',
 					ColumnEscapeLeft = '[',
 					ColumnEscapeRight = ']',
 					Parameter = '@',
+					EndOfStatement = ';'
 				};
 			}
 		}

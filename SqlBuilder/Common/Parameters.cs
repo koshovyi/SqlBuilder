@@ -4,9 +4,9 @@
 	public class Parameters :IParameters
 	{
 		public char Parameter { get; set; }
-		public SqlType Type { get; set; } = SqlType.Unknown;
-		public SqlFormat ColumnFormat { get; set; } = SqlFormat.None;
-		public SqlFormat ColumnTable { get; set; } = SqlFormat.None;
+		public Enums.SqlType Type { get; set; } = Enums.SqlType.Unknown;
+		public Enums.SqlFormat ColumnFormat { get; set; } = Enums.SqlFormat.None;
+		public Enums.SqlFormat ColumnTable { get; set; } = Enums.SqlFormat.None;
 		public char ColumnEscapeLeft { get; set; }
 		public char ColumnEscapeRight { get; set; }
 		public char TableEscapeLeft { get; set; }
