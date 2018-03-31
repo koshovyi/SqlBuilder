@@ -30,7 +30,7 @@ namespace SqlBuilder
 		public OrderBy()
 		{
 			this._expressions = new List<IOrderBy>();
-			this.Parameters = ParametersLibrary.MsSql;
+			this.Parameters = SqlBuilder.Parameters;
 		}
 
 		public void Append(IOrderBy Expression)

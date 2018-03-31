@@ -27,7 +27,7 @@ namespace SqlBuilder
 		public Where()
 		{
 			this._expressions = new List<IWhere>();
-			this.Parameters = ParametersLibrary.MsSql;
+			this.Parameters = SqlBuilder.Parameters;
 		}
 
 		#endregion

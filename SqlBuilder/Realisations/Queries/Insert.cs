@@ -15,7 +15,7 @@ namespace SqlBuilder
 
 		public Insert()
 		{
-			this.Parameters = ParametersLibrary.MsSql;
+			this.Parameters = SqlBuilder.Parameters;
 		}
 
 		private string[] GetColumns()
@@ -41,14 +41,6 @@ namespace SqlBuilder
 		{
 			Select<T> result = new Select<T>();
 			result.Columns.Append(Columns);
-			return result;
-		}
-
-		public static Select<T> SelectWherePK(params string[] Columns)
-		{
-			Select<T> result = new Select<T>();
-			result.Columns.Append(Columns);
-			result.Where.Equal(Reflection.GetPrimaryKey<T>());
 			return result;
 		}
 

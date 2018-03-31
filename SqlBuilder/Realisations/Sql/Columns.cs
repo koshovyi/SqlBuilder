@@ -23,7 +23,7 @@ namespace SqlBuilder
 		public Columns()
 		{
 			this._expressions = new List<IColumn>();
-			this.Parameters = ParametersLibrary.MsSql;
+			this.Parameters = SqlBuilder.Parameters;
 		}
 
 		public IColumnsList Append(IColumn Expression)

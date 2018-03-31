@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using SqlBuilder.Attributes;
 
 namespace SqlBuilder.Tests.DataBaseDemo
 {
@@ -9,18 +8,17 @@ namespace SqlBuilder.Tests.DataBaseDemo
 	public class Book
 	{
 
+		[Ignore]
 		[PrimaryKey]
-		[IgnoreAttribute]
 		public int ID { get; set; }
-
-		public string Name { get; set; }
 
 		[Column("created_at")]
 		[InsertDefault("NOW()")]
 		public DateTime CreatedAt {get;set;}
 
-		public int Year { get; set; }
+		public string Name { get; set; }
 
+		public int Year { get; set; }
 
 		public int ID_Author { get; set; }
 

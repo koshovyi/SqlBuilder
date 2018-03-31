@@ -22,32 +22,6 @@ namespace SqlBuilder
 			this.TableName = Reflection.GetTableName<T>();
 		}
 
-		public string Select(params string[] Columns)
-		{
-			string where = this.Where.GetSql();
-			if (!string.IsNullOrEmpty(where))
-				where = " " + where;
-
-			string orderby = this.OrderBy.GetSql();
-			if (!string.IsNullOrEmpty(orderby))
-				orderby = " " + orderby;
-
-			return "SELECT " + SqlBuilder.GetColumnsList(Columns) + " FROM " + this.TableName + where + orderby + this.Parameters.EndOfStatement;
-		}
-
-		public string Select(string PrimaryKey, params string[] Columns)
-		{
-			string where = this.Where.GetSql();
-			if (!string.IsNullOrEmpty(where))
-				where = " " + where;
-
-			string orderby = this.OrderBy.GetSql();
-			if (!string.IsNullOrEmpty(orderby))
-				orderby = " " + orderby;
-
-			return "SELECT " + SqlBuilder.GetColumnsList(Columns) + " FROM " + this.TableName + where + orderby + this.Parameters.EndOfStatement;
-		}
-
 	}
 
 }
