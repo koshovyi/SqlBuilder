@@ -9,10 +9,11 @@ namespace SqlBuilder.Interfaces
 	{
 
 		string Pattern { get; set; }
-		bool ContainsPart(string Name);
+		IParameters Parameters { get; set; }
 		IEnumerable<ITemplateSnippet> Snippets { get; }
-		ITemplate Append(ITemplateSnippet Snippet);
-		string GetSql();
+		ITemplate Append(params ITemplateSnippet[] Snippets);
+		ITemplate Append(string Name, string Code, string Prefix = "", string Postfix = "");
+		string GetSql(bool EndOfStatement = true);
 
 	}
 
@@ -23,6 +24,7 @@ namespace SqlBuilder.Interfaces
 		string Code { get; set; }
 		string Prefix { get; set; }
 		string Postfix { get; set; }
+
 	}
 
 }

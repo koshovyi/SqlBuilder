@@ -71,17 +71,7 @@ namespace SqlBuilder
 
 		public string GetSql()
 		{
-			StringBuilder sb = new StringBuilder();
-			foreach(IColumn column in this._expressions)
-			{
-				if (sb.Length > 0)
-					sb.Append(',');
-				if (string.IsNullOrEmpty(column.Alias))
-					sb.Append(column.Name);
-				else
-					sb.Append(column.Name + " as " + column.Alias);
-			}
-			return sb.ToString();
+			return SqlBuilder.GetColumnsList(this);
 		}
 
 		public override string ToString()

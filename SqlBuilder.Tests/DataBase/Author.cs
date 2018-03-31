@@ -10,7 +10,7 @@ namespace SqlBuilder.Tests.DataBaseDemo
 	{
 
 		[PrimaryKey]
-		[StatementIgnore]
+		[IgnoreAttribute]
 		public int ID { get; set; }
 
 		public string FirstName { get; set; }

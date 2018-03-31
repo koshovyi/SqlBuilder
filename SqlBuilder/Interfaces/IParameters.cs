@@ -7,7 +7,7 @@ namespace SqlBuilder
 
 	public interface IParameters
 	{
-		Enums.SqlType Type { get; set; }
+		Enums.SqlVersion Type { get; set; }
 		Enums.SqlFormat ColumnFormat { get; set; }
 		Enums.SqlFormat ColumnTable { get; set; }
 		char Parameter { get; set; }

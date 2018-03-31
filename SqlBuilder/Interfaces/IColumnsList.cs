@@ -4,6 +4,7 @@ using System.Text;
 
 namespace SqlBuilder.Interfaces
 {
+
 	public interface IColumnsList
 	{
 		IParameters Parameters { get; set; }

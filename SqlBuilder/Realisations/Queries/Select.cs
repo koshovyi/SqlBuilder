@@ -27,14 +27,15 @@ namespace SqlBuilder
 
 		public string GetSql()
 		{
-			StringBuilder sb = new StringBuilder();
-			sb.Append("SELECT " + SqlBuilder.GetColumnsList(this.Columns) + " FROM " + Reflection.GetTableName<T>());
+			ITemplate result = TemplateLibrary.Select;
+			string table = Reflection.GetTableName<T>();
+			result.Append(SnippetLibrary.Table(table, this.TableAlias),
+				SnippetLibrary.Columns(this.Columns.GetSql()));
 			if (this.Where.Count > 0)
-				sb.Append(" " + this.Where.GetSql(true));
+				result.Append(SnippetLibrary.Where(this.Where.GetSql()));
 			if (this.OrderBy.Count > 0)
-				sb.Append(" " + this.OrderBy.GetSql(true));
-			sb.Append(this.Parameters.EndOfStatement);
-			return sb.ToString();
+				result.Append(SnippetLibrary.OrderBy(this.OrderBy.GetSql()));
+			return result.GetSql();
 		}
 
 		public override string ToString()

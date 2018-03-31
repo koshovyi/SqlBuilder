@@ -1,15 +1,15 @@
 ﻿using System;
 
-namespace SqlBuilder
+namespace SqlBuilder.Attributes
 {
 
-	public class StatementIgnoreAttribute : Attribute
+	public class IgnoreAttribute : Attribute
 	{
 
 		public bool Insert { get; set; }
 		public bool Update { get; set; }
 
-		public StatementIgnoreAttribute(bool Insert = true, bool Update = true)
+		public IgnoreAttribute(bool Insert = true, bool Update = true)
 		{
 			this.Insert = Insert;
 			this.Update = Update;

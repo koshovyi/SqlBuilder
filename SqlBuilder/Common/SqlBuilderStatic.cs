@@ -15,9 +15,12 @@ namespace SqlBuilder
 			Parameters = ParametersLibrary.MsSql;
 		}
 
-		public static string FormatColumn(string Column)
+		public static string FormatColumn(string Column, bool Escape = false)
 		{
-			return Parameters.ColumnEscapeLeft + Column + Parameters.ColumnEscapeRight;
+			if(Escape)
+				return Parameters.ColumnEscapeLeft + Column + Parameters.ColumnEscapeRight;
+			else
+				return Column;
 		}
 
 		public static string FormatParameter(string Column)
@@ -30,7 +33,12 @@ namespace SqlBuilder
 			return Parameters.TableEscapeLeft + TableName + Parameters.TableEscapeRight;
 		}
 
-		public static string GetColumnsList(string[] Columns, bool Escape = false)
+		public static string GetColumnsList(string[] Columns, bool Escape = false, bool Parameter = false)
+		{
+			return GetColumnsList(Columns, SqlBuilder.Parameters, Escape, Parameter);
+		}
+
+		public static string GetColumnsList(string[] Columns, Parameters Parameters, bool Escape = false, bool Parameter = false)
 		{
 			if (Columns.Length == 0)
 				return "*";
@@ -40,7 +48,9 @@ namespace SqlBuilder
 			{
 				if (sb.Length > 0)
 					sb.Append(',');
-				sb.Append(FormatColumn(column));
+				if (Parameter)
+					sb.Append(Parameters.Parameter);
+				sb.Append(FormatColumn(column, Escape));
 			}
 			return sb.ToString();
 		}
@@ -59,6 +69,23 @@ namespace SqlBuilder
 					sb.Append(FormatColumn(column.Name));
 				else
 					sb.Append(FormatColumn(column.Name) + " as " + column.Alias);
+			}
+			return sb.ToString();
+		}
+
+		public static string GetColumnsParametresList(params string[] Columns)
+		{
+			return GetColumnsParametresList(SqlBuilder.Parameters, Columns);
+		}
+
+		public static string GetColumnsParametresList(Parameters Parameters, params string[] Columns)
+		{
+			StringBuilder sb = new StringBuilder();
+			foreach (string Column in Columns)
+			{
+				if (sb.Length > 0)
+					sb.Append(',');
+				sb.Append(FormatColumn(Column) + "=" + Parameters.Parameter + Column);
 			}
 			return sb.ToString();
 		}

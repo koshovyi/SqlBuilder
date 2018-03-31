@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SqlBuilder
+namespace SqlBuilder.Attributes
 {
 
 	public class PrimaryKeyAttribute : Attribute

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SqlBuilder
+namespace SqlBuilder.Attributes
 {
 
 	public class InsertDefaultAttribute : Attribute

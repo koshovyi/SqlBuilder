@@ -4,6 +4,7 @@ using System.Text;
 
 namespace SqlBuilder.Interfaces
 {
+
 	public interface IGroup
 	{
 		IParameters Parameters { get; set; }

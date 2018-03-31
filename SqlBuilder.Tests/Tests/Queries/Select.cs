@@ -18,8 +18,7 @@ namespace SqlBuilder.Tests
 		{
 			SqlBuilder.Parameters = ParametersLibrary.MsSql;
 
-			Select<DataBaseDemo.Author> s = new Select<DataBaseDemo.Author>();
-			string result = s.GetSql();
+			string result = new Select<DataBaseDemo.Author>().GetSql();
 			string sql = "SELECT * FROM tab_authors;";
 			Assert.AreEqual(sql, result);
 		}
@@ -30,8 +29,7 @@ namespace SqlBuilder.Tests
 		{
 			SqlBuilder.Parameters = ParametersLibrary.MsSql;
 
-			Select<DataBaseDemo.Author> s = Select<DataBaseDemo.Author>.SelectAll();
-			string result = s.GetSql();
+			string result = Select<DataBaseDemo.Author>.SelectAll().GetSql();
 			string sql = "SELECT * FROM tab_authors;";
 			Assert.AreEqual(sql, result);
 		}
@@ -45,7 +43,7 @@ namespace SqlBuilder.Tests
 			Select<DataBaseDemo.Author> s = new Select<DataBaseDemo.Author>();
 			s.Columns.Append("a", "b", "c");
 			string result = s.GetSql();
-			string sql = "SELECT [a],[b],[c] FROM tab_authors;";
+			string sql = "SELECT a,b,c FROM tab_authors;";
 			Assert.AreEqual(sql, result);
 		}
 
@@ -57,7 +55,7 @@ namespace SqlBuilder.Tests
 
 			Select<DataBaseDemo.Author> s = Select<DataBaseDemo.Author>.SelectAll("a", "b", "c");
 			string result = s.GetSql();
-			string sql = "SELECT [a],[b],[c] FROM tab_authors;";
+			string sql = "SELECT a,b,c FROM tab_authors;";
 			Assert.AreEqual(sql, result);
 		}
 
@@ -71,7 +69,7 @@ namespace SqlBuilder.Tests
 			s.Columns.Append("a", "b", "c");
 			s.Columns.AppendAlias("d", "D");
 			string result = s.GetSql();
-			string sql = "SELECT [a],[b],[c],[d] as D FROM tab_authors;";
+			string sql = "SELECT a,b,c,d as D FROM tab_authors;";
 			Assert.AreEqual(sql, result);
 		}
 
@@ -143,7 +141,7 @@ namespace SqlBuilder.Tests
 			Select<DataBaseDemo.Author> s = new Select<DataBaseDemo.Author>();
 			s.OrderBy.Ascending("age");
 			string result = s.GetSql();
-			string sql = "SELECT * FROM tab_authors ORDER BY [age] ASC;";
+			string sql = "SELECT * FROM tab_authors ORDER BY age ASC;";
 			Assert.AreEqual(sql, result);
 		}
 
@@ -156,7 +154,7 @@ namespace SqlBuilder.Tests
 			Select<DataBaseDemo.Author> s = new Select<DataBaseDemo.Author>();
 			s.OrderBy.Descending("age");
 			string result = s.GetSql();
-			string sql = "SELECT * FROM tab_authors ORDER BY [age] DESC;";
+			string sql = "SELECT * FROM tab_authors ORDER BY age DESC;";
 			Assert.AreEqual(sql, result);
 		}
 
@@ -169,7 +167,7 @@ namespace SqlBuilder.Tests
 			Select<DataBaseDemo.Author> s = new Select<DataBaseDemo.Author>();
 			s.OrderBy.Ascending("age").Descending("amount");
 			string result = s.GetSql();
-			string sql = "SELECT * FROM tab_authors ORDER BY [age] ASC,[amount] DESC;";
+			string sql = "SELECT * FROM tab_authors ORDER BY age ASC,amount DESC;";
 			Assert.AreEqual(sql, result);
 		}
 

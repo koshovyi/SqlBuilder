@@ -14,7 +14,7 @@ namespace SqlBuilder
 			{
 				return new Parameters()
 				{
-					Type = Enums.SqlType.MySql,
+					Type = Enums.SqlVersion.MySql,
 					TableEscapeLeft = '`',
 					TableEscapeRight = '`',
 					ColumnEscapeLeft = '`',
@@ -31,7 +31,7 @@ namespace SqlBuilder
 			{
 				return new Parameters()
 				{
-					Type = Enums.SqlType.MsSql,
+					Type = Enums.SqlVersion.MsSql,
 					TableEscapeLeft = '[',
 					TableEscapeRight = ']',
 					ColumnEscapeLeft = '[',
