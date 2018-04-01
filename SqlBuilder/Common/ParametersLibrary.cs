@@ -20,7 +20,8 @@ namespace SqlBuilder
 					ColumnEscapeLeft = '`',
 					ColumnEscapeRight = '`',
 					Parameter = '?',
-					EndOfStatement = ';'
+					EndOfStatement = ';',
+					AliasEscape = '\"'
 				};
 			}
 		}
@@ -37,7 +38,8 @@ namespace SqlBuilder
 					ColumnEscapeLeft = '[',
 					ColumnEscapeRight = ']',
 					Parameter = '@',
-					EndOfStatement = ';'
+					EndOfStatement = ';',
+					AliasEscape = '\''
 				};
 			}
 		}

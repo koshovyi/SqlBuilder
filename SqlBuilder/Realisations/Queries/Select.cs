@@ -9,6 +9,7 @@ namespace SqlBuilder
 
 	public class Select<T> : Interfaces.IStatementSelect
 	{
+
 		public string TableName { get; }
 		public string TableAlias { get; set; }
 		public IParameters Parameters { get; set; }

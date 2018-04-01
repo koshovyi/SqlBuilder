@@ -8,6 +8,7 @@ namespace SqlBuilder
 
 	public class Columns : Interfaces.IColumnsList
 	{
+
 		private List<IColumn> _expressions;
 
 		public IParameters Parameters { get; set; }
@@ -78,6 +79,7 @@ namespace SqlBuilder
 		{
 			return this.GetSql();
 		}
+
 	}
 
 }

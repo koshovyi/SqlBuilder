@@ -1,5 +1,6 @@
 ﻿namespace SqlBuilder.Enums
 {
+
 	public enum SqlVersion : uint
 	{
 		Unknown = 0,
@@ -7,4 +8,5 @@
 		MsSql = 2,
 		PostgreSql = 3,
 	}
+
 }

@@ -7,6 +7,7 @@ namespace SqlBuilder.Interfaces
 
 	public interface IColumnsList
 	{
+
 		IParameters Parameters { get; set; }
 		IEnumerable<IColumn> Expressions { get; }
 		string GetSql();

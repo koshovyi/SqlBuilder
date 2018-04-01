@@ -9,6 +9,7 @@ namespace SqlBuilder
 
 	public class OrderByExpression : IOrderBy
 	{
+
 		public OrderDirection Direction { get; set; }
 
 		public string Column { get; set; }

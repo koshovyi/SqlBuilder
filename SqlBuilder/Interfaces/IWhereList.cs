@@ -7,6 +7,7 @@ namespace SqlBuilder.Interfaces
 
 	public interface IWhereList
 	{
+
 		IParameters Parameters { get; set; }
 		IEnumerable<IWhere> Expressions { get; }
 		string GetSql(bool Where = false);

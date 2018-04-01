@@ -10,7 +10,7 @@ namespace SqlBuilder.Tests.DataBaseDemo
 	public class Author
 	{
 
-		[Ignore]
+		[IgnoreInsertAttribute]
 		[PrimaryKey]
 		public int ID { get; set; }
 

@@ -8,12 +8,9 @@ namespace SqlBuilder.Attributes
 
 		public string ColumnName { get; set; }
 
-		public bool Escape { get; set; }
-
-		public ColumnAttribute(string ColumnName, bool Escape = true)
+		public ColumnAttribute(string ColumnName)
 		{
 			this.ColumnName = ColumnName;
-			this.Escape = Escape;
 		}
 
 		public override string ToString()

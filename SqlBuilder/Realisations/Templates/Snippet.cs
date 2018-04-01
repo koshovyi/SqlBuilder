@@ -9,6 +9,7 @@ namespace SqlBuilder
 
 	public class Snippet : Interfaces.ITemplateSnippet
 	{
+
 		private string _Name;
 
 		public string Code { get; set; }

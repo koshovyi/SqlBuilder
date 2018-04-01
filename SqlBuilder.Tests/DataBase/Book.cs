@@ -8,7 +8,7 @@ namespace SqlBuilder.Tests.DataBaseDemo
 	public class Book
 	{
 
-		[Ignore]
+		[IgnoreInsertAttribute]
 		[PrimaryKey]
 		public int ID { get; set; }
 

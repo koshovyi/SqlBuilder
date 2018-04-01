@@ -5,8 +5,10 @@ using SqlBuilder.Interfaces;
 
 namespace SqlBuilder
 {
+
 	public class OrderBy : IOrderByList
 	{
+
 		private List<IOrderBy> _expressions;
 
 		public IParameters Parameters { get; set; }

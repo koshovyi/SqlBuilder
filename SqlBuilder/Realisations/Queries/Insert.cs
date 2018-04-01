@@ -9,6 +9,7 @@ namespace SqlBuilder
 
 	public class Insert<T> : Interfaces.IStatementInsert
 	{
+
 		public string TableName { get; }
 		public string TableAlias { get; set; }
 		public IParameters Parameters { get; set; }

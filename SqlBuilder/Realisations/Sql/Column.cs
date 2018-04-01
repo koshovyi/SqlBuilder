@@ -7,8 +7,10 @@ namespace SqlBuilder
 
 	public class Column : Interfaces.IColumn
 	{
+
 		public string Name { get; set; }
 		public string Alias { get; set; }
+
 	}
 
 }

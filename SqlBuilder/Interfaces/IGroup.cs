@@ -7,6 +7,7 @@ namespace SqlBuilder.Interfaces
 
 	public interface IGroup
 	{
+
 		IParameters Parameters { get; set; }
 		IColumnsList Columns { get; }
 		IEnumerable<IColumn> Expressions { get; }

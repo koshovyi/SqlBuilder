@@ -1,5 +1,6 @@
 ﻿namespace SqlBuilder.Enums
 {
+
 	public enum SqlQuery : uint
 	{
 		Unknown = 0,
@@ -7,4 +8,5 @@
 		Update = 2,
 		Delete = 3,
 	}
+
 }
