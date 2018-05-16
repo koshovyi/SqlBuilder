@@ -7,6 +7,7 @@
 		<PackageTags>sql, t-sql, mssql, mysql, postgresql, database, db, orm, dapper, entity framework</PackageTags>
 		<AssemblyVersion>0.1.0.0</AssemblyVersion>
 		<FileVersion>0.1.0.0</FileVersion>
+		<Version>0.1.0</Version>
 	</PropertyGroup>
 
 </Project>
