@@ -26,6 +26,15 @@ namespace SqlBuilder
 			}
 		}
 
+		public static Interfaces.ITemplate Delete
+		{
+			get
+			{
+				string sql = "{{START}}DELETE FROM {{TABLE}}{{WHERE}}{{END}}";
+				return new Template(sql);
+			}
+		}
+
 		public static Interfaces.ITemplate Update
 		{
 			get

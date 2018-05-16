@@ -1,41 +1,52 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using SqlBuilder.Enums;
-using SqlBuilder.Interfaces;
+﻿using SqlBuilder.Interfaces;
 
 namespace SqlBuilder
 {
 
-	public class Select<T> : Interfaces.IStatementSelect
+	public class Select<T> : IStatementSelect
 	{
 
-		public string TableName { get; }
 		public string TableAlias { get; set; }
+
 		public IParameters Parameters { get; set; }
 
-		public IColumnsList Columns { get; set; }
+		public IColumnsAggregationList Columns { get; set; }
+
 		public IWhereList Where { get; set; }
+
+		public GroupByList GroupBy { get; set; }
+
 		public IOrderByList OrderBy { get; set; }
 
-		public Select()
+		public Select(string tableAlias = "") : this(SqlBuilder.Parameters, tableAlias)
 		{
-			this.Parameters = SqlBuilder.Parameters;
-			this.Columns = new Columns();
-			this.Where = new Where();
-			this.OrderBy = new OrderBy();
+		}
+
+		public Select(IParameters parameters, string tableAlias = "")
+		{
+			this.Parameters = parameters;
+			this.TableAlias = tableAlias;
+			this.Columns = new ColumnsList(this.Parameters);
+			this.Where = new WhereList(this.Parameters);
+			this.OrderBy = new OrderByList(this.Parameters);
+			this.GroupBy = new GroupByList(this.Parameters, this.Columns);
 		}
 
 		public string GetSql()
 		{
-			ITemplate result = TemplateLibrary.Select;
 			string table = Reflection.GetTableName<T>();
-			result.Append(SnippetLibrary.Table(table, this.TableAlias),
-				SnippetLibrary.Columns(this.Columns.GetSql()));
+
+			ITemplate result = TemplateLibrary.Select;
+			result.Append(SnippetLibrary.Table(table, this.TableAlias));
+			result.Append(SnippetLibrary.Columns(this.Columns.GetSql(this.TableAlias)));
+
 			if (this.Where.Count > 0)
 				result.Append(SnippetLibrary.Where(this.Where.GetSql()));
+			if (this.GroupBy.Count > 0)
+				result.Append(SnippetLibrary.GroupBy(this.GroupBy.GetSql()));
 			if (this.OrderBy.Count > 0)
 				result.Append(SnippetLibrary.OrderBy(this.OrderBy.GetSql()));
+
 			return result.GetSql();
 		}
 
@@ -53,9 +64,15 @@ namespace SqlBuilder
 
 		public static Select<T> SelectWherePK(params string[] Columns)
 		{
-			Select<T> result = new Select<T>();
+			return SelectWherePK(SqlBuilder.Parameters, Columns);
+		}
+
+		public static Select<T> SelectWherePK(IParameters parameters, params string[] Columns)
+		{
+			string pk = Reflection.GetPrimaryKey<T>();
+			Select<T> result = new Select<T>(parameters);
 			result.Columns.Append(Columns);
-			result.Where.Equal(Reflection.GetPrimaryKey<T>());
+			result.Where.Equal(pk);
 			return result;
 		}
 

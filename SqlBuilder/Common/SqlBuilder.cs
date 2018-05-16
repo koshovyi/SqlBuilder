@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using SqlBuilder.Interfaces;
 
 namespace SqlBuilder
 {
@@ -6,84 +7,99 @@ namespace SqlBuilder
 	public partial class SqlBuilder
 	{
 
-		public static Parameters Parameters { get; set; }
+		public static IParameters Parameters { get; set; }
 
 		static SqlBuilder()
 		{
 			Parameters = ParametersLibrary.MsSql;
 		}
 
-		public static string FormatColumn(string Column, bool Escape = false)
+		public static string FormatColumn(string column)
 		{
-			if(Escape)
-				return Parameters.ColumnEscapeLeft + Column + Parameters.ColumnEscapeRight;
-			else
-				return Column;
+			return FormatColumn(column, SqlBuilder.Parameters);
 		}
 
-		public static string FormatParameter(string Column)
+		public static string FormatColumn(string column, IParameters parameters)
 		{
-			return Parameters.Parameter + Column;
+			return parameters.EscapeEnabled
+				? parameters.ColumnEscapeLeft + column + parameters.ColumnEscapeRight
+				: column;
 		}
 
-		public static string FormatTable(string TableName)
+		public static string FormatParameter(string column)
 		{
-			return Parameters.TableEscapeLeft + TableName + Parameters.TableEscapeRight;
+			return FormatParameter(column, SqlBuilder.Parameters);
 		}
 
-		public static string GetColumnsList(string[] Columns, bool Escape = false, bool Parameter = false)
+		public static string FormatParameter(string column, IParameters parameters)
 		{
-			return GetColumnsList(Columns, SqlBuilder.Parameters, Escape, Parameter);
+			return parameters.Parameter + column;
 		}
 
-		public static string GetColumnsList(string[] Columns, Parameters Parameters, bool Escape = false, bool Parameter = false)
+		public static string FormatTable(string tableName)
 		{
-			if (Columns.Length == 0)
-				return "*";
+			return FormatTable(tableName, SqlBuilder.Parameters);
+		}
 
-			StringBuilder sb = new StringBuilder();
-			foreach (string column in Columns)
+		public static string FormatTable(string tableName, IParameters parameters)
+		{
+			return parameters.EscapeEnabled
+				? parameters.TableEscapeLeft + tableName + parameters.TableEscapeRight
+				: tableName;
+		}
+
+		public static string FormatAlias(string aliasName)
+		{
+			return FormatAlias(aliasName, SqlBuilder.Parameters);
+		}
+
+		public static string FormatAlias(string aliasName, IParameters parameters)
+		{
+			return parameters.AliasEscape + aliasName + parameters.AliasEscape;
+		}
+
+		public static string GetColumnsList(IColumnsList columns, string tableAlias = "")
+		{
+			return GetColumnsList(columns, SqlBuilder.Parameters, tableAlias);
+		}
+
+		public static string GetColumnsList(IColumnsList columns, IParameters parameters, string tableAlias = "")
+		{
+			if (columns.Count == 0)
 			{
-				if (sb.Length > 0)
-					sb.Append(',');
-				if (Parameter)
-					sb.Append(Parameters.Parameter);
-				sb.Append(FormatColumn(column, Escape));
+				return string.IsNullOrEmpty(tableAlias)
+					? "*"
+					: SqlBuilder.FormatAlias(tableAlias, parameters) + ".*";
 			}
-			return sb.ToString();
-		}
-
-		public static string GetColumnsList(Interfaces.IColumnsList Columns)
-		{
-			if (Columns.Count == 0)
-				return "*";
 
 			StringBuilder sb = new StringBuilder();
-			foreach (Interfaces.IColumn column in Columns.Expressions)
+			foreach (IColumn column in columns.Expressions)
 			{
 				if (sb.Length > 0)
-					sb.Append(',');
+					sb.Append(", ");
+				if (!string.IsNullOrEmpty(tableAlias))
+					sb.Append(FormatAlias(tableAlias, parameters));
 				if(string.IsNullOrEmpty(column.Alias))
-					sb.Append(FormatColumn(column.Name));
+					sb.Append(column.Prefix + FormatColumn(column.Name, parameters) + column.Postfix);
 				else
-					sb.Append(FormatColumn(column.Name) + " as " + column.Alias);
+					sb.Append(column.Prefix + FormatColumn(column.Name, parameters) + column.Postfix + " as " + parameters.AliasEscape + column.Alias + parameters.AliasEscape);
 			}
 			return sb.ToString();
 		}
 
-		public static string GetColumnsParametresList(params string[] Columns)
+		public static string GetColumnsParametersList(params string[] columns)
 		{
-			return GetColumnsParametresList(SqlBuilder.Parameters, Columns);
+			return GetColumnsParametersList(SqlBuilder.Parameters, columns);
 		}
 
-		public static string GetColumnsParametresList(Parameters Parameters, params string[] Columns)
+		public static string GetColumnsParametersList(IParameters parameters, params string[] columns)
 		{
 			StringBuilder sb = new StringBuilder();
-			foreach (string Column in Columns)
+			foreach (string Column in columns)
 			{
 				if (sb.Length > 0)
-					sb.Append(',');
-				sb.Append(FormatColumn(Column) + "=" + Parameters.Parameter + Column);
+					sb.Append(", ");
+				sb.Append(FormatColumn(Column, parameters) + "=" + FormatParameter(Column, parameters));
 			}
 			return sb.ToString();
 		}

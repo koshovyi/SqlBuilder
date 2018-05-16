@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using SqlBuilder.Attributes;
+using SqlBuilder.Interfaces;
 
 namespace SqlBuilder
 {
@@ -18,7 +19,7 @@ namespace SqlBuilder
 			}
 		}
 
-		public static string GetTableName<T>(bool Escape = false)
+		public static string GetTableName<T>()
 		{
 			string result = typeof(T).Name.ToLower();
 			foreach (TableNameAttribute a in typeof(T).GetCustomAttributes(typeof(TableNameAttribute), false))
@@ -26,24 +27,39 @@ namespace SqlBuilder
 				result = a.TableName;
 				break;
 			}
-			return Escape
-				? SqlBuilder.FormatTable(result)
-				: result;
+			return result;
 		}
 
-		public static string GetPrimaryKey<T>(bool Escape = false)
+		public static string GetPrimaryKey<T>()
 		{
 			Type type = typeof(T);
 			foreach (PropertyInfo property in type.GetProperties())
 			{
 				foreach (PrimaryKeyAttribute pk in property.GetCustomAttributes(typeof(PrimaryKeyAttribute), false))
 				{
-					return Escape
-						? SqlBuilder.FormatColumn(property.Name)
-						: property.Name;
+					return property.Name;
 				}
 			}
-			throw new Exception();
+
+			throw new Exceptions.PrimaryKeyNotFoundException();
+		}
+
+		public static string GetColumns<T>()
+		{
+			Type type = typeof(T);
+			int count = 0;
+			foreach (PropertyInfo property in type.GetProperties())
+			{
+				foreach (Attribute attribute in property.GetCustomAttributes())
+				{
+					if(!(attribute is IgnoreInsertAttribute) && !(attribute is IgnoreUpdateAttribute))
+					{
+						count++;
+					}
+				}
+			}
+
+			throw new Exceptions.PrimaryKeyNotFoundException();
 		}
 
 	}

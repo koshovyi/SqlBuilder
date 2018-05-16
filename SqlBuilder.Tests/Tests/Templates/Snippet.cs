@@ -11,6 +11,7 @@ namespace SqlBuilder.Tests
 	{
 
 		[TestMethod]
+		[TestCategory("Snippets")]
 		public void SnippetNameValidation()
 		{
 			Snippet s1 = new Snippet("CODE", "S1");
@@ -21,6 +22,7 @@ namespace SqlBuilder.Tests
 		}
 
 		[TestMethod]
+		[TestCategory("Snippets")]
 		public void SnippetNameValidationException()
 		{
 			Assert.ThrowsException<Exceptions.SnippetNameValidationException>(() => { new Snippet("@WHERE", ""); });

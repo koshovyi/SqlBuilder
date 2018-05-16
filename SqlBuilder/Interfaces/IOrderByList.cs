@@ -6,7 +6,7 @@ namespace SqlBuilder.Interfaces
 	public interface IOrderByList
 	{
 
-		IParameters Parameters { get; set; }
+		IParameters Parameters { get; }
 		IEnumerable<IOrderBy> Expressions { get; }
 		string GetSql(bool OrderBy = false);
 

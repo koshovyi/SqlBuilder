@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using SqlBuilder.Interfaces;
 
 namespace SqlBuilder
 {
 
-	public class Snippet : Interfaces.ITemplateSnippet
+	public class Snippet : ITemplateSnippet
 	{
 
 		private string _Name;

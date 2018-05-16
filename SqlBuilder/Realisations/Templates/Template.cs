@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using SqlBuilder.Interfaces;
 
@@ -16,6 +14,7 @@ namespace SqlBuilder
 		private List<ITemplateSnippet> _expressions;
 
 		public IParameters Parameters { get; set; }
+
 		public string Pattern { get; set; }
 
 		public IEnumerable<ITemplateSnippet> Snippets

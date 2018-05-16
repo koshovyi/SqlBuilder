@@ -8,8 +8,11 @@ namespace SqlBuilder.Interfaces
 	{
 
 		Enums.WhereExpressionLogic Logic { get; }
+
 		Enums.WhereExpressionType Type { get; }
+
 		Enums.StatementParenthesis Parenthesis { get; }
+
 		string Value { get; set; }
 
 	}

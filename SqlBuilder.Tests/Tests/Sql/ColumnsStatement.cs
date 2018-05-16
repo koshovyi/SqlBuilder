@@ -12,12 +12,27 @@ namespace SqlBuilder.Tests
 
 		[TestMethod]
 		[TestCategory("Columns - List")]
+		public void ColumnsSimpleEmpty()
+		{
+			SqlBuilder.Parameters = ParametersLibrary.MsSql;
+
+			ColumnsList c = new ColumnsList(SqlBuilder.Parameters);
+			c.Append();
+			string result = c.GetSql();
+			string sql = "*";
+			Assert.AreEqual(sql, result);
+		}
+
+		[TestMethod]
+		[TestCategory("Columns - List")]
 		public void ColumnsSimple1()
 		{
-			Columns c = new Columns();
+			SqlBuilder.Parameters = ParametersLibrary.MsSql;
+
+			ColumnsList c = new ColumnsList(SqlBuilder.Parameters);
 			c.Append("a", "b", "c");
 			string result = c.GetSql();
-			string sql = "a,b,c";
+			string sql = "[a], [b], [c]";
 			Assert.AreEqual(sql, result);
 		}
 
@@ -25,10 +40,12 @@ namespace SqlBuilder.Tests
 		[TestCategory("Columns - List")]
 		public void ColumnsSimple2()
 		{
-			Columns c = new Columns();
+			SqlBuilder.Parameters = ParametersLibrary.MsSql;
+
+			ColumnsList c = new ColumnsList(SqlBuilder.Parameters);
 			c.Append("column");
 			string result = c.GetSql();
-			string sql = "column";
+			string sql = "[column]";
 			Assert.AreEqual(sql, result);
 		}
 
@@ -36,10 +53,12 @@ namespace SqlBuilder.Tests
 		[TestCategory("Columns - List")]
 		public void ColumnsSimple3()
 		{
-			Columns c = new Columns();
+			SqlBuilder.Parameters = ParametersLibrary.MsSql;
+
+			ColumnsList c = new ColumnsList(SqlBuilder.Parameters);
 			c.Append("column1").Append("column2");
 			string result = c.GetSql();
-			string sql = "column1,column2";
+			string sql = "[column1], [column2]";
 			Assert.AreEqual(sql, result);
 		}
 
@@ -47,15 +66,15 @@ namespace SqlBuilder.Tests
 		[TestCategory("Columns - List")]
 		public void ColumnsSimpleAlias()
 		{
-			Columns c = new Columns();
+			SqlBuilder.Parameters = ParametersLibrary.MsSql;
+
+			ColumnsList c = new ColumnsList(SqlBuilder.Parameters);
 			c.AppendAlias("last_name", "l");
 			c.AppendAlias("first_name", "f");
 			string result = c.GetSql();
-			string sql = "last_name as l,first_name as f";
+			string sql = "[last_name] as 'l', [first_name] as 'f'";
 			Assert.AreEqual(sql, result);
 		}
-
-		
 
 	}
 

@@ -8,28 +8,26 @@ namespace SqlBuilder.Interfaces
 	public interface IColumnsList
 	{
 
-		IParameters Parameters { get; set; }
+		IParameters Parameters { get; }
+
 		IEnumerable<IColumn> Expressions { get; }
-		string GetSql();
+
+		string GetSql(string aliasTable = "");
 
 		int Count { get; }
+
 		void Clear();
-		IColumnsList Append(IColumn Expression);
-		IColumnsList Append(string Name);
-		IColumnsList Append(params string[] Names);
-		IColumnsList AppendAlias(string Name, string Alias);
 
-		//IColumns FuncMax(string Name);
-		//IColumns FuncMax(string Name, string Alias);
-		//IColumns FuncMin(string Name);
-		//IColumns FuncMin(string Name, string Alias);
-		//IColumns FuncCount(string Name);
-		//IColumns FuncCount(string Name, string Alias);
-		//IColumns FuncCountAll(string Name);
-		//IColumns FuncCountAll(string Name, string Alias);
-		//IColumns FuncSum(string Name);
-		//IColumns FuncSum(string Name, string Alias);
+		IColumnsList Append(IColumn expression);
 
+		IColumnsList Append(params string[] names);
+
+		IColumnsList AppendAlias(string name, string alias, string prefix = "", string postfix = "");
+
+	}
+
+	public interface IColumnsAggregationList : IColumnsList, IAggregateFunctions
+	{
 	}
 
 }

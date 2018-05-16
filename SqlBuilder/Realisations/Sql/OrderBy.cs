@@ -1,92 +1,45 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using SqlBuilder.Enums;
 using SqlBuilder.Interfaces;
 
 namespace SqlBuilder
 {
 
-	public class OrderBy : IOrderByList
+	public class OrderBy : IOrderBy
 	{
 
-		private List<IOrderBy> _expressions;
+		public OrderDirection Direction { get; set; }
 
-		public IParameters Parameters { get; set; }
+		public string Column { get; set; }
 
-		public IEnumerable<IOrderBy> Expressions
+		public OrderBy(string Column, OrderDirection Direction = OrderDirection.ASC)
 		{
-			get
+			this.Column = Column;
+			this.Direction = Direction;
+		}
+
+		public string GetDirection()
+		{
+			switch(this.Direction)
 			{
-				return this._expressions;
+				case OrderDirection.DESC:
+					return "DESC";
+				default:
+				case OrderDirection.ASC:
+					return "ASC";
 			}
 		}
 
-		public int Count
+		public static IOrderBy Ascending(string Column)
 		{
-			get
-			{
-				return this._expressions.Count;
-			}
+			return new OrderBy(Column, OrderDirection.ASC);
 		}
 
-		public OrderBy()
+		public static IOrderBy Descending(string Column)
 		{
-			this._expressions = new List<IOrderBy>();
-			this.Parameters = SqlBuilder.Parameters;
-		}
-
-		public void Append(IOrderBy Expression)
-		{
-			this._expressions.Add(Expression);
-		}
-
-		public void Clear()
-		{
-			this._expressions.Clear();
-		}
-
-		public IOrderByList Ascending(params string[] Columns)
-		{
-			foreach(string column in Columns)
-			{
-				IOrderBy expression = OrderByExpression.Ascending(column);
-				this.Append(expression);
-			}
-			return this;
-		}
-
-		public IOrderByList Descending(params string[] Columns)
-		{
-			foreach (string column in Columns)
-			{
-				IOrderBy expression = OrderByExpression.Descending(column);
-				this.Append(expression);
-			}
-			return this;
-		}
-
-		public string GetSql(bool OrderBy = false)
-		{
-			StringBuilder sb = new StringBuilder();
-			if (OrderBy && this._expressions.Count > 0)
-				sb.Append("ORDER BY ");
-
-			bool sep = false;
-			foreach (IOrderBy expression in this._expressions)
-			{
-				if (sep)
-					sb.Append(',');
-				else
-					sep = true;
-				sb.Append(SqlBuilder.FormatColumn(expression.Column) + " " + expression.GetDirection());
-			}
-
-			return sb.ToString();
-		}
-
-		public override string ToString()
-		{
-			return this.GetSql();
+			return new OrderBy(Column, OrderDirection.DESC);
 		}
 
 	}

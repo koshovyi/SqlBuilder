@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using SqlBuilder.Interfaces;
 
 namespace SqlBuilder
 {
@@ -8,58 +7,75 @@ namespace SqlBuilder
 	public static class SnippetLibrary
 	{
 
-		public static Interfaces.ITemplateSnippet Start(string Expression)
+		#region Text injection
+
+		public static ITemplateSnippet Start(string Value)
 		{
-			return new Snippet("START", Expression);
+			return new Snippet("START", Value);
 		}
 
-		public static Interfaces.ITemplateSnippet End(string Expression)
+		public static ITemplateSnippet End(string Value)
 		{
-			return new Snippet("END", Expression);
+			return new Snippet("END", Value);
 		}
 
-		public static Interfaces.ITemplateSnippet DataBase(string Expression)
+		public static ITemplateSnippet NF()
 		{
-			return new Snippet("DATABASE", Expression);
+			return new Snippet("NF", Environment.NewLine);
 		}
 
-		public static Interfaces.ITemplateSnippet Table(string Table, string Alias = "")
+		#endregion
+
+		#region SQL
+
+		public static ITemplateSnippet DataBase(string Value)
 		{
+			return new Snippet("DATABASE", Value);
+		}
+
+		public static ITemplateSnippet Table(string Table, string Alias = "")
+		{
+			Table = SqlBuilder.FormatTable(Table);
+			if(!string.IsNullOrEmpty(Alias))
+				Alias = SqlBuilder.FormatAlias(Alias);
+
 			if(string.IsNullOrEmpty(Alias))
 				return new Snippet("TABLE", Table);
 			else
 				return new Snippet("TABLE", Table + " as " + Alias);
 		}
 
-		public static Interfaces.ITemplateSnippet Columns(params string[] Columns)
+		public static ITemplateSnippet Columns(string Value)
 		{
-			return new Snippet("COLUMNS", SqlBuilder.GetColumnsList(Columns));
+			return new Snippet("COLUMNS", Value);
 		}
 
-		public static Interfaces.ITemplateSnippet Sets(params string[] Columns)
+		public static ITemplateSnippet Sets(string Value)
 		{
-			return new Snippet("SETS", SqlBuilder.GetColumnsParametresList(Columns));
+			return new Snippet("SETS", Value);
 		}
 
-		public static Interfaces.ITemplateSnippet Values(params string[] Columns)
+		public static ITemplateSnippet Values(string Columns = "")
 		{
-			return new Snippet("VALUES", SqlBuilder.GetColumnsList(Columns, false, true));
+			return new Snippet("VALUES", Columns);
 		}
 
-		public static Interfaces.ITemplateSnippet Where(string Expression)
+		public static ITemplateSnippet Where(string Value)
 		{
-			return new Snippet("WHERE", Expression, " WHERE ");
+			return new Snippet("WHERE", Value, " WHERE ");
 		}
 
-		public static Interfaces.ITemplateSnippet OrderBy(string Expression)
+		public static ITemplateSnippet OrderBy(string Value)
 		{
-			return new Snippet("ORDERBY", Expression, " ORDER BY ");
+			return new Snippet("ORDERBY", Value, " ORDER BY ");
 		}
 
-		public static Interfaces.ITemplateSnippet GroupBy(string Expression)
+		public static ITemplateSnippet GroupBy(string Value)
 		{
-			return new Snippet("GROUPBY", Expression, " GROUP BY ");
+			return new Snippet("GROUPBY", Value, " GROUP BY ");
 		}
+
+		#endregion
 
 	}
 

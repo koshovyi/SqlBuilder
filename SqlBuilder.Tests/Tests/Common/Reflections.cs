@@ -27,22 +27,17 @@ namespace SqlBuilder.Tests
 		[TestCategory("Reflection")]
 		public void GetTableNameEscape()
 		{
-			SqlBuilder.Parameters = ParametersLibrary.MySql;
+			string tab_books = Reflection.GetTableName<DataBaseDemo.Book>();
+			Assert.AreEqual("tab_books", tab_books);
 
-			string tab_books = Reflection.GetTableName<DataBaseDemo.Book>(true);
-			Assert.AreEqual("`tab_books`", tab_books);
-
-			SqlBuilder.Parameters = ParametersLibrary.MsSql;
-			string tab_authors = Reflection.GetTableName<DataBaseDemo.Author>(true);
-			Assert.AreEqual("[tab_authors]", tab_authors);
+			string tab_authors = Reflection.GetTableName<DataBaseDemo.Author>();
+			Assert.AreEqual("tab_authors", tab_authors);
 		}
 
 		[TestMethod]
 		[TestCategory("Reflection")]
 		public void GetPrimaryKey()
 		{
-			SqlBuilder.Parameters = ParametersLibrary.MySql;
-
 			string pk_books = Reflection.GetPrimaryKey<DataBaseDemo.Book>().ToLower();
 			Assert.AreEqual("id", pk_books);
 

@@ -16,7 +16,7 @@ namespace SqlBuilder.Tests
 		{
 			SqlBuilder.Parameters = ParametersLibrary.MsSql;
 
-			OrderBy o = new OrderBy();
+			OrderByList o = new OrderByList(SqlBuilder.Parameters);
 			o.Ascending("a");
 			string result = o.GetSql();
 			string sql = "[a] ASC";
@@ -29,10 +29,10 @@ namespace SqlBuilder.Tests
 		{
 			SqlBuilder.Parameters = ParametersLibrary.MsSql;
 
-			OrderBy o = new OrderBy();
+			OrderByList o = new OrderByList(SqlBuilder.Parameters);
 			o.Ascending("a", "b", "c");
 			string result = o.GetSql();
-			string sql = "[a] ASC,[b] ASC,[c] ASC";
+			string sql = "[a] ASC, [b] ASC, [c] ASC";
 			Assert.AreEqual(sql, result);
 		}
 
@@ -42,7 +42,7 @@ namespace SqlBuilder.Tests
 		{
 			SqlBuilder.Parameters = ParametersLibrary.MsSql;
 
-			OrderBy o = new OrderBy();
+			OrderByList o = new OrderByList(SqlBuilder.Parameters);
 			o.Descending("a");
 			string result = o.GetSql();
 			string sql = "[a] DESC";
@@ -55,10 +55,10 @@ namespace SqlBuilder.Tests
 		{
 			SqlBuilder.Parameters = ParametersLibrary.MsSql;
 
-			OrderBy o = new OrderBy();
+			OrderByList o = new OrderByList(SqlBuilder.Parameters);
 			o.Descending("a", "b", "c");
 			string result = o.GetSql();
-			string sql = "[a] DESC,[b] DESC,[c] DESC";
+			string sql = "[a] DESC, [b] DESC, [c] DESC";
 			Assert.AreEqual(sql, result);
 		}
 
@@ -68,13 +68,13 @@ namespace SqlBuilder.Tests
 		{
 			SqlBuilder.Parameters = ParametersLibrary.MsSql;
 
-			OrderBy o = new OrderBy();
+			OrderByList o = new OrderByList(SqlBuilder.Parameters);
 			o.Ascending("a");
 			o.Descending("b");
 			o.Ascending("c");
 			o.Descending("d");
 			string result = o.GetSql();
-			string sql = "[a] ASC,[b] DESC,[c] ASC,[d] DESC";
+			string sql = "[a] ASC, [b] DESC, [c] ASC, [d] DESC";
 			Assert.AreEqual(sql, result);
 		}
 
@@ -84,11 +84,11 @@ namespace SqlBuilder.Tests
 		{
 			SqlBuilder.Parameters = ParametersLibrary.MsSql;
 
-			OrderBy o = new OrderBy();
+			OrderByList o = new OrderByList(SqlBuilder.Parameters);
 			o.Ascending("a", "b", "c");
 			o.Descending("d", "e", "f");
 			string result = o.GetSql();
-			string sql = "[a] ASC,[b] ASC,[c] ASC,[d] DESC,[e] DESC,[f] DESC";
+			string sql = "[a] ASC, [b] ASC, [c] ASC, [d] DESC, [e] DESC, [f] DESC";
 			Assert.AreEqual(sql, result);
 		}
 

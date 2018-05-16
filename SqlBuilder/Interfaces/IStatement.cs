@@ -16,11 +16,15 @@ namespace SqlBuilder.Interfaces
 
 	public interface IStatementSelect : IStatement
 	{
-		string TableName { get; }
+
 		string TableAlias { get; set; }
 
-		IColumnsList Columns { get; set; }
+		IColumnsAggregationList Columns { get; set; }
+
 		IWhereList Where { get; set; }
+
+		GroupByList GroupBy { get; set; }
+
 		IOrderByList OrderBy { get; set; }
 
 	}
@@ -28,7 +32,27 @@ namespace SqlBuilder.Interfaces
 	public interface IStatementInsert : IStatement
 	{
 
+		IColumnsList Columns { get; set; }
 
+		IValueList Values { get; set; }
+
+		IStatementInsert AppendParameters(params string[] parameters);
+
+	}
+
+	public interface IStatementDelete : IStatement
+	{
+
+		IWhereList Where { get; set; }
+
+	}
+
+	public interface IStatementUpdate : IStatement
+	{
+
+		IColumnsList Columns { get; set; }
+
+		IWhereList Where { get; set; }
 
 	}
 

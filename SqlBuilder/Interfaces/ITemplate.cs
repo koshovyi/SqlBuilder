@@ -9,10 +9,15 @@ namespace SqlBuilder.Interfaces
 	{
 
 		string Pattern { get; set; }
+
 		IParameters Parameters { get; set; }
+
 		IEnumerable<ITemplateSnippet> Snippets { get; }
+
 		ITemplate Append(params ITemplateSnippet[] Snippets);
+
 		ITemplate Append(string Name, string Code, string Prefix = "", string Postfix = "");
+
 		string GetSql(bool EndOfStatement = true);
 
 	}
