@@ -28,6 +28,13 @@ namespace SqlBuilder.Interfaces
 
 	public interface IColumnsAggregationList : IColumnsList, IAggregateFunctions
 	{
+
+		new IColumnsAggregationList Append(IColumn expression);
+
+		new IColumnsAggregationList Append(params string[] names);
+
+		new IColumnsAggregationList AppendAlias(string name, string alias, string prefix = "", string postfix = "");
+
 	}
 
 }
