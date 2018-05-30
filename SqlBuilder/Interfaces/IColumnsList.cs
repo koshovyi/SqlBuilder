@@ -18,23 +18,24 @@ namespace SqlBuilder.Interfaces
 
 		void Clear();
 
-		IColumnsList Append(IColumn expression);
-
-		IColumnsList Append(params string[] names);
-
-		IColumnsList AppendAlias(string name, string alias, string prefix = "", string postfix = "");
-
 	}
 
-	public interface IColumnsAggregationList : IColumnsList, IAggregateFunctions
+	public interface IColumnsListSimple : IColumnsList
 	{
+		IColumnsListSimple Append(IColumn expression);
 
-		new IColumnsAggregationList Append(IColumn expression);
+		IColumnsListSimple Append(params string[] names);
 
-		new IColumnsAggregationList Append(params string[] names);
+		IColumnsListSimple AppendAlias(string name, string alias, string prefix = "", string postfix = "");
+	}
 
-		new IColumnsAggregationList AppendAlias(string name, string alias, string prefix = "", string postfix = "");
+	public interface IColumnsListAggregation : IColumnsList, IAggregateFunctions
+	{
+		IColumnsListAggregation Append(IColumn expression);
 
+		IColumnsListAggregation Append(params string[] names);
+
+		IColumnsListAggregation AppendAlias(string name, string alias, string prefix = "", string postfix = "");
 	}
 
 }

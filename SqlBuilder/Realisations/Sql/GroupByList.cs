@@ -13,7 +13,7 @@ namespace SqlBuilder
 
 		public IParameters Parameters { get; private set; }
 
-		public IColumnsList Columns { get; private set; }
+		public IColumnsListAggregation Columns { get; private set; }
 
 		public IEnumerable<IGroupBy> Expressions { get; }
 
@@ -25,7 +25,7 @@ namespace SqlBuilder
 			}
 		}
 
-		public GroupByList(IParameters parameters, IColumnsList columns)
+		public GroupByList(IParameters parameters, IColumnsListAggregation columns)
 		{
 			this._expressions = new List<IGroupBy>();
 			this.Parameters = parameters;

@@ -10,7 +10,7 @@ namespace SqlBuilder
 
 		public IParameters Parameters { get; set; }
 
-		public IColumnsAggregationList Columns { get; set; }
+		public IColumnsListAggregation Columns { get; set; }
 
 		public IWhereList Where { get; set; }
 
@@ -26,7 +26,7 @@ namespace SqlBuilder
 		{
 			this.Parameters = parameters;
 			this.TableAlias = tableAlias;
-			this.Columns = new ColumnsList(this.Parameters);
+			this.Columns = new ColumnsListAggregation(this.Parameters);
 			this.Where = new WhereList(this.Parameters);
 			this.OrderBy = new OrderByList(this.Parameters);
 			this.GroupBy = new GroupByList(this.Parameters, this.Columns);

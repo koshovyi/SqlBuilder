@@ -10,7 +10,7 @@ namespace SqlBuilder.Interfaces
 
 		IParameters Parameters { get; }
 
-		IColumnsList Columns { get; }
+		IColumnsListAggregation Columns { get; }
 
 		IEnumerable<IGroupBy> Expressions { get; }
 

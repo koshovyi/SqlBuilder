@@ -19,7 +19,7 @@ namespace SqlBuilder.Interfaces
 
 		string TableAlias { get; set; }
 
-		IColumnsAggregationList Columns { get; set; }
+		IColumnsListAggregation Columns { get; set; }
 
 		IWhereList Where { get; set; }
 
@@ -32,7 +32,7 @@ namespace SqlBuilder.Interfaces
 	public interface IStatementInsert : IStatement
 	{
 
-		IColumnsList Columns { get; set; }
+		IColumnsListSimple Columns { get; set; }
 
 		IValueList Values { get; set; }
 
@@ -50,7 +50,7 @@ namespace SqlBuilder.Interfaces
 	public interface IStatementUpdate : IStatement
 	{
 
-		IColumnsList Columns { get; set; }
+		IColumnsListSimple Columns { get; set; }
 
 		IWhereList Where { get; set; }
 

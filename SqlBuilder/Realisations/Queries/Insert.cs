@@ -13,7 +13,8 @@ namespace SqlBuilder
 
 		public IParameters Parameters { get; set; }
 
-		public IColumnsList Columns { get; set; }
+		public IColumnsListSimple Columns { get; set; }
+
 		public IValueList Values { get; set; }
 
 		public Insert(bool AutoMapping = true) : this(SqlBuilder.Parameters, AutoMapping)
@@ -23,7 +24,7 @@ namespace SqlBuilder
 		public Insert(IParameters parameters, bool AutoMapping = true)
 		{
 			this.Parameters = parameters;
-			this.Columns = new ColumnsList(this.Parameters);
+			this.Columns = new ColumnsListSimple(this.Parameters);
 			this.Values = new ValueList(this.Parameters);
 			if (AutoMapping)
 				this.Mapping();
