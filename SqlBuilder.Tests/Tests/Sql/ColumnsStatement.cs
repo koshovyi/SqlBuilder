@@ -16,7 +16,7 @@ namespace SqlBuilder.Tests
 		{
 			SqlBuilder.Parameters = ParametersLibrary.MsSql;
 
-			ColumnsList c = new ColumnsList(SqlBuilder.Parameters);
+			ColumnsListSimple c = new ColumnsListSimple(SqlBuilder.Parameters);
 			c.Append();
 			string result = c.GetSql();
 			string sql = "*";
@@ -29,7 +29,7 @@ namespace SqlBuilder.Tests
 		{
 			SqlBuilder.Parameters = ParametersLibrary.MsSql;
 
-			ColumnsList c = new ColumnsList(SqlBuilder.Parameters);
+			ColumnsListSimple c = new ColumnsListSimple(SqlBuilder.Parameters);
 			c.Append("a", "b", "c");
 			string result = c.GetSql();
 			string sql = "[a], [b], [c]";
@@ -42,7 +42,7 @@ namespace SqlBuilder.Tests
 		{
 			SqlBuilder.Parameters = ParametersLibrary.MsSql;
 
-			ColumnsList c = new ColumnsList(SqlBuilder.Parameters);
+			ColumnsListSimple c = new ColumnsListSimple(SqlBuilder.Parameters);
 			c.Append("column");
 			string result = c.GetSql();
 			string sql = "[column]";
@@ -55,7 +55,7 @@ namespace SqlBuilder.Tests
 		{
 			SqlBuilder.Parameters = ParametersLibrary.MsSql;
 
-			ColumnsList c = new ColumnsList(SqlBuilder.Parameters);
+			ColumnsListSimple c = new ColumnsListSimple(SqlBuilder.Parameters);
 			c.Append("column1").Append("column2");
 			string result = c.GetSql();
 			string sql = "[column1], [column2]";
@@ -68,11 +68,25 @@ namespace SqlBuilder.Tests
 		{
 			SqlBuilder.Parameters = ParametersLibrary.MsSql;
 
-			ColumnsList c = new ColumnsList(SqlBuilder.Parameters);
+			ColumnsListSimple c = new ColumnsListSimple(SqlBuilder.Parameters);
 			c.AppendAlias("last_name", "l");
 			c.AppendAlias("first_name", "f");
 			string result = c.GetSql();
 			string sql = "[last_name] as 'l', [first_name] as 'f'";
+			Assert.AreEqual(sql, result);
+		}
+
+		[TestMethod]
+		[TestCategory("Columns - Aggregations")]
+		public void ColumnsAggregations1()
+		{
+			SqlBuilder.Parameters = ParametersLibrary.MsSql;
+
+			ColumnsListAggregation c = new ColumnsListAggregation(SqlBuilder.Parameters);
+			c.FuncCount("all");
+			c.FuncMax("cnt", "max_cnt");
+			string result = c.GetSql();
+			string sql = "COUNT([all]), MAX([cnt]) as 'max_cnt'";
 			Assert.AreEqual(sql, result);
 		}
 

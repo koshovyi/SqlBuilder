@@ -16,7 +16,7 @@ namespace SqlBuilder.Tests
 		{
 			SqlBuilder.Parameters = ParametersLibrary.MsSql;
 
-			ColumnsList c = new ColumnsList(SqlBuilder.Parameters);
+			ColumnsListAggregation c = new ColumnsListAggregation(SqlBuilder.Parameters);
 			GroupByList g = new GroupByList(SqlBuilder.Parameters, c);
 
 			g.Append(false, "a", "b", "c");
@@ -31,7 +31,7 @@ namespace SqlBuilder.Tests
 		{
 			SqlBuilder.Parameters = ParametersLibrary.MsSql;
 
-			ColumnsList c = new ColumnsList(SqlBuilder.Parameters);
+			ColumnsListAggregation c = new ColumnsListAggregation(SqlBuilder.Parameters);
 			GroupByList g = new GroupByList(SqlBuilder.Parameters, c);
 			g.Append(false, "a", "b", "c");
 
@@ -46,7 +46,7 @@ namespace SqlBuilder.Tests
 		{
 			SqlBuilder.Parameters = ParametersLibrary.MsSql;
 
-			ColumnsList c = new ColumnsList(SqlBuilder.Parameters);
+			ColumnsListAggregation c = new ColumnsListAggregation(SqlBuilder.Parameters);
 			GroupByList g = new GroupByList(SqlBuilder.Parameters, c);
 			g.Append(true, "a", "b", "c");
 
@@ -62,7 +62,7 @@ namespace SqlBuilder.Tests
 		{
 			SqlBuilder.Parameters = ParametersLibrary.MsSql;
 
-			ColumnsList c = new ColumnsList(SqlBuilder.Parameters);
+			ColumnsListAggregation c = new ColumnsListAggregation(SqlBuilder.Parameters);
 			GroupByList g = new GroupByList(SqlBuilder.Parameters, c);
 			g.FuncMax("sm");
 
@@ -82,7 +82,7 @@ namespace SqlBuilder.Tests
 		{
 			SqlBuilder.Parameters = ParametersLibrary.MsSql;
 
-			ColumnsList c = new ColumnsList(SqlBuilder.Parameters);
+			ColumnsListAggregation c = new ColumnsListAggregation(SqlBuilder.Parameters);
 			GroupByList g = new GroupByList(SqlBuilder.Parameters, c);
 			g.FuncMin("sm");
 
@@ -102,7 +102,7 @@ namespace SqlBuilder.Tests
 		{
 			SqlBuilder.Parameters = ParametersLibrary.MsSql;
 
-			ColumnsList c = new ColumnsList(SqlBuilder.Parameters);
+			ColumnsListAggregation c = new ColumnsListAggregation(SqlBuilder.Parameters);
 			GroupByList g = new GroupByList(SqlBuilder.Parameters, c);
 			g.FuncCount("sm");
 
@@ -122,7 +122,7 @@ namespace SqlBuilder.Tests
 		{
 			SqlBuilder.Parameters = ParametersLibrary.MsSql;
 
-			ColumnsList c = new ColumnsList(SqlBuilder.Parameters);
+			ColumnsListAggregation c = new ColumnsListAggregation(SqlBuilder.Parameters);
 			GroupByList g = new GroupByList(SqlBuilder.Parameters, c);
 			g.FuncSum("sm");
 
@@ -142,7 +142,7 @@ namespace SqlBuilder.Tests
 		{
 			SqlBuilder.Parameters = ParametersLibrary.MsSql;
 
-			ColumnsList c = new ColumnsList(SqlBuilder.Parameters);
+			ColumnsListAggregation c = new ColumnsListAggregation(SqlBuilder.Parameters);
 			GroupByList g = new GroupByList(SqlBuilder.Parameters, c);
 			g.FuncSum("sm", "asm");
 			g.FuncMax("mx", "amx");

@@ -4,10 +4,16 @@
 		<TargetFramework>netcoreapp2.0</TargetFramework>
 		<Authors>Dmytro Koshovyi</Authors>
 		<Company>8Bytes</Company>
-		<PackageTags>sql, t-sql, mssql, mysql, postgresql, database, db, orm, dapper, entity framework</PackageTags>
+		<PackageTags>sql, t-sql, tsql, mssql, mysql, postgresql, database, nosql, db, orm, dapper, entity framework</PackageTags>
 		<AssemblyVersion>0.1.0.0</AssemblyVersion>
 		<FileVersion>0.1.0.0</FileVersion>
 		<Version>0.1.0</Version>
+		<Copyright>Dmytro Koshovyi (c), Kyiv Ukraine, 8bytes.net</Copyright>
+		<PackageLicenseUrl>http://www.koshovyi.com</PackageLicenseUrl>
+		<PackageProjectUrl>https://github.com/devellloper/SqlBuilder</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/devellloper/SqlBuilder</RepositoryUrl>
+		<RepositoryType>GIT</RepositoryType>
+		<Description>Simple SQL builder</Description>
 	</PropertyGroup>
 
 </Project>
