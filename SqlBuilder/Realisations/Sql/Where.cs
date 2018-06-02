@@ -1,6 +1,6 @@
 ﻿using SqlBuilder.Interfaces;
 
-namespace SqlBuilder
+namespace SqlBuilder.Sql
 {
 	public class Where : IWhere
 	{

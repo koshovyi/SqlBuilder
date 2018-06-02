@@ -12,11 +12,11 @@ namespace SqlBuilder.Tests
 
 		#region Query
 
-		//[TestMethod]
-		//[TestCategory("Query - Methods")]
-		//public void QuerySelect()
-		//{
-		//}
+		[TestMethod]
+		[TestCategory("Query - Methods")]
+		public void QuerySelect()
+		{
+		}
 
 		#endregion
 

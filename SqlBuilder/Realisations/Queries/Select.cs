@@ -1,4 +1,6 @@
 ﻿using SqlBuilder.Interfaces;
+using SqlBuilder.Sql;
+using SqlBuilder.Templates;
 
 namespace SqlBuilder
 {
@@ -14,7 +16,7 @@ namespace SqlBuilder
 
 		public IWhereList Where { get; set; }
 
-		public GroupByList GroupBy { get; set; }
+		public IGroupByList GroupBy { get; set; }
 
 		public IOrderByList OrderBy { get; set; }
 

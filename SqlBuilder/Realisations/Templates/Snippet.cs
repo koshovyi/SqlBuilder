@@ -1,7 +1,7 @@
 ﻿using System.Text.RegularExpressions;
 using SqlBuilder.Interfaces;
 
-namespace SqlBuilder
+namespace SqlBuilder.Templates
 {
 
 	public class Snippet : ITemplateSnippet

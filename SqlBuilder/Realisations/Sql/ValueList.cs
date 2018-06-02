@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SqlBuilder
+namespace SqlBuilder.Sql
 {
 
 	public class ValueList : IValueList

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using SqlBuilder.Interfaces;
 
-namespace SqlBuilder
+namespace SqlBuilder.Sql
 {
 
 	public class OrderByList : IOrderByList

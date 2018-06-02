@@ -23,7 +23,7 @@ namespace SqlBuilder.Interfaces
 
 		IWhereList Where { get; set; }
 
-		GroupByList GroupBy { get; set; }
+		IGroupByList GroupBy { get; set; }
 
 		IOrderByList OrderBy { get; set; }
 

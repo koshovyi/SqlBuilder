@@ -1,7 +1,7 @@
 ﻿using System;
 using SqlBuilder.Interfaces;
 
-namespace SqlBuilder
+namespace SqlBuilder.Templates
 {
 
 	public static class SnippetLibrary

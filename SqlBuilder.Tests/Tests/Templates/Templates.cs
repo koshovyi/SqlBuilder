@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SqlBuilder.Interfaces;
+using SqlBuilder.Templates;
 
 namespace SqlBuilder.Tests
 {

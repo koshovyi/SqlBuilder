@@ -4,7 +4,7 @@ using System.Text;
 using SqlBuilder.Enums;
 using SqlBuilder.Interfaces;
 
-namespace SqlBuilder
+namespace SqlBuilder.Sql
 {
 
 	public class OrderBy : IOrderBy

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using SqlBuilder.Interfaces;
 
-namespace SqlBuilder
+namespace SqlBuilder.Sql
 {
 
 	public class ColumnsListAggregation : ColumnsList, IColumnsListAggregation

@@ -4,6 +4,8 @@ using System.Reflection;
 using System.Text;
 using SqlBuilder.Attributes;
 using SqlBuilder.Interfaces;
+using SqlBuilder.Sql;
+using SqlBuilder.Templates;
 
 namespace SqlBuilder
 {

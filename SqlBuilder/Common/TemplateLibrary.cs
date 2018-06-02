@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SqlBuilder
+namespace SqlBuilder.Templates
 {
 
 	public static class TemplateLibrary
