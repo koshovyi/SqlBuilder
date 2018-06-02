@@ -11,7 +11,7 @@ namespace SqlBuilder
 		private const string ESC_START = "{{";
 		private const string ESC_END = "}}";
 
-		private List<ITemplateSnippet> _expressions;
+		private readonly List<ITemplateSnippet> _expressions;
 
 		public IParameters Parameters { get; set; }
 
