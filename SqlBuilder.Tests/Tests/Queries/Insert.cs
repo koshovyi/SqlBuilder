@@ -89,7 +89,7 @@ namespace SqlBuilder.Tests
 		{
 			SqlBuilder.Parameters = ParametersLibrary.MsSql;
 
-			string result = Insert<DataBaseDemo.Author>.InsertWithMap("p1", "p2", "p3").GetSql();
+			string result = Insert<DataBaseDemo.Author>.InsertWithMapping("p1", "p2", "p3").GetSql();
 			string sql = "INSERT INTO [tab_authors]([firstname], [lastname], [p1], [p2], [p3]) VALUES(@firstname, @lastname, @p1, @p2, @p3);";
 
 			Assert.AreEqual(sql, result);
@@ -101,7 +101,7 @@ namespace SqlBuilder.Tests
 		{
 			SqlBuilder.Parameters = ParametersLibrary.MsSql;
 
-			string result = Insert<DataBaseDemo.Author>.InsertWithoutMap("p1", "p2", "p3").GetSql();
+			string result = Insert<DataBaseDemo.Author>.InsertWithoutMapping("p1", "p2", "p3").GetSql();
 			string sql = "INSERT INTO [tab_authors]([p1], [p2], [p3]) VALUES(@p1, @p2, @p3);";
 			Assert.AreEqual(sql, result);
 		}
