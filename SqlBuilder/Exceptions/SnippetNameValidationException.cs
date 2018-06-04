@@ -7,6 +7,7 @@ namespace SqlBuilder.Exceptions
 	{
 
 		public string NewName { get; set; }
+
 		public string OldName { get; set; }
 
 		public SnippetNameValidationException(string NewName, string OldName)

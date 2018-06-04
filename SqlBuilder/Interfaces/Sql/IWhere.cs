@@ -7,11 +7,11 @@ namespace SqlBuilder.Interfaces
 	public interface IWhere
 	{
 
-		Enums.WhereExpressionLogic Logic { get; }
+		Enums.WhereLogic Logic { get; }
 
-		Enums.WhereExpressionType Type { get; }
+		Enums.WhereType Type { get; }
 
-		Enums.StatementParenthesis Parenthesis { get; }
+		Enums.Parenthesis Parenthesis { get; }
 
 		string Value { get; set; }
 

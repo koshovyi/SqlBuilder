@@ -1,7 +1,7 @@
 ﻿namespace SqlBuilder.Enums
 {
 
-	public enum StatementParenthesis : uint
+	public enum Parenthesis : uint
 	{
 		Unknown = 0,
 		OpenParenthesis = 1,

@@ -5,19 +5,19 @@ namespace SqlBuilder.Sql
 	public class Where : IWhere
 	{
 
-		public Enums.WhereExpressionType Type { get; private set; }
+		public Enums.WhereType Type { get; private set; }
 
-		public Enums.WhereExpressionLogic Logic { get; private set; }
+		public Enums.WhereLogic Logic { get; private set; }
 
-		public Enums.StatementParenthesis Parenthesis { get; private set; }
+		public Enums.Parenthesis Parenthesis { get; private set; }
 
 		public string Value { get; set; }
 
-		public Where(Enums.WhereExpressionType Type, Enums.WhereExpressionLogic Logic, Enums.StatementParenthesis Parenthesis = Enums.StatementParenthesis.Unknown)
+		public Where(Enums.WhereType Type, Enums.WhereLogic Logic, Enums.Parenthesis Parenthesis = Enums.Parenthesis.Unknown)
 		{
 			this.Type = Type;
 			this.Logic = Logic;
-			this.Parenthesis = Enums.StatementParenthesis.Unknown;
+			this.Parenthesis = Enums.Parenthesis.Unknown;
 		}
 
 	}

@@ -10,7 +10,9 @@ namespace SqlBuilder.Templates
 		private string _Name;
 
 		public string Code { get; set; }
+
 		public string Prefix { get; set; }
+
 		public string Postfix { get; set; }
 
 		public string Name
@@ -23,6 +25,7 @@ namespace SqlBuilder.Templates
 			{
 				if (!this.IsValid(value))
 					throw new Exceptions.SnippetNameValidationException(value, this.Name);
+
 				this._Name = value;
 			}
 		}

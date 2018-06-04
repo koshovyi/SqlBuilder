@@ -1,7 +1,7 @@
 ﻿namespace SqlBuilder.Enums
 {
 
-	public enum WhereExpressionType : uint
+	public enum WhereType : uint
 	{
 		Unknown = 0,
 		Equal,

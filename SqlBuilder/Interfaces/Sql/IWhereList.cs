@@ -21,7 +21,7 @@ namespace SqlBuilder.Interfaces
 		void Append(IWhere Expression);
 
 		//Flags
-		Enums.WhereExpressionLogic LogicOperator { get; }
+		Enums.WhereLogic LogicOperator { get; }
 
 		//Parenthesis
 		int Level { get; }

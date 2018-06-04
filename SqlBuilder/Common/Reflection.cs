@@ -44,24 +44,6 @@ namespace SqlBuilder
 			throw new Exceptions.PrimaryKeyNotFoundException();
 		}
 
-		public static string GetColumns<T>()
-		{
-			Type type = typeof(T);
-			int count = 0;
-			foreach (PropertyInfo property in type.GetProperties())
-			{
-				foreach (Attribute attribute in property.GetCustomAttributes())
-				{
-					if(!(attribute is IgnoreInsertAttribute) && !(attribute is IgnoreUpdateAttribute))
-					{
-						count++;
-					}
-				}
-			}
-
-			throw new Exceptions.PrimaryKeyNotFoundException();
-		}
-
 	}
 
 }

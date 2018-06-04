@@ -12,7 +12,7 @@ namespace SqlBuilder.Sql
 
 		public IParameters Parameters { get; private set; }
 
-		public Enums.WhereExpressionLogic LogicOperator { get; private set; } = Enums.WhereExpressionLogic.AND;
+		public Enums.WhereLogic LogicOperator { get; private set; } = Enums.WhereLogic.AND;
 
 		public bool HasOpenedParenthesis { get; private set; }
 
@@ -40,19 +40,19 @@ namespace SqlBuilder.Sql
 
 		public IWhereList And()
 		{
-			this.LogicOperator = Enums.WhereExpressionLogic.AND;
+			this.LogicOperator = Enums.WhereLogic.AND;
 			return this;
 		}
 
 		public IWhereList Or()
 		{
-			this.LogicOperator = Enums.WhereExpressionLogic.OR;
+			this.LogicOperator = Enums.WhereLogic.OR;
 			return this;
 		}
 
 		public IWhereList Not()
 		{
-			this.LogicOperator = Enums.WhereExpressionLogic.NOT;
+			this.LogicOperator = Enums.WhereLogic.NOT;
 			return this;
 		}
 
@@ -78,7 +78,7 @@ namespace SqlBuilder.Sql
 			this._expressions.Clear();
 		}
 
-		private IWhere CreateExpression(Enums.WhereExpressionType Type, string Value)
+		private IWhere CreateExpression(Enums.WhereType Type, string Value)
 		{
 			IWhere exp = new Where(Type, this.LogicOperator);
 			exp.Value = Value;
@@ -86,9 +86,9 @@ namespace SqlBuilder.Sql
 			return exp;
 		}
 
-		private IWhere CreateParenthesis(Enums.StatementParenthesis Parenthesis)
+		private IWhere CreateParenthesis(Enums.Parenthesis Parenthesis)
 		{
-			IWhere exp = new Where(Enums.WhereExpressionType.Unknown, Enums.WhereExpressionLogic.Unknown, Parenthesis);
+			IWhere exp = new Where(Enums.WhereType.Unknown, Enums.WhereLogic.Unknown, Parenthesis);
 			exp.Value = string.Empty;
 			this.Append(exp);
 			return exp;
@@ -101,7 +101,7 @@ namespace SqlBuilder.Sql
 		public IWhereList EqualParam(string Column, string Value)
 		{
 			Column = SqlBuilder.FormatColumn(Column, this.Parameters);
-			IWhere exp = CreateExpression(Enums.WhereExpressionType.Equal, Column + '=' + Value);
+			IWhere exp = CreateExpression(Enums.WhereType.Equal, Column + '=' + Value);
 			return this;
 		}
 
@@ -115,7 +115,7 @@ namespace SqlBuilder.Sql
 		public IWhereList NotEqualParam(string Column, string Value)
 		{
 			Column = SqlBuilder.FormatColumn(Column, this.Parameters);
-			IWhere exp = CreateExpression(Enums.WhereExpressionType.NotEqual, Column + "!=" + Value);
+			IWhere exp = CreateExpression(Enums.WhereType.NotEqual, Column + "!=" + Value);
 			return this;
 		}
 
@@ -129,7 +129,7 @@ namespace SqlBuilder.Sql
 		public IWhereList EqualLessParam(string Column, string Value)
 		{
 			Column = SqlBuilder.FormatColumn(Column, this.Parameters);
-			IWhere exp = CreateExpression(Enums.WhereExpressionType.EqualLess, Column + "<=" + Value);
+			IWhere exp = CreateExpression(Enums.WhereType.EqualLess, Column + "<=" + Value);
 			return this;
 		}
 
@@ -143,7 +143,7 @@ namespace SqlBuilder.Sql
 		public IWhereList EqualGreaterParam(string Column, string Value)
 		{
 			Column = SqlBuilder.FormatColumn(Column, this.Parameters);
-			CreateExpression(Enums.WhereExpressionType.EqualGreater, Column + ">=" + Value);
+			CreateExpression(Enums.WhereType.EqualGreater, Column + ">=" + Value);
 			return this;
 		}
 
@@ -157,7 +157,7 @@ namespace SqlBuilder.Sql
 		public IWhereList LessParam(string Column, string Value)
 		{
 			Column = SqlBuilder.FormatColumn(Column, this.Parameters);
-			CreateExpression(Enums.WhereExpressionType.Less, Column + "<" + Value);
+			CreateExpression(Enums.WhereType.Less, Column + "<" + Value);
 			return this;
 		}
 
@@ -171,7 +171,7 @@ namespace SqlBuilder.Sql
 		public IWhereList GreaterParam(string Column, string Value)
 		{
 			Column = SqlBuilder.FormatColumn(Column, this.Parameters);
-			CreateExpression(Enums.WhereExpressionType.Less, Column + ">" + Value);
+			CreateExpression(Enums.WhereType.Less, Column + ">" + Value);
 			return this;
 		}
 
@@ -187,7 +187,7 @@ namespace SqlBuilder.Sql
 			foreach (string expression in Columns)
 			{
 				string value = SqlBuilder.FormatColumn(expression, this.Parameters) + " IS NULL";
-				CreateExpression(Enums.WhereExpressionType.IsNULL, value);
+				CreateExpression(Enums.WhereType.IsNULL, value);
 			}
 			return this;
 		}
@@ -197,7 +197,7 @@ namespace SqlBuilder.Sql
 			foreach (string expression in Columns)
 			{
 				string value = SqlBuilder.FormatColumn(expression, this.Parameters) + " IS NOT NULL";
-				CreateExpression(Enums.WhereExpressionType.IsNotNULL, value);
+				CreateExpression(Enums.WhereType.IsNotNULL, value);
 			}
 			return this;
 		}
@@ -205,28 +205,28 @@ namespace SqlBuilder.Sql
 		public IWhereList Between(string Name, string Begin, string End)
 		{
 			string value = Name + " BETWEEN " + this.Parameters.Parameter + Begin + " AND " + this.Parameters.Parameter + End;
-			CreateExpression(Enums.WhereExpressionType.Between, value);
+			CreateExpression(Enums.WhereType.Between, value);
 			return this;
 		}
 
 		public IWhereList NotBetween(string Name, string Begin, string End)
 		{
 			string value = Name + " NOT BETWEEN " + this.Parameters.Parameter + Begin + " AND " + this.Parameters.Parameter + End;
-			CreateExpression(Enums.WhereExpressionType.NotBetween, value);
+			CreateExpression(Enums.WhereType.NotBetween, value);
 			return this;
 		}
 
 		public IWhereList Like(string Name, string Pattern)
 		{
 			string value = this.Parameters.Parameter + Name + " LIKE " + Pattern;
-			CreateExpression(Enums.WhereExpressionType.Like, value);
+			CreateExpression(Enums.WhereType.Like, value);
 			return this;
 		}
 
 		public IWhereList NotLike(string Name, string Pattern)
 		{
 			string value = this.Parameters.Parameter + Name + " NOT LIKE " + Pattern;
-			CreateExpression(Enums.WhereExpressionType.Like, value);
+			CreateExpression(Enums.WhereType.Like, value);
 			return this;
 		}
 
@@ -236,7 +236,7 @@ namespace SqlBuilder.Sql
 
 		public IWhereList OpenParenthesis()
 		{
-			this.CreateParenthesis(Enums.StatementParenthesis.OpenParenthesis);
+			this.CreateParenthesis(Enums.Parenthesis.OpenParenthesis);
 			this.HasOpenedParenthesis = true;
 			this.Level++;
 			return this;
@@ -244,14 +244,13 @@ namespace SqlBuilder.Sql
 
 		public IWhereList CloseParenthesis()
 		{
-			if (this.Level > 0)
-			{
-				this.CreateParenthesis(Enums.StatementParenthesis.CloseParenthesis);
-				this.Level--;
-				this.HasOpenedParenthesis = this.Level > 0;
-			}
-			else
-				throw new Exception("Close Parenthesis");
+			if (this.Level == 0)
+				throw new Exceptions.ParenthesisExpectedException();
+
+			this.CreateParenthesis(Enums.Parenthesis.CloseParenthesis);
+			this.Level--;
+			this.HasOpenedParenthesis = this.Level > 0;
+
 			return this;
 		}
 
@@ -268,9 +267,9 @@ namespace SqlBuilder.Sql
 			bool logic = false;
 			foreach(IWhere expression in this._expressions)
 			{
-				if (expression.Parenthesis == Enums.StatementParenthesis.OpenParenthesis)
+				if (expression.Parenthesis == Enums.Parenthesis.OpenParenthesis)
 					sb.Append('(');
-				else if (expression.Parenthesis == Enums.StatementParenthesis.CloseParenthesis)
+				else if (expression.Parenthesis == Enums.Parenthesis.CloseParenthesis)
 					sb.Append(')');
 				else
 				{
@@ -289,12 +288,12 @@ namespace SqlBuilder.Sql
 		{
 			switch (this.LogicOperator)
 			{
-				case Enums.WhereExpressionLogic.NOT:
+				case Enums.WhereLogic.NOT:
 					return "NOT";
-				case Enums.WhereExpressionLogic.OR:
+				case Enums.WhereLogic.OR:
 					return "OR";
 				default:
-				case Enums.WhereExpressionLogic.AND:
+				case Enums.WhereLogic.AND:
 					return "AND";
 			}
 		}
