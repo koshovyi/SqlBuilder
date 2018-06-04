@@ -5,12 +5,12 @@ using System.Text;
 namespace SqlBuilder.Interfaces
 {
 
-	public interface IStatementUpdate : IStatement
+	public interface ISet
 	{
 
-		ISetList Sets { get; set; }
+		string Name { get; set; }
 
-		IWhereList Where { get; set; }
+		string Value { get; set; }
 
 	}
 

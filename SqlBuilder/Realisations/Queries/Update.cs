@@ -15,7 +15,7 @@ namespace SqlBuilder
 
 		public IParameters Parameters { get; set; }
 
-		public IColumnsListSimple Columns { get; set; }
+		public ISetList Sets { get; set; }
 
 		public IWhereList Where { get; set; }
 
@@ -26,22 +26,19 @@ namespace SqlBuilder
 		public Update(IParameters parameters)
 		{
 			this.Parameters = parameters;
-			this.Columns = new ColumnsListSimple(this.Parameters);
-		}
-
-		public IStatementUpdate AppendParameters(params string[] parameters)
-		{
-			this.Columns.Append(parameters);
-			return this;
+			this.Sets = new SetList(this.Parameters);
+			this.Where = new WhereList(this.Parameters);
 		}
 
 		public string GetSql()
 		{
 			string table = Reflection.GetTableName<T>();
 
-			ITemplate result = TemplateLibrary.Insert;
+			ITemplate result = TemplateLibrary.Update;
 			result.Append(SnippetLibrary.Table(table));
-			result.Append(SnippetLibrary.Columns(this.Columns.GetSql()));
+			result.Append(SnippetLibrary.Sets(this.Sets.GetSql()));
+			if (this.Where.Count > 0)
+				result.Append(SnippetLibrary.Where(this.Where.GetSql()));
 
 			return result.GetSql();
 		}
