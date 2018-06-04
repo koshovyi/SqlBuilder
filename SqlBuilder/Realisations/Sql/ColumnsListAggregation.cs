@@ -45,24 +45,28 @@ namespace SqlBuilder.Sql
 			return this;
 		}
 
-		public void FuncMax(string Name, string Alias = "")
+		public IColumnsListAggregation FuncMax(string Name, string Alias = "")
 		{
 			this.AppendAlias(Name, Alias, "MAX(", ")");
+			return this;
 		}
 
-		public void FuncMin(string Name, string Alias = "")
+		public IColumnsListAggregation FuncMin(string Name, string Alias = "")
 		{
 			this.AppendAlias(Name, Alias, "MIN(", ")");
+			return this;
 		}
 
-		public void FuncCount(string Name, string Alias = "")
+		public IColumnsListAggregation FuncCount(string Name, string Alias = "")
 		{
 			this.AppendAlias(Name, Alias, "COUNT(", ")");
+			return this;
 		}
 
-		public void FuncSum(string Name, string Alias = "")
+		public IColumnsListAggregation FuncSum(string Name, string Alias = "")
 		{
 			this.AppendAlias("*", Alias, "SUM(", ")");
+			return this;
 		}
 
 	}

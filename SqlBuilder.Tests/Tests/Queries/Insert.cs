@@ -91,7 +91,6 @@ namespace SqlBuilder.Tests
 
 			string result = Insert<DataBaseDemo.Author>.InsertWithMap("p1", "p2", "p3").GetSql();
 			string sql = "INSERT INTO [tab_authors]([firstname], [lastname], [p1], [p2], [p3]) VALUES(@firstname, @lastname, @p1, @p2, @p3);";
-
 			Assert.AreEqual(sql, result);
 		}
 

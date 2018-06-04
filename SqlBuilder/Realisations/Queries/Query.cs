@@ -51,9 +51,9 @@ namespace SqlBuilder
 				return new Delete<T>(SqlBuilder.Parameters);
 			}
 
-			public static Insert<T> Insert()
+			public static Insert<T> Insert(bool AutoMapping = true)
 			{
-				return new Insert<T>(SqlBuilder.Parameters);
+				return new Insert<T>(SqlBuilder.Parameters, AutoMapping);
 			}
 
 			public static Select<T> Select()

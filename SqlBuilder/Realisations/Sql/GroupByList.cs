@@ -64,28 +64,32 @@ namespace SqlBuilder.Sql
 
 		#region Aggregation
 
-		public void FuncMax(string Name, string Alias = "")
+		public IGroupByList FuncMax(string Name, string Alias = "")
 		{
 			GroupBy expression = new GroupBy(Name);
 			this.AppendWithColumn(expression, Name, Alias, "MAX(", ")");
+			return this;
 		}
 
-		public void FuncMin(string Name, string Alias = "")
+		public IGroupByList FuncMin(string Name, string Alias = "")
 		{
 			GroupBy expression = new GroupBy(Name);
 			this.AppendWithColumn(expression, Name, Alias, "MIN(", ")");
+			return this;
 		}
 
-		public void FuncCount(string Name, string Alias = "")
+		public IGroupByList FuncCount(string Name, string Alias = "")
 		{
 			GroupBy expression = new GroupBy(Name);
 			this.AppendWithColumn(expression, Name, Alias, "COUNT(", ")");
+			return this;
 		}
 
-		public void FuncSum(string Name, string Alias = "")
+		public IGroupByList FuncSum(string Name, string Alias = "")
 		{
 			GroupBy expression = new GroupBy(Name);
 			this.AppendWithColumn(expression, Name, Alias, "SUM(", ")");
+			return this;
 		}
 
 		#endregion

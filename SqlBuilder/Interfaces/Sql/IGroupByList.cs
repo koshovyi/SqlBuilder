@@ -5,7 +5,7 @@ using System.Text;
 namespace SqlBuilder.Interfaces
 {
 
-	public interface IGroupByList : IAggregateFunctions
+	public interface IGroupByList : IAggregateFunctions<IGroupByList>
 	{
 
 		IParameters Parameters { get; }
