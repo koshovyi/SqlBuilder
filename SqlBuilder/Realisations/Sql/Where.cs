@@ -13,7 +13,10 @@ namespace SqlBuilder.Sql
 
 		public string Value { get; set; }
 
-		public Where(Enums.WhereType Type, Enums.WhereLogic Logic, Enums.Parenthesis Parenthesis = Enums.Parenthesis.Unknown)
+		public bool IsColumn { get; set; }
+		public string Column { get; set; }
+
+		public Where(Enums.WhereType Type, Enums.WhereLogic Logic, Enums.Parenthesis Parenthesis = Enums.Parenthesis.None)
 		{
 			this.Type = Type;
 			this.Logic = Logic;

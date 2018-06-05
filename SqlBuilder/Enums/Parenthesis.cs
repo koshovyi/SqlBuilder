@@ -3,7 +3,7 @@
 
 	public enum Parenthesis : uint
 	{
-		Unknown = 0,
+		None = 0,
 		OpenParenthesis = 1,
 		CloseParenthesis = 2,
 	}

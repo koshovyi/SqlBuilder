@@ -33,9 +33,9 @@ namespace SqlBuilder.Tests
 			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
 
 			WhereList w = new WhereList(SqlBuilder.DefaultFormatter);
-			w.EqualParam("a", "1");
-			w.EqualParam("b", "2");
-			w.EqualParam("c", "3");
+			w.EqualValue("a", "1");
+			w.EqualValue("b", "2");
+			w.EqualValue("c", "3");
 			string result = w.GetSql();
 			string sql = "[a]=1 AND [b]=2 AND [c]=3";
 			Assert.AreEqual(sql, result);
@@ -61,9 +61,9 @@ namespace SqlBuilder.Tests
 			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
 
 			WhereList w = new WhereList(SqlBuilder.DefaultFormatter);
-			w.NotEqualParam("a", "1");
-			w.NotEqualParam("b", "2");
-			w.NotEqualParam("c", "3");
+			w.NotEqualValue("a", "1");
+			w.NotEqualValue("b", "2");
+			w.NotEqualValue("c", "3");
 			string result = w.GetSql();
 			string sql = "[a]!=1 AND [b]!=2 AND [c]!=3";
 			Assert.AreEqual(sql, result);
@@ -80,8 +80,8 @@ namespace SqlBuilder.Tests
 			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
 
 			WhereList w = new WhereList(SqlBuilder.DefaultFormatter);
-			w.EqualParam("a", "1");
-			w.NotEqualParam("b", "2");
+			w.EqualValue("a", "1");
+			w.NotEqualValue("b", "2");
 			string result = w.GetSql();
 			string sql = "[a]=1 AND [b]!=2";
 			Assert.AreEqual(sql, result);
@@ -150,9 +150,9 @@ namespace SqlBuilder.Tests
 			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
 
 			WhereList w = new WhereList(SqlBuilder.DefaultFormatter);
-			w.EqualGreaterParam("a", "1");
-			w.EqualGreaterParam("b", "2");
-			w.EqualGreaterParam("c", "3");
+			w.EqualGreaterValue("a", "1");
+			w.EqualGreaterValue("b", "2");
+			w.EqualGreaterValue("c", "3");
 			string result = w.GetSql();
 			string sql = "[a]>=1 AND [b]>=2 AND [c]>=3";
 			Assert.AreEqual(sql, result);
@@ -165,9 +165,9 @@ namespace SqlBuilder.Tests
 			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
 
 			WhereList w = new WhereList(SqlBuilder.DefaultFormatter);
-			w.EqualLessParam("a", "1");
-			w.EqualLessParam("b", "2");
-			w.EqualLessParam("c", "3");
+			w.EqualLessValue("a", "1");
+			w.EqualLessValue("b", "2");
+			w.EqualLessValue("c", "3");
 			string result = w.GetSql();
 			string sql = "[a]<=1 AND [b]<=2 AND [c]<=3";
 			Assert.AreEqual(sql, result);
@@ -180,9 +180,9 @@ namespace SqlBuilder.Tests
 			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
 
 			WhereList w = new WhereList(SqlBuilder.DefaultFormatter);
-			w.GreaterParam("a", "1");
-			w.GreaterParam("b", "2");
-			w.GreaterParam("c", "3");
+			w.GreaterValue("a", "1");
+			w.GreaterValue("b", "2");
+			w.GreaterValue("c", "3");
 			string result = w.GetSql();
 			string sql = "[a]>1 AND [b]>2 AND [c]>3";
 			Assert.AreEqual(sql, result);
@@ -195,9 +195,9 @@ namespace SqlBuilder.Tests
 			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
 
 			WhereList w = new WhereList(SqlBuilder.DefaultFormatter);
-			w.LessParam("a", "1");
-			w.LessParam("b", "2");
-			w.LessParam("c", "3");
+			w.LessValue("a", "1");
+			w.LessValue("b", "2");
+			w.LessValue("c", "3");
 			string result = w.GetSql();
 			string sql = "[a]<1 AND [b]<2 AND [c]<3";
 			Assert.AreEqual(sql, result);

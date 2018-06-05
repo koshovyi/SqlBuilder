@@ -20,7 +20,7 @@ namespace SqlBuilder.Interfaces
 
 		ISetList Append(params string[] values);
 
-		ISetList Append(string name, string value);
+		ISetList AppendValue(string name, string value);
 
 	}
 

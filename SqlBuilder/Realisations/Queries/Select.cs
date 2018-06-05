@@ -8,9 +8,9 @@ namespace SqlBuilder
 	public class Select<T> : IStatementSelect
 	{
 
-		public string TableAlias { get; set; }
-
 		public IFormatter Formatter { get; set; }
+
+		public string TableAlias { get; set; }
 
 		public IColumnsListAggregation Columns { get; set; }
 

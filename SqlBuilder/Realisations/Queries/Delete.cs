@@ -15,6 +15,8 @@ namespace SqlBuilder
 
 		public IFormatter Formatter { get; set; }
 
+		public string TableAlias { get; set; }
+
 		public IWhereList Where { get; set; }
 
 		public Delete() : this(SqlBuilder.DefaultFormatter)

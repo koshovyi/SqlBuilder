@@ -41,7 +41,7 @@ namespace SqlBuilder.Sql
 			return this;
 		}
 
-		public ISetList Append(string name, string value)
+		public ISetList AppendValue(string name, string value)
 		{
 			ISet set = new Set(name, value);
 			this.Append(set);

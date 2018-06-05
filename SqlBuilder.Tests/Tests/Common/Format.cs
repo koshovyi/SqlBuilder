@@ -27,6 +27,12 @@ namespace SqlBuilder.Tests
 			SqlBuilder.DefaultFormatter.EscapeEnabled = false;
 			string result3 = SqlBuilder.FormatColumn(column);
 			Assert.AreEqual(column, result3);
+
+			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
+			string result4 = SqlBuilder.FormatColumn(column, "t");
+			Assert.AreEqual("'t'.[" + column + ']', result4);
+
+
 		}
 
 		[TestMethod]

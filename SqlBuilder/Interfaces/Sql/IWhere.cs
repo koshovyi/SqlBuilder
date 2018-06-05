@@ -13,6 +13,10 @@ namespace SqlBuilder.Interfaces
 
 		Enums.Parenthesis Parenthesis { get; }
 
+		bool IsColumn { get; set; }
+
+		string Column { get; set; }
+
 		string Value { get; set; }
 
 	}

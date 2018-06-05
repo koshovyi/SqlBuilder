@@ -11,6 +11,7 @@ namespace SqlBuilder.Interfaces
 		Delete<T> Delete();
 		Insert<T> Insert();
 		Select<T> Select();
+		Update<T> Update();
 
 	}
 

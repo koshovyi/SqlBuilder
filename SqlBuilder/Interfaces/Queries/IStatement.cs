@@ -14,4 +14,11 @@ namespace SqlBuilder.Interfaces
 
 	}
 
+	public interface IStatementTableAlias
+	{
+
+		string TableAlias { get; set; }
+
+	}
+
 }

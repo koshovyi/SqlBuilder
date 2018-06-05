@@ -68,9 +68,9 @@ namespace SqlBuilder.Sql
 			}
 		}
 
-		public void Append(IWhere Expression)
+		public void Append(IWhere expression)
 		{
-			this._expressions.Add(Expression);
+			this._expressions.Add(expression);
 		}
 
 		public void Clear()
@@ -78,9 +78,11 @@ namespace SqlBuilder.Sql
 			this._expressions.Clear();
 		}
 
-		private IWhere CreateExpression(Enums.WhereType Type, string Value)
+		private IWhere CreateExpression(Enums.WhereType Type, string Column, string Value)
 		{
 			IWhere exp = new Where(Type, this.LogicOperator);
+			exp.Column = Column;
+			exp.IsColumn = true;
 			exp.Value = Value;
 			this.Append(exp);
 			return exp;
@@ -98,87 +100,87 @@ namespace SqlBuilder.Sql
 
 		#region Expressions
 
-		public IWhereList EqualParam(string Column, string Value)
+		public IWhereList EqualValue(string Column, string Value)
 		{
-			Column = SqlBuilder.FormatColumn(Column, this.Parameters);
-			IWhere exp = CreateExpression(Enums.WhereType.Equal, Column + '=' + Value);
+			//Column = SqlBuilder.FormatColumn(Column, this.Parameters);
+			IWhere exp = CreateExpression(Enums.WhereType.Equal, Column, '=' + Value);
 			return this;
 		}
 
 		public IWhereList Equal(params string[] Columns)
 		{
 			foreach (string expression in Columns)
-				this.EqualParam(expression, this.Parameters.Parameter + expression);
+				this.EqualValue(expression, this.Parameters.Parameter + expression);
 			return this;
 		}
 
-		public IWhereList NotEqualParam(string Column, string Value)
+		public IWhereList NotEqualValue(string Column, string Value)
 		{
-			Column = SqlBuilder.FormatColumn(Column, this.Parameters);
-			IWhere exp = CreateExpression(Enums.WhereType.NotEqual, Column + "!=" + Value);
+			//Column = SqlBuilder.FormatColumn(Column, this.Parameters);
+			IWhere exp = CreateExpression(Enums.WhereType.NotEqual, Column, "!=" + Value);
 			return this;
 		}
 
 		public IWhereList NotEqual(params string[] Columns)
 		{
 			foreach (string expression in Columns)
-				this.NotEqualParam(expression, this.Parameters.Parameter + expression);
+				this.NotEqualValue(expression, this.Parameters.Parameter + expression);
 			return this;
 		}
 
-		public IWhereList EqualLessParam(string Column, string Value)
+		public IWhereList EqualLessValue(string Column, string Value)
 		{
-			Column = SqlBuilder.FormatColumn(Column, this.Parameters);
-			IWhere exp = CreateExpression(Enums.WhereType.EqualLess, Column + "<=" + Value);
+			//Column = SqlBuilder.FormatColumn(Column, this.Parameters);
+			IWhere exp = CreateExpression(Enums.WhereType.EqualLess, Column, "<=" + Value);
 			return this;
 		}
 
 		public IWhereList EqualLess(params string[] Columns)
 		{
 			foreach(string expression in Columns)
-				this.EqualLessParam(expression, this.Parameters.Parameter + expression);
+				this.EqualLessValue(expression, this.Parameters.Parameter + expression);
 			return this;
 		}
 
-		public IWhereList EqualGreaterParam(string Column, string Value)
+		public IWhereList EqualGreaterValue(string Column, string Value)
 		{
-			Column = SqlBuilder.FormatColumn(Column, this.Parameters);
-			CreateExpression(Enums.WhereType.EqualGreater, Column + ">=" + Value);
+			//Column = SqlBuilder.FormatColumn(Column, this.Parameters);
+			CreateExpression(Enums.WhereType.EqualGreater, Column, ">=" + Value);
 			return this;
 		}
 
 		public IWhereList EqualGreater(params string[] Columns)
 		{
 			foreach (string expression in Columns)
-				this.EqualGreaterParam(expression, this.Parameters.Parameter + expression);
+				this.EqualGreaterValue(expression, this.Parameters.Parameter + expression);
 			return this;
 		}
 
-		public IWhereList LessParam(string Column, string Value)
+		public IWhereList LessValue(string Column, string Value)
 		{
-			Column = SqlBuilder.FormatColumn(Column, this.Parameters);
-			CreateExpression(Enums.WhereType.Less, Column + "<" + Value);
+			//Column = SqlBuilder.FormatColumn(Column, this.Parameters);
+			CreateExpression(Enums.WhereType.Less, Column, "<" + Value);
 			return this;
 		}
 
 		public IWhereList Less(params string[] Columns)
 		{
 			foreach (string expression in Columns)
-				this.LessParam(expression, this.Parameters.Parameter + expression);
+				this.LessValue(expression, this.Parameters.Parameter + expression);
 			return this;
 		}
 
-		public IWhereList GreaterParam(string Column, string Value)
+		public IWhereList GreaterValue(string Column, string Value)
 		{
-			Column = SqlBuilder.FormatColumn(Column, this.Parameters);
-			CreateExpression(Enums.WhereType.Less, Column + ">" + Value);
+			//Column = SqlBuilder.FormatColumn(Column, this.Parameters);
+			CreateExpression(Enums.WhereType.Less, Column, ">" + Value);
 			return this;
 		}
 
 		public IWhereList Greater(params string[] Columns)
 		{
 			foreach (string expression in Columns)
-				this.GreaterParam(expression, this.Parameters.Parameter + expression);
+				this.GreaterValue(expression, this.Parameters.Parameter + expression);
 			return this;
 		}
 
@@ -186,8 +188,7 @@ namespace SqlBuilder.Sql
 		{
 			foreach (string expression in Columns)
 			{
-				string value = SqlBuilder.FormatColumn(expression, this.Parameters) + " IS NULL";
-				CreateExpression(Enums.WhereType.IsNULL, value);
+				CreateExpression(Enums.WhereType.IsNULL, expression, " IS NULL");
 			}
 			return this;
 		}
@@ -196,37 +197,36 @@ namespace SqlBuilder.Sql
 		{
 			foreach (string expression in Columns)
 			{
-				string value = SqlBuilder.FormatColumn(expression, this.Parameters) + " IS NOT NULL";
-				CreateExpression(Enums.WhereType.IsNotNULL, value);
+				CreateExpression(Enums.WhereType.IsNotNULL, expression, " IS NOT NULL");
 			}
 			return this;
 		}
 
 		public IWhereList Between(string Name, string Begin, string End)
 		{
-			string value = Name + " BETWEEN " + this.Parameters.Parameter + Begin + " AND " + this.Parameters.Parameter + End;
-			CreateExpression(Enums.WhereType.Between, value);
+			string value = " BETWEEN " + this.Parameters.Parameter + Begin + " AND " + this.Parameters.Parameter + End;
+			CreateExpression(Enums.WhereType.Between, Name, value);
 			return this;
 		}
 
 		public IWhereList NotBetween(string Name, string Begin, string End)
 		{
-			string value = Name + " NOT BETWEEN " + this.Parameters.Parameter + Begin + " AND " + this.Parameters.Parameter + End;
-			CreateExpression(Enums.WhereType.NotBetween, value);
+			string value = " NOT BETWEEN " + this.Parameters.Parameter + Begin + " AND " + this.Parameters.Parameter + End;
+			CreateExpression(Enums.WhereType.NotBetween, Name, value);
 			return this;
 		}
 
 		public IWhereList Like(string Name, string Pattern)
 		{
 			string value = this.Parameters.Parameter + Name + " LIKE " + Pattern;
-			CreateExpression(Enums.WhereType.Like, value);
+			CreateExpression(Enums.WhereType.Like, "", value);
 			return this;
 		}
 
 		public IWhereList NotLike(string Name, string Pattern)
 		{
 			string value = this.Parameters.Parameter + Name + " NOT LIKE " + Pattern;
-			CreateExpression(Enums.WhereType.Like, value);
+			CreateExpression(Enums.WhereType.NotLike, "", value);
 			return this;
 		}
 
@@ -263,11 +263,14 @@ namespace SqlBuilder.Sql
 
 		#region Render SQL
 
-		public string GetSql(bool Where = false)
+		public string GetSql(bool where = false, string tableAlias = "")
 		{
 			StringBuilder sb = new StringBuilder();
-			if (Where && this._expressions.Count > 0)
+			if (where && this._expressions.Count > 0)
 				sb.Append("WHERE ");
+
+			if (!string.IsNullOrEmpty(tableAlias))
+				tableAlias = SqlBuilder.FormatAlias(tableAlias) + '.';
 
 			bool logic = false, lastparenthesis = false;
 			foreach(IWhere expression in this._expressions)
@@ -293,6 +296,9 @@ namespace SqlBuilder.Sql
 				}
 				else
 				{
+					if (expression.IsColumn)
+						sb.Append(SqlBuilder.FormatColumn(expression.Column, tableAlias));
+
 					sb.Append(expression.Value);
 					lastparenthesis = false;
 				}
@@ -301,14 +307,9 @@ namespace SqlBuilder.Sql
 			return sb.ToString();
 		}
 
-		public string GetSqlCurrentLogic()
+		private string GetSqlCurrentLogic(Enums.WhereLogic logic)
 		{
-			return GetSqlCurrentLogic(this.LogicOperator);
-		}
-
-		public string GetSqlCurrentLogic(Enums.WhereLogic Logic)
-		{
-			switch (Logic)
+			switch (logic)
 			{
 				case Enums.WhereLogic.NOT:
 					return "AND NOT";

@@ -92,6 +92,19 @@ namespace SqlBuilder.Tests
 
 		[TestMethod]
 		[TestCategory("Query - Select")]
+		public void QuerySelectSimpleWherePKAlias()
+		{
+			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
+
+			Select<DataBaseDemo.Author> s = new Select<DataBaseDemo.Author>("t");
+			s.Where.Equal(Reflection.GetPrimaryKey<DataBaseDemo.Author>());
+			string result = s.GetSql();
+			string sql = "SELECT 't'.* FROM [tab_authors] as 't' WHERE [ID]=@ID;";
+			Assert.AreEqual(sql, result);
+		}
+
+		[TestMethod]
+		[TestCategory("Query - Select")]
 		public void QuerySelectSimpleWherePKStatic()
 		{
 			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;

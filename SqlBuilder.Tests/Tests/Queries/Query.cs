@@ -10,8 +10,6 @@ namespace SqlBuilder.Tests
 	public class Query
 	{
 
-		#region Query
-
 		[TestMethod]
 		[TestCategory("Query - Methods")]
 		public void QuerySelect()
@@ -79,8 +77,6 @@ namespace SqlBuilder.Tests
 			Assert.AreEqual(q3.GetSql(), q2.GetSql());
 			Assert.AreEqual(q3.GetSql(), q1.GetSql());
 		}
-
-		#endregion
 
 	}
 

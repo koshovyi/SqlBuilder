@@ -5,7 +5,7 @@ using System.Text;
 namespace SqlBuilder.Interfaces
 {
 
-	public interface IStatementInsert : IStatement
+	public interface IStatementInsert : IStatement, IStatementTableAlias
 	{
 
 		IColumnsListSimple Columns { get; set; }

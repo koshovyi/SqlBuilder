@@ -5,10 +5,8 @@ using System.Text;
 namespace SqlBuilder.Interfaces
 {
 
-	public interface IStatementSelect : IStatement
+	public interface IStatementSelect : IStatement, IStatementTableAlias
 	{
-
-		string TableAlias { get; set; }
 
 		IColumnsListAggregation Columns { get; set; }
 

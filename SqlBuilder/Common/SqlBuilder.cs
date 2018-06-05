@@ -14,16 +14,21 @@ namespace SqlBuilder
 			DefaultFormatter = FormatterLibrary.MsSql;
 		}
 
-		public static string FormatColumn(string column)
+		public static string FormatColumn(string column, string tableAlias = "")
 		{
-			return FormatColumn(column, SqlBuilder.DefaultFormatter);
+			return FormatColumn(column, SqlBuilder.DefaultFormatter, tableAlias);
 		}
 
-		public static string FormatColumn(string column, IFormatter parameters)
+		public static string FormatColumn(string column, IFormatter parameters, string tableAlias = "")
 		{
-			return parameters.EscapeEnabled
+			if (!string.IsNullOrEmpty(tableAlias))
+				tableAlias = FormatAlias(tableAlias) + '.';
+
+			column = parameters.EscapeEnabled
 				? parameters.ColumnEscapeLeft + column + parameters.ColumnEscapeRight
 				: column;
+
+			return tableAlias + column;
 		}
 
 		public static string FormatParameter(string column)
@@ -48,14 +53,14 @@ namespace SqlBuilder
 				: tableName;
 		}
 
-		public static string FormatAlias(string aliasName)
+		public static string FormatAlias(string value)
 		{
-			return FormatAlias(aliasName, SqlBuilder.DefaultFormatter);
+			return FormatAlias(value, SqlBuilder.DefaultFormatter);
 		}
 
-		public static string FormatAlias(string aliasName, IFormatter parameters)
+		public static string FormatAlias(string value, IFormatter parameters)
 		{
-			return parameters.AliasEscape + aliasName + parameters.AliasEscape;
+			return parameters.AliasEscape + value + parameters.AliasEscape;
 		}
 
 	}

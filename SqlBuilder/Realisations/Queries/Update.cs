@@ -15,17 +15,20 @@ namespace SqlBuilder
 
 		public IFormatter Formatter { get; set; }
 
+		public string TableAlias { get; set; }
+
 		public ISetList Sets { get; set; }
 
 		public IWhereList Where { get; set; }
 
-		public Update() : this(SqlBuilder.DefaultFormatter)
+		public Update(string tableAlias = "") : this(SqlBuilder.DefaultFormatter, tableAlias)
 		{
 		}
 
-		public Update(IFormatter parameters)
+		public Update(IFormatter parameters, string tableAlias = "")
 		{
 			this.Formatter = parameters;
+			this.TableAlias = tableAlias;
 			this.Sets = new SetList(this.Formatter);
 			this.Where = new WhereList(this.Formatter);
 		}
@@ -35,7 +38,7 @@ namespace SqlBuilder
 			string table = Reflection.GetTableName<T>();
 
 			ITemplate result = TemplateLibrary.Update;
-			result.Append(SnippetLibrary.Table(table));
+			result.Append(SnippetLibrary.Table(table, this.TableAlias));
 			result.Append(SnippetLibrary.Sets(this.Sets.GetSql()));
 			if (this.Where.Count > 0)
 				result.Append(SnippetLibrary.Where(this.Where.GetSql()));

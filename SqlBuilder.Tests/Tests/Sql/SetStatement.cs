@@ -31,7 +31,7 @@ namespace SqlBuilder.Tests
 			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
 
 			SetList w = new SetList(SqlBuilder.DefaultFormatter);
-			w.Append("a", "NOW()").Append("b", "100").Append("c", "NULL");
+			w.AppendValue("a", "NOW()").AppendValue("b", "100").AppendValue("c", "NULL");
 			string result = w.GetSql();
 			string sql = "[a]=NOW(), [b]=100, [c]=NULL";
 			Assert.AreEqual(sql, result);

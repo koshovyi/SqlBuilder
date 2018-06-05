@@ -15,6 +15,8 @@ namespace SqlBuilder
 
 		public IFormatter Formatter { get; set; }
 
+		public string TableAlias { get; set; }
+
 		public IColumnsListSimple Columns { get; set; }
 
 		public IValueList Values { get; set; }

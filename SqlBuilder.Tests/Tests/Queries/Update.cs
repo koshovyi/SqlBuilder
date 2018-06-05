@@ -20,7 +20,7 @@ namespace SqlBuilder.Tests
 
 			Update<DataBaseDemo.Author> u = new Update<DataBaseDemo.Author>();
 			u.Sets.Append("a", "b", "c");
-			u.Sets.Append("d", "1").Append("e", "NOW()");
+			u.Sets.AppendValue("d", "1").AppendValue("e", "NOW()");
 			
 			string result = u.GetSql();
 			string sql = "UPDATE [tab_authors] SET [a]=@a, [b]=@b, [c]=@c, [d]=1, [e]=NOW();";

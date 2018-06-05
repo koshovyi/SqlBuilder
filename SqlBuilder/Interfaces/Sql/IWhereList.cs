@@ -12,13 +12,13 @@ namespace SqlBuilder.Interfaces
 
 		IEnumerable<IWhere> Expressions { get; }
 
-		string GetSql(bool Where = false);
+		string GetSql(bool where = false, string tableAlias = "");
 
 		int Count { get; }
 
 		void Clear();
 
-		void Append(IWhere Expression);
+		void Append(IWhere expression);
 
 		//Flags
 		Enums.WhereLogic LogicOperator { get; }
@@ -42,28 +42,28 @@ namespace SqlBuilder.Interfaces
 		//Exp eq
 		IWhereList Equal(params string[] Columns);
 
-		IWhereList EqualParam(string Column, string Value);
+		IWhereList EqualValue(string Column, string Value);
 
 		IWhereList NotEqual(params string[] Columns);
 
-		IWhereList NotEqualParam(string Column, string Value);
+		IWhereList NotEqualValue(string Column, string Value);
 
 		//Exp less/greater
 		IWhereList EqualGreater(params string[] Columns);
 
-		IWhereList EqualGreaterParam(string Column, string Value);
+		IWhereList EqualGreaterValue(string Column, string Value);
 
 		IWhereList EqualLess(params string[] Columns);
 
-		IWhereList EqualLessParam(string Column, string Value);
+		IWhereList EqualLessValue(string Column, string Value);
 
 		IWhereList Greater(params string[] Columns);
 
-		IWhereList GreaterParam(string Column, string Value);
+		IWhereList GreaterValue(string Column, string Value);
 
 		IWhereList Less(params string[] Columns);
 
-		IWhereList LessParam(string Column, string Value);
+		IWhereList LessValue(string Column, string Value);
 
 		//Exp null
 		IWhereList IsNULL(params string[] Columns);
