@@ -10,7 +10,7 @@ namespace SqlBuilder.Interfaces
 
 		string Pattern { get; set; }
 
-		IParameters Parameters { get; set; }
+		IFormatter Parameters { get; set; }
 
 		IEnumerable<ITemplateSnippet> Snippets { get; }
 

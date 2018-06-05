@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using SqlBuilder.Interfaces;
 
 namespace SqlBuilder.Sql
@@ -12,7 +13,7 @@ namespace SqlBuilder.Sql
 
 		#region Properties
 
-		public IParameters Parameters { get; set; }
+		public IFormatter Parameters { get; set; }
 
 		public IEnumerable<IColumn> Expressions
 		{
@@ -34,7 +35,7 @@ namespace SqlBuilder.Sql
 
 		#region Constructor
 
-		public ColumnsList(IParameters parameters)
+		public ColumnsList(IFormatter parameters)
 		{
 			this._expressions = new List<IColumn>();
 			this.Parameters = parameters;
@@ -47,9 +48,34 @@ namespace SqlBuilder.Sql
 			this._expressions.Clear();
 		}
 
-		public string GetSql(string aliasTable = "")
+		public string GetSql(string tableAlias = "")
 		{
-			return SqlBuilder.GetColumnsList(this, this.Parameters, aliasTable);
+			if (this.Count == 0)
+			{
+				return string.IsNullOrEmpty(tableAlias)
+					? "*"
+					: SqlBuilder.FormatAlias(tableAlias, this.Parameters) + ".*";
+			}
+
+			StringBuilder sb = new StringBuilder();
+			foreach (IColumn column in this.Expressions)
+			{
+				if (sb.Length > 0)
+					sb.Append(", ");
+				if (!string.IsNullOrEmpty(tableAlias))
+					sb.Append(SqlBuilder.FormatAlias(tableAlias, this.Parameters));
+				sb.Append(column.Prefix);
+				sb.Append(SqlBuilder.FormatColumn(column.Name, this.Parameters));
+				sb.Append(column.Postfix);
+				if (!string.IsNullOrEmpty(column.Alias))
+				{
+					sb.Append(" as ");
+					sb.Append(this.Parameters.AliasEscape);
+					sb.Append(column.Alias);
+					sb.Append(this.Parameters.AliasEscape);
+				}
+			}
+			return sb.ToString();
 		}
 
 		public override string ToString()

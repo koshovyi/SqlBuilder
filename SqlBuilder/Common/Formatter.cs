@@ -3,10 +3,10 @@
 namespace SqlBuilder
 {
 
-	public class Parameters : IParameters
+	public class Formatter : IFormatter
 	{
 
-		public Enums.SqlVersion Type { get; set; } = Enums.SqlVersion.Unknown;
+		public Enums.SqlType Type { get; set; } = Enums.SqlType.Unknown;
 
 		public char Parameter { get; set; }
 		public bool EscapeEnabled { get; set; }

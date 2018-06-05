@@ -15,9 +15,9 @@ namespace SqlBuilder.Tests
 		[TestCategory("SetList")]
 		public void ValuesSimple1()
 		{
-			SqlBuilder.Parameters = ParametersLibrary.MsSql;
+			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
 
-			SetList w = new SetList(SqlBuilder.Parameters);
+			SetList w = new SetList(SqlBuilder.DefaultFormatter);
 			w.Append("a", "b", "c");
 			string result = w.GetSql();
 			string sql = "[a]=@a, [b]=@b, [c]=@c";
@@ -28,9 +28,9 @@ namespace SqlBuilder.Tests
 		[TestCategory("SetList")]
 		public void ValuesSimple2()
 		{
-			SqlBuilder.Parameters = ParametersLibrary.MsSql;
+			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
 
-			SetList w = new SetList(SqlBuilder.Parameters);
+			SetList w = new SetList(SqlBuilder.DefaultFormatter);
 			w.Append("a", "NOW()").Append("b", "100").Append("c", "NULL");
 			string result = w.GetSql();
 			string sql = "[a]=NOW(), [b]=100, [c]=NULL";

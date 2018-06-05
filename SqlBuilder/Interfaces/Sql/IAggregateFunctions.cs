@@ -5,7 +5,7 @@ using System.Text;
 namespace SqlBuilder.Interfaces
 {
 
-	public interface IAggregateFunctions<T>
+	public interface IAggregateFunctions<out T>
 	{
 
 		T FuncMax(string Name, string Alias = "");

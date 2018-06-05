@@ -8,7 +8,7 @@ namespace SqlBuilder.Interfaces
 	public interface IWhereList
 	{
 
-		IParameters Parameters { get; }
+		IFormatter Parameters { get; }
 
 		IEnumerable<IWhere> Expressions { get; }
 
@@ -28,9 +28,9 @@ namespace SqlBuilder.Interfaces
 
 		bool HasOpenedParenthesis { get; }
 
-		IWhereList OpenParenthesis();
+		IWhereList OpenParenthesis(int count = 1);
 
-		IWhereList CloseParenthesis();
+		IWhereList CloseParenthesis(int count = 1);
 
 		//Logic
 		IWhereList And();

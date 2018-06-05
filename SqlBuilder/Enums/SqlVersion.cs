@@ -1,7 +1,7 @@
 ﻿namespace SqlBuilder.Enums
 {
 
-	public enum SqlVersion : uint
+	public enum SqlType : uint
 	{
 		Unknown = 0,
 		MySql = 1,

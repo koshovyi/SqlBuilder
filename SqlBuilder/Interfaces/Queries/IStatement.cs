@@ -8,7 +8,7 @@ namespace SqlBuilder.Interfaces
 	public interface IStatement
 	{
 
-		IParameters Parameters { get; set; }
+		IFormatter Formatter { get; set; }
 
 		string GetSql();
 

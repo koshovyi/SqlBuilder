@@ -5,10 +5,10 @@ using System.Text;
 namespace SqlBuilder.Interfaces
 {
 
-	public interface IParameters
+	public interface IFormatter
 	{
 
-		Enums.SqlVersion Type { get; set; }
+		Enums.SqlType Type { get; set; }
 
 		bool EscapeEnabled { get; set; }
 

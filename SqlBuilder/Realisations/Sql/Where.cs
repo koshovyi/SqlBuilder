@@ -17,7 +17,7 @@ namespace SqlBuilder.Sql
 		{
 			this.Type = Type;
 			this.Logic = Logic;
-			this.Parenthesis = Enums.Parenthesis.Unknown;
+			this.Parenthesis = Parenthesis;
 		}
 
 	}

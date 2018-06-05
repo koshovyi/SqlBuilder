@@ -16,7 +16,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Query - Update")]
 		public void QueryUpdateSimple1()
 		{
-			SqlBuilder.Parameters = ParametersLibrary.MsSql;
+			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
 
 			Update<DataBaseDemo.Author> u = new Update<DataBaseDemo.Author>();
 			u.Sets.Append("a", "b", "c");
@@ -31,7 +31,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Query - Update")]
 		public void QueryUpdateSimple2()
 		{
-			SqlBuilder.Parameters = ParametersLibrary.MsSql;
+			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
 
 			Update<DataBaseDemo.Author> u = new Update<DataBaseDemo.Author>();
 			u.Sets.Append("a", "b", "c");

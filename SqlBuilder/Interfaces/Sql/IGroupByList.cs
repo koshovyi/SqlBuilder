@@ -8,7 +8,7 @@ namespace SqlBuilder.Interfaces
 	public interface IGroupByList : IAggregateFunctions<IGroupByList>
 	{
 
-		IParameters Parameters { get; }
+		IFormatter Parameters { get; }
 
 		IColumnsListAggregation Columns { get; }
 

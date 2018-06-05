@@ -11,7 +11,7 @@ namespace SqlBuilder.Sql
 
 		private readonly List<IOrderBy> _expressions;
 
-		public IParameters Parameters { get; private set; }
+		public IFormatter Parameters { get; private set; }
 
 		public IEnumerable<IOrderBy> Expressions
 		{
@@ -29,7 +29,7 @@ namespace SqlBuilder.Sql
 			}
 		}
 
-		public OrderByList(IParameters parameters)
+		public OrderByList(IFormatter parameters)
 		{
 			this._expressions = new List<IOrderBy>();
 			this.Parameters = parameters;

@@ -8,11 +8,11 @@ namespace SqlBuilder.Interfaces
 	public interface IColumnsList
 	{
 
-		IParameters Parameters { get; }
+		IFormatter Parameters { get; }
 
 		IEnumerable<IColumn> Expressions { get; }
 
-		string GetSql(string aliasTable = "");
+		string GetSql(string tableAlias = "");
 
 		int Count { get; }
 

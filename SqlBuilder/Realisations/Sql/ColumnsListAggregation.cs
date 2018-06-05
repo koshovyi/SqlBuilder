@@ -8,7 +8,7 @@ namespace SqlBuilder.Sql
 	public class ColumnsListAggregation : ColumnsList, IColumnsListAggregation
 	{
 
-		public ColumnsListAggregation(IParameters parameters) : base(parameters)
+		public ColumnsListAggregation(IFormatter parameters) : base(parameters)
 		{
 			this.Parameters = parameters;
 		}

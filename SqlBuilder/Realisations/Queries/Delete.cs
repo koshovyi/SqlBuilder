@@ -13,18 +13,18 @@ namespace SqlBuilder
 	public class Delete<T> : IStatementDelete
 	{
 
-		public IParameters Parameters { get; set; }
+		public IFormatter Formatter { get; set; }
 
 		public IWhereList Where { get; set; }
 
-		public Delete() : this(SqlBuilder.Parameters)
+		public Delete() : this(SqlBuilder.DefaultFormatter)
 		{
 		}
 
-		public Delete(IParameters parameters)
+		public Delete(IFormatter parameters)
 		{
-			this.Parameters = parameters;
-			this.Where = new WhereList(this.Parameters);
+			this.Formatter = parameters;
+			this.Where = new WhereList(this.Formatter);
 		}
 
 		public string GetSql()

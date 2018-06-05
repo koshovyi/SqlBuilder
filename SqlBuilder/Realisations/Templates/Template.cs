@@ -13,7 +13,7 @@ namespace SqlBuilder.Templates
 
 		private readonly List<ITemplateSnippet> _expressions;
 
-		public IParameters Parameters { get; set; }
+		public IFormatter Parameters { get; set; }
 
 		public string Pattern { get; set; }
 
@@ -28,7 +28,7 @@ namespace SqlBuilder.Templates
 		public Template(string Pattern)
 		{
 			this.Pattern = Pattern;
-			this.Parameters = SqlBuilder.Parameters;
+			this.Parameters = SqlBuilder.DefaultFormatter;
 			this._expressions = new List<ITemplateSnippet>();
 		}
 

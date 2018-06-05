@@ -15,9 +15,9 @@ namespace SqlBuilder.Tests
 		[TestCategory("Columns - List")]
 		public void ColumnsSimpleEmpty()
 		{
-			SqlBuilder.Parameters = ParametersLibrary.MsSql;
+			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
 
-			ColumnsListSimple c = new ColumnsListSimple(SqlBuilder.Parameters);
+			ColumnsListSimple c = new ColumnsListSimple(SqlBuilder.DefaultFormatter);
 			c.Append();
 			string result = c.GetSql();
 			string sql = "*";
@@ -28,9 +28,9 @@ namespace SqlBuilder.Tests
 		[TestCategory("Columns - List")]
 		public void ColumnsSimple1()
 		{
-			SqlBuilder.Parameters = ParametersLibrary.MsSql;
+			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
 
-			ColumnsListSimple c = new ColumnsListSimple(SqlBuilder.Parameters);
+			ColumnsListSimple c = new ColumnsListSimple(SqlBuilder.DefaultFormatter);
 			c.Append("a", "b", "c");
 			string result = c.GetSql();
 			string sql = "[a], [b], [c]";
@@ -41,9 +41,9 @@ namespace SqlBuilder.Tests
 		[TestCategory("Columns - List")]
 		public void ColumnsSimple2()
 		{
-			SqlBuilder.Parameters = ParametersLibrary.MsSql;
+			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
 
-			ColumnsListSimple c = new ColumnsListSimple(SqlBuilder.Parameters);
+			ColumnsListSimple c = new ColumnsListSimple(SqlBuilder.DefaultFormatter);
 			c.Append("column");
 			string result = c.GetSql();
 			string sql = "[column]";
@@ -54,9 +54,9 @@ namespace SqlBuilder.Tests
 		[TestCategory("Columns - List")]
 		public void ColumnsSimple3()
 		{
-			SqlBuilder.Parameters = ParametersLibrary.MsSql;
+			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
 
-			ColumnsListSimple c = new ColumnsListSimple(SqlBuilder.Parameters);
+			ColumnsListSimple c = new ColumnsListSimple(SqlBuilder.DefaultFormatter);
 			c.Append("column1").Append("column2");
 			string result = c.GetSql();
 			string sql = "[column1], [column2]";
@@ -67,9 +67,9 @@ namespace SqlBuilder.Tests
 		[TestCategory("Columns - List")]
 		public void ColumnsSimpleAlias()
 		{
-			SqlBuilder.Parameters = ParametersLibrary.MsSql;
+			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
 
-			ColumnsListSimple c = new ColumnsListSimple(SqlBuilder.Parameters);
+			ColumnsListSimple c = new ColumnsListSimple(SqlBuilder.DefaultFormatter);
 			c.AppendAlias("last_name", "l");
 			c.AppendAlias("first_name", "f");
 			string result = c.GetSql();
@@ -81,9 +81,9 @@ namespace SqlBuilder.Tests
 		[TestCategory("Columns - Aggregations")]
 		public void ColumnsAggregations1()
 		{
-			SqlBuilder.Parameters = ParametersLibrary.MsSql;
+			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
 
-			ColumnsListAggregation c = new ColumnsListAggregation(SqlBuilder.Parameters);
+			ColumnsListAggregation c = new ColumnsListAggregation(SqlBuilder.DefaultFormatter);
 			c.FuncCount("all");
 			c.FuncMax("cnt", "max_cnt");
 			string result = c.GetSql();

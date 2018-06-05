@@ -15,9 +15,9 @@ namespace SqlBuilder.Tests
 		[TestCategory("OrderBy")]
 		public void OrderByASCSimple1()
 		{
-			SqlBuilder.Parameters = ParametersLibrary.MsSql;
+			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
 
-			OrderByList o = new OrderByList(SqlBuilder.Parameters);
+			OrderByList o = new OrderByList(SqlBuilder.DefaultFormatter);
 			o.Ascending("a");
 			string result = o.GetSql();
 			string sql = "[a] ASC";
@@ -28,9 +28,9 @@ namespace SqlBuilder.Tests
 		[TestCategory("OrderBy")]
 		public void OrderByASCSimple2()
 		{
-			SqlBuilder.Parameters = ParametersLibrary.MsSql;
+			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
 
-			OrderByList o = new OrderByList(SqlBuilder.Parameters);
+			OrderByList o = new OrderByList(SqlBuilder.DefaultFormatter);
 			o.Ascending("a", "b", "c");
 			string result = o.GetSql();
 			string sql = "[a] ASC, [b] ASC, [c] ASC";
@@ -41,9 +41,9 @@ namespace SqlBuilder.Tests
 		[TestCategory("OrderBy")]
 		public void OrderByDESCSimple1()
 		{
-			SqlBuilder.Parameters = ParametersLibrary.MsSql;
+			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
 
-			OrderByList o = new OrderByList(SqlBuilder.Parameters);
+			OrderByList o = new OrderByList(SqlBuilder.DefaultFormatter);
 			o.Descending("a");
 			string result = o.GetSql();
 			string sql = "[a] DESC";
@@ -54,9 +54,9 @@ namespace SqlBuilder.Tests
 		[TestCategory("OrderBy")]
 		public void OrderByDESCSimple2()
 		{
-			SqlBuilder.Parameters = ParametersLibrary.MsSql;
+			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
 
-			OrderByList o = new OrderByList(SqlBuilder.Parameters);
+			OrderByList o = new OrderByList(SqlBuilder.DefaultFormatter);
 			o.Descending("a", "b", "c");
 			string result = o.GetSql();
 			string sql = "[a] DESC, [b] DESC, [c] DESC";
@@ -67,9 +67,9 @@ namespace SqlBuilder.Tests
 		[TestCategory("OrderBy")]
 		public void OrderByASCAndDESC1()
 		{
-			SqlBuilder.Parameters = ParametersLibrary.MsSql;
+			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
 
-			OrderByList o = new OrderByList(SqlBuilder.Parameters);
+			OrderByList o = new OrderByList(SqlBuilder.DefaultFormatter);
 			o.Ascending("a");
 			o.Descending("b");
 			o.Ascending("c");
@@ -83,9 +83,9 @@ namespace SqlBuilder.Tests
 		[TestCategory("OrderBy")]
 		public void OrderByASCAndDESC2()
 		{
-			SqlBuilder.Parameters = ParametersLibrary.MsSql;
+			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
 
-			OrderByList o = new OrderByList(SqlBuilder.Parameters);
+			OrderByList o = new OrderByList(SqlBuilder.DefaultFormatter);
 			o.Ascending("a", "b", "c");
 			o.Descending("d", "e", "f");
 			string result = o.GetSql();

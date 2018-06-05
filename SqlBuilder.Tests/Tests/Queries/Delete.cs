@@ -16,7 +16,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Query - Delete")]
 		public void QueryDeleteSimple1()
 		{
-			SqlBuilder.Parameters = ParametersLibrary.MsSql;
+			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
 
 			Delete<DataBaseDemo.Author> d = new Delete<DataBaseDemo.Author>();
 			
@@ -29,7 +29,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Query - Delete")]
 		public void QueryDeleteSimple2()
 		{
-			SqlBuilder.Parameters = ParametersLibrary.MsSql;
+			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
 
 			Delete<DataBaseDemo.Author> d = new Delete<DataBaseDemo.Author>();
 			d.Where.Equal("p1").Less("p2").IsNULL("p3");

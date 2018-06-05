@@ -10,7 +10,7 @@ namespace SqlBuilder.Sql
 
 		private readonly List<ISet> _expressions;
 
-		public IParameters Parameters { get; set; }
+		public IFormatter Parameters { get; set; }
 
 		public int Count
 		{
@@ -20,7 +20,7 @@ namespace SqlBuilder.Sql
 			}
 		}
 
-		public SetList(IParameters parameters)
+		public SetList(IFormatter parameters)
 		{
 			this._expressions = new List<ISet>();
 			this.Parameters = parameters;

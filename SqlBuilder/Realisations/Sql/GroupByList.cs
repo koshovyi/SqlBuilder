@@ -11,7 +11,7 @@ namespace SqlBuilder.Sql
 
 		private readonly List<IGroupBy> _expressions;
 
-		public IParameters Parameters { get; private set; }
+		public IFormatter Parameters { get; private set; }
 
 		public IColumnsListAggregation Columns { get; private set; }
 
@@ -25,7 +25,7 @@ namespace SqlBuilder.Sql
 			}
 		}
 
-		public GroupByList(IParameters parameters, IColumnsListAggregation columns)
+		public GroupByList(IFormatter parameters, IColumnsListAggregation columns)
 		{
 			this._expressions = new List<IGroupBy>();
 			this.Parameters = parameters;

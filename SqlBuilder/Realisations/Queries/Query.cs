@@ -11,15 +11,15 @@ namespace SqlBuilder
 	public class Query<T> : IQuery<T>
 	{
 
-		public IParameters Parameters { get; set; }
+		public IFormatter Parameters { get; set; }
 
-		public Query() : this(SqlBuilder.Parameters)
+		public Query() : this(SqlBuilder.DefaultFormatter)
 		{
 		}
 
-		public Query(IParameters parameters)
+		public Query(IFormatter parameters)
 		{
-			this.Parameters = SqlBuilder.Parameters;
+			this.Parameters = SqlBuilder.DefaultFormatter;
 		}
 
 		#region Methods
@@ -34,6 +34,11 @@ namespace SqlBuilder
 			return new Insert<T>(this.Parameters);
 		}
 
+		public Update<T> Update()
+		{
+			return new Update<T>(this.Parameters);
+		}
+
 		public Select<T> Select()
 		{
 			return new Select<T>(this.Parameters);
@@ -43,24 +48,24 @@ namespace SqlBuilder
 
 		#region Static methods
 
-		public static class Factory
+		public static Delete<T> CreateDelete()
 		{
+			return new Delete<T>(SqlBuilder.DefaultFormatter);
+		}
 
-			public static Delete<T> Delete()
-			{
-				return new Delete<T>(SqlBuilder.Parameters);
-			}
+		public static Insert<T> CreateInsert(bool AutoMapping = true)
+		{
+			return new Insert<T>(SqlBuilder.DefaultFormatter, AutoMapping);
+		}
 
-			public static Insert<T> Insert(bool AutoMapping = true)
-			{
-				return new Insert<T>(SqlBuilder.Parameters, AutoMapping);
-			}
+		public static Select<T> CreateSelect()
+		{
+			return new Select<T>(SqlBuilder.DefaultFormatter);
+		}
 
-			public static Select<T> Select()
-			{
-				return new Select<T>(SqlBuilder.Parameters);
-			}
-
+		public static Update<T> CreateUpdate()
+		{
+			return new Update<T>(SqlBuilder.DefaultFormatter);
 		}
 
 		#endregion

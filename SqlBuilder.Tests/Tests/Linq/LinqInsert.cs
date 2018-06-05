@@ -26,7 +26,7 @@ namespace SqlBuilder.Tests.Tests.Linq
 		[TestCategory("Linq")]
 		public void LinqInsertColumns2()
 		{
-			string result = Query<DataBaseDemo.Author>.Factory.Insert(false).ColumnsLinq(x => x.Append("a", "b", "c")).ValuesLinq(x => x.Append("a", "b", "c")).GetSql();
+			string result = Query<DataBaseDemo.Author>.CreateInsert(false).ColumnsLinq(x => x.Append("a", "b", "c")).ValuesLinq(x => x.Append("a", "b", "c")).GetSql();
 			string sql = "INSERT INTO [tab_authors]([a], [b], [c]) VALUES(a, b, c);";
 			Assert.AreEqual(result, sql);
 		}

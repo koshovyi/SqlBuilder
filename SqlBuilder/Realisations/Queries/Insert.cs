@@ -13,21 +13,21 @@ namespace SqlBuilder
 	public class Insert<T> : IStatementInsert
 	{
 
-		public IParameters Parameters { get; set; }
+		public IFormatter Formatter { get; set; }
 
 		public IColumnsListSimple Columns { get; set; }
 
 		public IValueList Values { get; set; }
 
-		public Insert(bool AutoMapping = true) : this(SqlBuilder.Parameters, AutoMapping)
+		public Insert(bool AutoMapping = true) : this(SqlBuilder.DefaultFormatter, AutoMapping)
 		{
 		}
 
-		public Insert(IParameters parameters, bool AutoMapping = true)
+		public Insert(IFormatter formatter, bool AutoMapping = true)
 		{
-			this.Parameters = parameters;
-			this.Columns = new ColumnsListSimple(this.Parameters);
-			this.Values = new ValueList(this.Parameters);
+			this.Formatter = formatter;
+			this.Columns = new ColumnsListSimple(this.Formatter);
+			this.Values = new ValueList(this.Formatter);
 			if (AutoMapping)
 				this.Mapping();
 		}
@@ -57,7 +57,7 @@ namespace SqlBuilder
 				{
 					this.Columns.Append(columnName == string.Empty ? property.Name.ToLower() : columnName);
 					if (defaultValue == string.Empty)
-						this.Values.Append(this.Parameters.Parameter + property.Name.ToLower());
+						this.Values.Append(this.Formatter.Parameter + property.Name.ToLower());
 					else
 						this.Values.Append(defaultValue);
 				}

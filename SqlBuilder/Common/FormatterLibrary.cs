@@ -3,19 +3,19 @@
 namespace SqlBuilder
 {
 
-	public class ParametersLibrary
+	public static class FormatterLibrary
 	{
 
 		/// <summary>
 		/// MySql configuration defaults
 		/// </summary>
-		public static IParameters MySql
+		public static IFormatter MySql
 		{
 			get
 			{
-				return new Parameters()
+				return new Formatter()
 				{
-					Type = Enums.SqlVersion.MySql,
+					Type = Enums.SqlType.MySql,
 					EscapeEnabled = true,
 					TableEscapeLeft = '`',
 					TableEscapeRight = '`',
@@ -31,13 +31,13 @@ namespace SqlBuilder
 		/// <summary>
 		/// MsSql configuration defaults
 		/// </summary>
-		public static IParameters MsSql
+		public static IFormatter MsSql
 		{
 			get
 			{
-				return new Parameters()
+				return new Formatter()
 				{
-					Type = Enums.SqlVersion.MsSql,
+					Type = Enums.SqlType.MsSql,
 					EscapeEnabled = true,
 					TableEscapeLeft = '[',
 					TableEscapeRight = ']',

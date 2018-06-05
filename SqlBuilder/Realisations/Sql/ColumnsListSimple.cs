@@ -8,7 +8,7 @@ namespace SqlBuilder.Sql
 	public class ColumnsListSimple : ColumnsList, IColumnsListSimple
 	{
 
-		public ColumnsListSimple(IParameters parameters) : base(parameters)
+		public ColumnsListSimple(IFormatter parameters) : base(parameters)
 		{
 			this.Parameters = parameters;
 		}

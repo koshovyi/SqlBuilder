@@ -11,7 +11,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Reflection")]
 		public void GetTableName()
 		{
-			SqlBuilder.Parameters = ParametersLibrary.MySql;
+			SqlBuilder.DefaultFormatter = FormatterLibrary.MySql;
 
 			string tab_books = Reflection.GetTableName<DataBaseDemo.Book>();
 			Assert.AreEqual("tab_books", tab_books);

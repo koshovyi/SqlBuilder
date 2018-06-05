@@ -10,7 +10,7 @@ namespace SqlBuilder
 
 		public string TableAlias { get; set; }
 
-		public IParameters Parameters { get; set; }
+		public IFormatter Formatter { get; set; }
 
 		public IColumnsListAggregation Columns { get; set; }
 
@@ -20,18 +20,18 @@ namespace SqlBuilder
 
 		public IOrderByList OrderBy { get; set; }
 
-		public Select(string tableAlias = "") : this(SqlBuilder.Parameters, tableAlias)
+		public Select(string tableAlias = "") : this(SqlBuilder.DefaultFormatter, tableAlias)
 		{
 		}
 
-		public Select(IParameters parameters, string tableAlias = "")
+		public Select(IFormatter parameters, string tableAlias = "")
 		{
-			this.Parameters = parameters;
+			this.Formatter = parameters;
 			this.TableAlias = tableAlias;
-			this.Columns = new ColumnsListAggregation(this.Parameters);
-			this.Where = new WhereList(this.Parameters);
-			this.OrderBy = new OrderByList(this.Parameters);
-			this.GroupBy = new GroupByList(this.Parameters, this.Columns);
+			this.Columns = new ColumnsListAggregation(this.Formatter);
+			this.Where = new WhereList(this.Formatter);
+			this.OrderBy = new OrderByList(this.Formatter);
+			this.GroupBy = new GroupByList(this.Formatter, this.Columns);
 		}
 
 		public string GetSql()
@@ -66,10 +66,10 @@ namespace SqlBuilder
 
 		public static Select<T> SelectWherePK(params string[] Columns)
 		{
-			return SelectWherePK(SqlBuilder.Parameters, Columns);
+			return SelectWherePK(SqlBuilder.DefaultFormatter, Columns);
 		}
 
-		public static Select<T> SelectWherePK(IParameters parameters, params string[] Columns)
+		public static Select<T> SelectWherePK(IFormatter parameters, params string[] Columns)
 		{
 			string pk = Reflection.GetPrimaryKey<T>();
 			Select<T> result = new Select<T>(parameters);

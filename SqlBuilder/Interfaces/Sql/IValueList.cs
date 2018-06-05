@@ -8,7 +8,7 @@ namespace SqlBuilder.Interfaces
 	public interface IValueList
 	{
 
-		IParameters Parameters { get; }
+		IFormatter Parameters { get; }
 
 		string GetSql();
 

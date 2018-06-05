@@ -16,7 +16,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Query - Select")]
 		public void QuerySelectSimpleAllColumns()
 		{
-			SqlBuilder.Parameters = ParametersLibrary.MsSql;
+			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
 
 			string result = new Select<DataBaseDemo.Author>().GetSql();
 			string sql = "SELECT * FROM [tab_authors];";
@@ -27,7 +27,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Query - Select")]
 		public void QuerySelectSimpleAllColumnsAlias()
 		{
-			SqlBuilder.Parameters = ParametersLibrary.MsSql;
+			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
 
 			string result = new Select<DataBaseDemo.Author>("t").GetSql();
 			string sql = "SELECT 't'.* FROM [tab_authors] as 't';";
@@ -38,7 +38,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Query - Select")]
 		public void QuerySelectSimpleColumnsList()
 		{
-			SqlBuilder.Parameters = ParametersLibrary.MsSql;
+			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
 
 			Select<DataBaseDemo.Author> s = new Select<DataBaseDemo.Author>();
 			s.Columns.Append("a", "b", "c");
@@ -51,7 +51,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Query - Select")]
 		public void QuerySelectSimpleColumnsListStatic()
 		{
-			SqlBuilder.Parameters = ParametersLibrary.MsSql;
+			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
 
 			Select<DataBaseDemo.Author> s = Select<DataBaseDemo.Author>.SelectAll("a", "b", "c");
 			string result = s.GetSql();
@@ -63,7 +63,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Query - Select")]
 		public void QuerySelectSimpleColumnsListAlias()
 		{
-			SqlBuilder.Parameters = ParametersLibrary.MsSql;
+			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
 
 			Select<DataBaseDemo.Author> s = new Select<DataBaseDemo.Author>();
 			s.Columns.Append("a", "b", "c");
@@ -81,7 +81,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Query - Select")]
 		public void QuerySelectSimpleWherePK()
 		{
-			SqlBuilder.Parameters = ParametersLibrary.MsSql;
+			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
 
 			Select<DataBaseDemo.Author> s = new Select<DataBaseDemo.Author>();
 			s.Where.Equal(Reflection.GetPrimaryKey<DataBaseDemo.Author>());
@@ -94,7 +94,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Query - Select")]
 		public void QuerySelectSimpleWherePKStatic()
 		{
-			SqlBuilder.Parameters = ParametersLibrary.MsSql;
+			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
 
 			Select<DataBaseDemo.Author> s = Select<DataBaseDemo.Author>.SelectWherePK();
 			string result = s.GetSql();
@@ -106,7 +106,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Query - Select")]
 		public void QuerySelectSimpleWhereAnd()
 		{
-			SqlBuilder.Parameters = ParametersLibrary.MsSql;
+			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
 
 			Select<DataBaseDemo.Author> s = new Select<DataBaseDemo.Author>();
 			s.Where.Equal("first_name", "last_name");
@@ -119,7 +119,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Query - Select")]
 		public void QuerySelectSimpleWhereOr()
 		{
-			SqlBuilder.Parameters = ParametersLibrary.MsSql;
+			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
 
 			Select<DataBaseDemo.Author> s = new Select<DataBaseDemo.Author>();
 			s.Where.Equal("position").Or().EqualGreater("age");
@@ -136,7 +136,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Query - Select")]
 		public void QuerySelectSimpleOrderByAsc()
 		{
-			SqlBuilder.Parameters = ParametersLibrary.MsSql;
+			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
 
 			Select<DataBaseDemo.Author> s = new Select<DataBaseDemo.Author>();
 			s.OrderBy.Ascending("age");
@@ -149,7 +149,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Query - Select")]
 		public void QuerySelectSimpleOrderByDesc()
 		{
-			SqlBuilder.Parameters = ParametersLibrary.MsSql;
+			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
 
 			Select<DataBaseDemo.Author> s = new Select<DataBaseDemo.Author>();
 			s.OrderBy.Descending("age");
@@ -162,7 +162,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Query - Select")]
 		public void QuerySelectSimpleOrderByAscDesc()
 		{
-			SqlBuilder.Parameters = ParametersLibrary.MsSql;
+			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
 
 			Select<DataBaseDemo.Author> s = new Select<DataBaseDemo.Author>();
 			s.OrderBy.Ascending("age").Descending("amount");
@@ -179,7 +179,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Query - Select")]
 		public void QuerySelectGroupBySimple1()
 		{
-			SqlBuilder.Parameters = ParametersLibrary.MsSql;
+			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
 
 			Select<DataBaseDemo.Author> s = new Select<DataBaseDemo.Author>();
 			s.GroupBy.Append(false, "country", "city");
@@ -192,7 +192,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Query - Select")]
 		public void QuerySelectGroupBySimple2()
 		{
-			SqlBuilder.Parameters = ParametersLibrary.MsSql;
+			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
 
 			Select<DataBaseDemo.Author> s = new Select<DataBaseDemo.Author>();
 			s.GroupBy.Append(true, "country", "city");
@@ -205,7 +205,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Query - Select")]
 		public void QuerySelectGroupBySimple3()
 		{
-			SqlBuilder.Parameters = ParametersLibrary.MsSql;
+			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
 
 			Select<DataBaseDemo.Author> s = new Select<DataBaseDemo.Author>();
 			s.GroupBy.FuncMax("sm", "asm");
@@ -222,7 +222,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Query - Select")]
 		public void QuerySelectHard1()
 		{
-			SqlBuilder.Parameters = ParametersLibrary.MsSql;
+			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
 
 			Select<DataBaseDemo.Author> s = new Select<DataBaseDemo.Author>();
 			s.Columns.Append("s1", "s2", "s3").FuncMin("date");

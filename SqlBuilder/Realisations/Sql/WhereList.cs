@@ -10,7 +10,7 @@ namespace SqlBuilder.Sql
 
 		private readonly List<IWhere> _expressions;
 
-		public IParameters Parameters { get; private set; }
+		public IFormatter Parameters { get; private set; }
 
 		public Enums.WhereLogic LogicOperator { get; private set; } = Enums.WhereLogic.AND;
 
@@ -28,7 +28,7 @@ namespace SqlBuilder.Sql
 
 		#region Construcor
 
-		public WhereList(IParameters parameters)
+		public WhereList(IFormatter parameters)
 		{
 			this._expressions = new List<IWhere>();
 			this.Parameters = parameters;
@@ -88,7 +88,7 @@ namespace SqlBuilder.Sql
 
 		private IWhere CreateParenthesis(Enums.Parenthesis Parenthesis)
 		{
-			IWhere exp = new Where(Enums.WhereType.Unknown, Enums.WhereLogic.Unknown, Parenthesis);
+			IWhere exp = new Where(Enums.WhereType.Unknown, this.LogicOperator, Parenthesis);
 			exp.Value = string.Empty;
 			this.Append(exp);
 			return exp;
@@ -234,23 +234,28 @@ namespace SqlBuilder.Sql
 
 		#region Parenthesis
 
-		public IWhereList OpenParenthesis()
+		public IWhereList OpenParenthesis(int count = 1)
 		{
-			this.CreateParenthesis(Enums.Parenthesis.OpenParenthesis);
-			this.HasOpenedParenthesis = true;
-			this.Level++;
+			for (int i = 0; i < count; i++)
+			{
+				this.CreateParenthesis(Enums.Parenthesis.OpenParenthesis);
+				this.HasOpenedParenthesis = true;
+				this.Level++;
+			}
 			return this;
 		}
 
-		public IWhereList CloseParenthesis()
+		public IWhereList CloseParenthesis(int count = 1)
 		{
-			if (this.Level == 0)
-				throw new Exceptions.ParenthesisExpectedException();
+			for (int i = 0; i < count; i++)
+			{
+				if (this.Level == 0)
+					throw new Exceptions.ParenthesisExpectedException();
 
-			this.CreateParenthesis(Enums.Parenthesis.CloseParenthesis);
-			this.Level--;
-			this.HasOpenedParenthesis = this.Level > 0;
-
+				this.CreateParenthesis(Enums.Parenthesis.CloseParenthesis);
+				this.Level--;
+				this.HasOpenedParenthesis = this.Level > 0;
+			}
 			return this;
 		}
 
@@ -264,32 +269,49 @@ namespace SqlBuilder.Sql
 			if (Where && this._expressions.Count > 0)
 				sb.Append("WHERE ");
 
-			bool logic = false;
+			bool logic = false, lastparenthesis = false;
 			foreach(IWhere expression in this._expressions)
 			{
+				if (logic && !lastparenthesis && expression.Parenthesis != Enums.Parenthesis.CloseParenthesis)
+				{
+					sb.Append(' ');
+					sb.Append(GetSqlCurrentLogic(expression.Logic));
+					sb.Append(' ');
+				}
+				else
+					logic = true;
+
 				if (expression.Parenthesis == Enums.Parenthesis.OpenParenthesis)
+				{
 					sb.Append('(');
+					lastparenthesis = true;
+				}
 				else if (expression.Parenthesis == Enums.Parenthesis.CloseParenthesis)
+				{
 					sb.Append(')');
+					lastparenthesis = false;
+				}
 				else
 				{
-					if (logic)
-						sb.Append(" " + GetSQLCurrentLogic() + " ");
-					else
-						logic = true;
 					sb.Append(expression.Value);
+					lastparenthesis = false;
 				}
 			}
 
 			return sb.ToString();
 		}
 
-		public string GetSQLCurrentLogic()
+		public string GetSqlCurrentLogic()
 		{
-			switch (this.LogicOperator)
+			return GetSqlCurrentLogic(this.LogicOperator);
+		}
+
+		public string GetSqlCurrentLogic(Enums.WhereLogic Logic)
+		{
+			switch (Logic)
 			{
 				case Enums.WhereLogic.NOT:
-					return "NOT";
+					return "AND NOT";
 				case Enums.WhereLogic.OR:
 					return "OR";
 				default:
@@ -302,7 +324,7 @@ namespace SqlBuilder.Sql
 
 		public override string ToString()
 		{
-			return base.ToString();
+			return this.GetSql();
 		}
 
 	}

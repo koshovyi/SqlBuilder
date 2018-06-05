@@ -16,7 +16,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Query - Insert")]
 		public void QueryInsertSimple1()
 		{
-			SqlBuilder.Parameters = ParametersLibrary.MsSql;
+			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
 
 			Insert<DataBaseDemo.Author> a = new Insert<DataBaseDemo.Author>();
 			
@@ -29,7 +29,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Query - Insert")]
 		public void QueryInsertSimple2()
 		{
-			SqlBuilder.Parameters = ParametersLibrary.MsSql;
+			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
 
 			Insert<DataBaseDemo.Author> a = new Insert<DataBaseDemo.Author>();
 			a.Columns.Append("created_at", "updated_at");
@@ -44,7 +44,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Query - Insert")]
 		public void QueryInsertSimple3()
 		{
-			SqlBuilder.Parameters = ParametersLibrary.MsSql;
+			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
 
 			Insert<DataBaseDemo.Author> a = new Insert<DataBaseDemo.Author>();
 			a.Columns.Append("p1", "p2", "p3");
@@ -59,7 +59,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Query - Insert")]
 		public void QueryInsertSimple4()
 		{
-			SqlBuilder.Parameters = ParametersLibrary.MsSql;
+			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
 
 			Insert<DataBaseDemo.Author> a = new Insert<DataBaseDemo.Author>();
 			a.AppendParameters("p1", "p2", "p3");
@@ -73,7 +73,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Query - Insert")]
 		public void QueryInsertSimple5()
 		{
-			SqlBuilder.Parameters = ParametersLibrary.MsSql;
+			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
 
 			Insert<DataBaseDemo.Author> a = new Insert<DataBaseDemo.Author>(false);
 			a.AppendParameters("p1", "p2", "p3");
@@ -87,7 +87,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Query - Insert")]
 		public void QueryInsertStatic1()
 		{
-			SqlBuilder.Parameters = ParametersLibrary.MsSql;
+			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
 
 			string result = Insert<DataBaseDemo.Author>.InsertWithMapping("p1", "p2", "p3").GetSql();
 			string sql = "INSERT INTO [tab_authors]([firstname], [lastname], [p1], [p2], [p3]) VALUES(@firstname, @lastname, @p1, @p2, @p3);";
@@ -98,7 +98,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Query - Insert")]
 		public void QueryInsertStatic2()
 		{
-			SqlBuilder.Parameters = ParametersLibrary.MsSql;
+			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
 
 			string result = Insert<DataBaseDemo.Author>.InsertWithoutMapping("p1", "p2", "p3").GetSql();
 			string sql = "INSERT INTO [tab_authors]([p1], [p2], [p3]) VALUES(@p1, @p2, @p3);";

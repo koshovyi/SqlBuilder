@@ -13,21 +13,21 @@ namespace SqlBuilder
 	public class Update<T> : IStatementUpdate
 	{
 
-		public IParameters Parameters { get; set; }
+		public IFormatter Formatter { get; set; }
 
 		public ISetList Sets { get; set; }
 
 		public IWhereList Where { get; set; }
 
-		public Update() : this(SqlBuilder.Parameters)
+		public Update() : this(SqlBuilder.DefaultFormatter)
 		{
 		}
 
-		public Update(IParameters parameters)
+		public Update(IFormatter parameters)
 		{
-			this.Parameters = parameters;
-			this.Sets = new SetList(this.Parameters);
-			this.Where = new WhereList(this.Parameters);
+			this.Formatter = parameters;
+			this.Sets = new SetList(this.Formatter);
+			this.Where = new WhereList(this.Formatter);
 		}
 
 		public string GetSql()
