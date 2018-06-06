@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using SqlBuilder.Linq;
 
-namespace SqlBuilder.Tests.Tests.Linq
+namespace SqlBuilder.Tests
 {
 
 	[TestClass]

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using SqlBuilder.Linq;
 
-namespace SqlBuilder.Tests.Tests.Linq
+namespace SqlBuilder.Tests
 {
 
 	[TestClass]
@@ -15,6 +15,8 @@ namespace SqlBuilder.Tests.Tests.Linq
 		[TestCategory("Linq")]
 		public void LinqInsertColumns1()
 		{
+			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
+
 			var q1 = new Insert<DataBaseDemo.Author>(false);
 			q1.ColumnsLinq(x => x.Append("a", "b", "c")).ValuesLinq(x=>x.Append("a", "b", "c"));
 			string result = q1.GetSql();
@@ -26,6 +28,8 @@ namespace SqlBuilder.Tests.Tests.Linq
 		[TestCategory("Linq")]
 		public void LinqInsertColumns2()
 		{
+			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
+
 			string result = Query<DataBaseDemo.Author>.CreateInsert(false).ColumnsLinq(x => x.Append("a", "b", "c")).ValuesLinq(x => x.Append("a", "b", "c")).GetSql();
 			string sql = "INSERT INTO [tab_authors]([a], [b], [c]) VALUES(a, b, c);";
 			Assert.AreEqual(result, sql);

@@ -4,10 +4,11 @@
 	public enum SqlQuery : uint
 	{
 		None = 0,
-		Select = 1,
-		Update = 2,
-		Delete = 3,
-		Insert = 4,
+		Raw = 1,
+		Select = 2,
+		Update = 3,
+		Delete = 4,
+		Insert = 5,
 	}
 
 }

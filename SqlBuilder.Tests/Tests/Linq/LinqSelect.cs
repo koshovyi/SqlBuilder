@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using SqlBuilder.Linq;
 
-namespace SqlBuilder.Tests.Tests.Linq
+namespace SqlBuilder.Tests
 {
 
 	[TestClass]
@@ -15,6 +15,8 @@ namespace SqlBuilder.Tests.Tests.Linq
 		[TestCategory("Linq")]
 		public void LinqSelectColumns()
 		{
+			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
+
 			var q1 = new Select<DataBaseDemo.Author>();
 			q1.ColumnsLinq(x => x.Append("a", "b", "c"));
 			string result = q1.GetSql();
@@ -26,6 +28,8 @@ namespace SqlBuilder.Tests.Tests.Linq
 		[TestCategory("Linq")]
 		public void LinqSelectWhere()
 		{
+			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
+
 			var q1 = new Select<DataBaseDemo.Author>();
 			q1.WhereLinq(x=>x.Equal("s1").IsNULL("s2"));
 			string result = q1.GetSql();
@@ -37,6 +41,8 @@ namespace SqlBuilder.Tests.Tests.Linq
 		[TestCategory("Linq")]
 		public void LinqSelectOrderBy()
 		{
+			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
+
 			var q1 = new Select<DataBaseDemo.Author>();
 			q1.OrderByLinq(x => x.Ascending("id").Descending("date"));
 			string result = q1.GetSql();
@@ -48,6 +54,8 @@ namespace SqlBuilder.Tests.Tests.Linq
 		[TestCategory("Linq")]
 		public void LinqSelectGroupBy()
 		{
+			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
+
 			var q1 = new Select<DataBaseDemo.Author>();
 			q1.GroupByLinq(x => x.FuncMax("max", "mx").FuncMin("min", "mn").FuncCount("all"));
 			string result = q1.GetSql();
@@ -59,6 +67,8 @@ namespace SqlBuilder.Tests.Tests.Linq
 		[TestCategory("Linq")]
 		public void LinqSelect1()
 		{
+			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
+
 			var q1 = new Select<DataBaseDemo.Author>();
 			q1.ColumnsLinq(x => x.Append("a", "b", "c").AppendAlias("d", "ddd").FuncMax("price")).WhereLinq(w=>w.Equal("a", "b", "c").IsNULL("active")).OrderByLinq(x=>x.Ascending("created_at"));
 			string result = q1.GetSql();

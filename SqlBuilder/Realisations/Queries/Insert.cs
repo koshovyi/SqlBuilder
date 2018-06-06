@@ -94,14 +94,14 @@ namespace SqlBuilder
 			return this.GetSql();
 		}
 
-		public static Insert<T> InsertWithMapping(params string[] parameters)
+		public static Insert<T> Mapping(params string[] parameters)
 		{
-			Insert<T> result = new Insert<T>();
+			Insert<T> result = new Insert<T>(true);
 			result.AppendParameters(parameters);
 			return result;
 		}
 
-		public static Insert<T> InsertWithoutMapping(params string[] parameters)
+		public static Insert<T> WithoutMapping(params string[] parameters)
 		{
 			Insert<T> result = new Insert<T>(false);
 			result.AppendParameters(parameters);

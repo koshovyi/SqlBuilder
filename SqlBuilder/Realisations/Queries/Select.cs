@@ -67,12 +67,12 @@ namespace SqlBuilder
 			return result;
 		}
 
-		public static Select<T> SelectWhere(params string[] columns)
+		public static Select<T> SelectWherePK(params string[] columns)
 		{
-			return SelectWhere(SqlBuilder.DefaultFormatter, columns);
+			return SelectWherePK(SqlBuilder.DefaultFormatter, columns);
 		}
 
-		public static Select<T> SelectWhere(IFormatter parameters, params string[] columns)
+		public static Select<T> SelectWherePK(IFormatter parameters, params string[] columns)
 		{
 			string pk = Reflection.GetPrimaryKey<T>();
 			Select<T> result = new Select<T>(parameters);
