@@ -8,8 +8,7 @@ namespace SqlBuilder.Tests.DataBaseDemo
 	public class Book
 	{
 
-		[IgnoreInsertAttribute]
-		[PrimaryKey]
+		[PrimaryKey, IgnoreInsert, IgnoreUpdate]
 		public int ID { get; set; }
 
 		[Column("created_at")]
@@ -20,7 +19,14 @@ namespace SqlBuilder.Tests.DataBaseDemo
 
 		public int Year { get; set; }
 
+		[ForeignKey]
 		public int ID_Author { get; set; }
+
+		[ForeignKey]
+		public int ID_Publisher { get; set; }
+
+		[ForeignKey]
+		public int ID_Shop { get; set; }
 
 	}
 

@@ -44,6 +44,22 @@ namespace SqlBuilder
 			throw new Exceptions.PrimaryKeyNotFoundException();
 		}
 
+		public static string[] GetForeignKeys<T>()
+		{
+			Type type = typeof(T);
+			List<string> result = new List<string>();
+			foreach (PropertyInfo property in type.GetProperties())
+			{
+				foreach (ForeignKeyAttribute pk in property.GetCustomAttributes(typeof(ForeignKeyAttribute), false))
+				{
+					result.Add(property.Name);
+					break;
+				}
+			}
+
+			return result.ToArray();
+		}
+
 	}
 
 }

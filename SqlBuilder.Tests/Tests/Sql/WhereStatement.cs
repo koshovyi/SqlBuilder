@@ -11,6 +11,37 @@ namespace SqlBuilder.Tests
 	public class WhereStatement
 	{
 
+		#region Raw
+
+		[TestMethod]
+		[TestCategory("Where - Equal, NotEqual")]
+		public void RawSimple1()
+		{
+			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
+
+			WhereList w = new WhereList(SqlBuilder.DefaultFormatter);
+			w.Raw("[a] IS NULL AND [b]=2 AND [c] NOT LIKE '%text%'");
+			string result = w.GetSql();
+			string sql = "[a] IS NULL AND [b]=2 AND [c] NOT LIKE '%text%'";
+			Assert.AreEqual(sql, result);
+		}
+
+		[TestMethod]
+		[TestCategory("Where - Equal, NotEqual")]
+		public void RawSimple2()
+		{
+			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
+
+			WhereList w = new WhereList(SqlBuilder.DefaultFormatter);
+			w.Raw("[a] NOT LIKE '%text%'");
+			w.Equal("id");
+			string result = w.GetSql();
+			string sql = "[a] NOT LIKE '%text%' AND [id]=@id";
+			Assert.AreEqual(sql, result);
+		}
+
+		#endregion
+
 		#region Equal, NotEqual
 
 		[TestMethod]
@@ -327,6 +358,33 @@ namespace SqlBuilder.Tests
 			w.Greater("gr");
 			string result = w.GetSql();
 			string sql = "((([a] IS NULL OR [b] IS NULL) AND ([c] IS NULL OR [d] IS NULL)) AND [ls]<@ls) AND [gr]>@gr";
+			Assert.AreEqual(sql, result);
+		}
+
+		[TestMethod]
+		[TestCategory("Where - Parenthesis")]
+		public void WhereParenthesis4()
+		{
+			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
+
+			WhereList w = new WhereList(SqlBuilder.DefaultFormatter);
+			w.RawParenthesis("[a] IS NULL OR [b] IS NULL");
+			string result = w.GetSql();
+			string sql = "([a] IS NULL OR [b] IS NULL)";
+			Assert.AreEqual(sql, result);
+		}
+
+		[TestMethod]
+		[TestCategory("Where - Parenthesis")]
+		public void WhereParenthesis5()
+		{
+			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
+
+			WhereList w = new WhereList(SqlBuilder.DefaultFormatter);
+			w.RawParenthesis("[a] IS NULL OR [b] IS NULL");
+			w.RawParenthesis("[c] IS NULL OR [d] IS NULL");
+			string result = w.GetSql();
+			string sql = "([a] IS NULL OR [b] IS NULL) AND ([c] IS NULL OR [d] IS NULL)";
 			Assert.AreEqual(sql, result);
 		}
 

@@ -32,6 +32,8 @@ namespace SqlBuilder.Interfaces
 
 		IWhereList CloseParenthesis(int count = 1);
 
+		IWhereList RawParenthesis(string rawSql);
+
 		//Logic
 		IWhereList And();
 
@@ -40,6 +42,8 @@ namespace SqlBuilder.Interfaces
 		IWhereList Not();
 
 		//Exp eq
+		IWhereList Raw(string rawSql);
+
 		IWhereList Equal(params string[] columns);
 
 		IWhereList EqualValue(string column, string value);

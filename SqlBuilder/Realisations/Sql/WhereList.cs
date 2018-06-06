@@ -78,27 +78,36 @@ namespace SqlBuilder.Sql
 			this._expressions.Clear();
 		}
 
-		private void CreateExpression(Enums.WhereType Type, string Column, string Value, string prefix = "", string postfix = "")
+		private void CreateExpression(Enums.WhereType type, string column, string value, string prefix = "", string postfix = "")
 		{
-			IWhere exp = new Where(Type, this.LogicOperator);
-			exp.Column = Column;
+			IWhere exp = new Where(type, this.LogicOperator);
+			exp.Column = column;
 			exp.IsColumn = true;
-			exp.Value = Value;
+			exp.Value = value;
 			exp.Prefix = prefix;
 			exp.Postfix = postfix;
 			this.Append(exp);
 		}
 
-		private void CreateParenthesis(Enums.Parenthesis Parenthesis)
+		private void CreateParenthesis(Enums.Parenthesis parenthesis, string value = "")
 		{
-			IWhere exp = new Where(Enums.WhereType.None, this.LogicOperator, Parenthesis);
-			exp.Value = string.Empty;
+			IWhere exp = new Where(Enums.WhereType.None, this.LogicOperator, parenthesis);
+			exp.Value = value;
 			this.Append(exp);
 		}
 
 		#endregion
 
 		#region Expressions
+
+		public IWhereList Raw(string rawSql)
+		{
+			IWhere exp = new Where(Enums.WhereType.Raw, this.LogicOperator);
+			exp.IsColumn = false;
+			exp.Value = rawSql;
+			this.Append(exp);
+			return this;
+		}
 
 		public IWhereList EqualValue(string column, string value)
 		{
@@ -250,6 +259,14 @@ namespace SqlBuilder.Sql
 				this.Level--;
 				this.HasOpenedParenthesis = this.Level > 0;
 			}
+			return this;
+		}
+
+		public IWhereList RawParenthesis(string rawSql)
+		{
+			this.OpenParenthesis();
+			this.Raw(rawSql);
+			this.CloseParenthesis();
 			return this;
 		}
 

@@ -84,7 +84,7 @@ namespace SqlBuilder.Tests
 			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
 
 			Select<DataBaseDemo.Author> s = new Select<DataBaseDemo.Author>();
-			s.Where.Equal(Reflection.GetPrimaryKey<DataBaseDemo.Author>());
+			s.Where.Equal(global::SqlBuilder.Reflection.GetPrimaryKey<DataBaseDemo.Author>());
 			string result = s.GetSql();
 			string sql = "SELECT * FROM [tab_authors] WHERE [ID]=@ID;";
 			Assert.AreEqual(sql, result);
@@ -97,7 +97,7 @@ namespace SqlBuilder.Tests
 			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
 
 			Select<DataBaseDemo.Author> s = new Select<DataBaseDemo.Author>("t");
-			s.Where.Equal(Reflection.GetPrimaryKey<DataBaseDemo.Author>());
+			s.Where.Equal(global::SqlBuilder.Reflection.GetPrimaryKey<DataBaseDemo.Author>());
 			string result = s.GetSql();
 			string sql = "SELECT 't'.* FROM [tab_authors] as 't' WHERE [ID]=@ID;";
 			Assert.AreEqual(sql, result);
