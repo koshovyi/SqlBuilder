@@ -3,8 +3,9 @@
 
 	public enum OrderDirection : uint
 	{
-		ASC = 0,
-		DESC = 1
+		None = 0,
+		ASC = 1,
+		DESC = 2
 	}
 
 }

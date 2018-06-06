@@ -14,10 +14,10 @@ namespace SqlBuilder.Sql
 
 		public string Column { get; set; }
 
-		public OrderBy(string Column, OrderDirection Direction = OrderDirection.ASC)
+		public OrderBy(string column, OrderDirection direction = OrderDirection.ASC)
 		{
-			this.Column = Column;
-			this.Direction = Direction;
+			this.Column = column;
+			this.Direction = direction;
 		}
 
 		public string GetDirection()
@@ -32,14 +32,14 @@ namespace SqlBuilder.Sql
 			}
 		}
 
-		public static IOrderBy Ascending(string Column)
+		public static IOrderBy Ascending(string column)
 		{
-			return new OrderBy(Column, OrderDirection.ASC);
+			return new OrderBy(column, OrderDirection.ASC);
 		}
 
-		public static IOrderBy Descending(string Column)
+		public static IOrderBy Descending(string column)
 		{
-			return new OrderBy(Column, OrderDirection.DESC);
+			return new OrderBy(column, OrderDirection.DESC);
 		}
 
 	}

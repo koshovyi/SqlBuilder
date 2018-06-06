@@ -21,8 +21,8 @@ namespace SqlBuilder.Tests
 			GroupByList g = new GroupByList(SqlBuilder.DefaultFormatter, c);
 
 			g.Append(false, "a", "b", "c");
-			string result = g.GetSql(true, "g");
-			string sql = "GROUP BY [a], [b], [c]";
+			string result = g.GetSql();
+			string sql = "[a], [b], [c]";
 			Assert.AreEqual(sql, result);
 		}
 
@@ -56,6 +56,22 @@ namespace SqlBuilder.Tests
 			Assert.AreEqual(sql, result);
 			Assert.AreEqual(c.Count, g.Count);
 		}
+
+		[TestMethod]
+		[TestCategory("GroupBy")]
+		public void GroupBySimpleListAlias()
+		{
+			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
+
+			ColumnsListAggregation c = new ColumnsListAggregation(SqlBuilder.DefaultFormatter);
+			GroupByList g = new GroupByList(SqlBuilder.DefaultFormatter, c);
+
+			g.Append(false, "a", "b", "c");
+			string result = g.GetSql("t");
+			string sql = "'t'.[a], 't'.[b], 't'.[c]";
+			Assert.AreEqual(sql, result);
+		}
+
 
 		[TestMethod]
 		[TestCategory("GroupBy")]

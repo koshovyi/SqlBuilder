@@ -26,8 +26,8 @@ namespace SqlBuilder.Tests.Tests.Linq
 		[TestCategory("Linq")]
 		public void LinqUpdateColumns2()
 		{
-			string result = Query<DataBaseDemo.Author>.CreateDelete().WhereLinq(x=>x.Equal("a")).GetSql();
-			string sql = "DELETE FROM [tab_authors] WHERE [a]=@a;";
+			string result = Query<DataBaseDemo.Author>.CreateUpdate().SetsLinq(x=>x.AppendValue("count", "123")).WhereLinq(x=>x.Equal("a")).GetSql();
+			string sql = "UPDATE [tab_authors] SET [count]=123 WHERE [a]=@a;";
 			Assert.AreEqual(result, sql);
 		}
 

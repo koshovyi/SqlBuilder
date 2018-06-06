@@ -65,7 +65,7 @@ namespace SqlBuilder.Tests
 
 		[TestMethod]
 		[TestCategory("Columns - List")]
-		public void ColumnsSimpleAlias()
+		public void ColumnsSimpleAlias1()
 		{
 			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
 
@@ -74,6 +74,20 @@ namespace SqlBuilder.Tests
 			c.AppendAlias("first_name", "f");
 			string result = c.GetSql();
 			string sql = "[last_name] as 'l', [first_name] as 'f'";
+			Assert.AreEqual(sql, result);
+		}
+
+		[TestMethod]
+		[TestCategory("Columns - List")]
+		public void ColumnsSimpleAlias2()
+		{
+			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
+
+			ColumnsListSimple c = new ColumnsListSimple(SqlBuilder.DefaultFormatter);
+			c.AppendAlias("last_name", "l");
+			c.AppendAlias("first_name", "f");
+			string result = c.GetSql("tbl");
+			string sql = "'tbl'.[last_name] as 'l', 'tbl'.[first_name] as 'f'";
 			Assert.AreEqual(sql, result);
 		}
 

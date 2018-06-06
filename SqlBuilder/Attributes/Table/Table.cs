@@ -8,9 +8,9 @@ namespace SqlBuilder.Attributes
 
 		public string TableName { get; set; }
 
-		public TableNameAttribute(string TableName)
+		public TableNameAttribute(string tableName)
 		{
-			this.TableName = TableName;
+			this.TableName = tableName;
 		}
 
 		public override string ToString()

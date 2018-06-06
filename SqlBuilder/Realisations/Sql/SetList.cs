@@ -53,14 +53,14 @@ namespace SqlBuilder.Sql
 			this._expressions.Clear();
 		}
 
-		public string GetSql()
+		public string GetSql(string tableAlias = "")
 		{
 			StringBuilder sb = new StringBuilder();
 			foreach(ISet value in this._expressions)
 			{
 				if (sb.Length > 0)
 					sb.Append(", ");
-				sb.Append(SqlBuilder.FormatColumn(value.Name, this.Parameters));
+				sb.Append(SqlBuilder.FormatColumn(value.Name, this.Parameters, tableAlias));
 				sb.Append('=');
 				sb.Append(value.Value);
 			}

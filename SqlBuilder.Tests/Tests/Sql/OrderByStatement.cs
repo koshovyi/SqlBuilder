@@ -93,6 +93,22 @@ namespace SqlBuilder.Tests
 			Assert.AreEqual(sql, result);
 		}
 
+		[TestMethod]
+		[TestCategory("OrderBy")]
+		public void OrderByASCAndDESCAlias()
+		{
+			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
+
+			OrderByList o = new OrderByList(SqlBuilder.DefaultFormatter);
+			o.Ascending("a");
+			o.Descending("b");
+			o.Ascending("c");
+			o.Descending("d");
+			string result = o.GetSql("t");
+			string sql = "'t'.[a] ASC, 't'.[b] DESC, 't'.[c] ASC, 't'.[d] DESC";
+			Assert.AreEqual(sql, result);
+		}
+
 	}
 
 }

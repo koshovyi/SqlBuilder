@@ -15,6 +15,8 @@ namespace SqlBuilder
 
 		public IFormatter Formatter { get; set; }
 
+		public Enums.SqlQuery Query { get; private set; }
+
 		public string TableAlias { get; set; }
 
 		public ISetList Sets { get; set; }
@@ -27,6 +29,7 @@ namespace SqlBuilder
 
 		public Update(IFormatter parameters, string tableAlias = "")
 		{
+			this.Query = Enums.SqlQuery.Update;
 			this.Formatter = parameters;
 			this.TableAlias = tableAlias;
 			this.Sets = new SetList(this.Formatter);

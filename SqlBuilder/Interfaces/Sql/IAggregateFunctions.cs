@@ -8,10 +8,13 @@ namespace SqlBuilder.Interfaces
 	public interface IAggregateFunctions<out T>
 	{
 
-		T FuncMax(string Name, string Alias = "");
-		T FuncMin(string Name, string Alias = "");
-		T FuncCount(string Name, string Alias = "");
-		T FuncSum(string Name, string Alias = "");
+		T FuncMax(string name, string aliasName = "");
+
+		T FuncMin(string name, string aliasName = "");
+
+		T FuncCount(string name, string aliasName = "");
+
+		T FuncSum(string name, string aliasName = "");
 
 	}
 

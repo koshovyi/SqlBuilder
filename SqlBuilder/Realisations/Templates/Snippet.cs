@@ -30,17 +30,17 @@ namespace SqlBuilder.Templates
 			}
 		}
 
-		public Snippet(string Name, string Code, string Prefix = "", string Postfix = "")
+		public Snippet(string name, string code, string prefix = "", string postfix = "")
 		{
-			this.Name = Name;
-			this.Code = Code;
-			this.Prefix = Prefix;
-			this.Postfix = Postfix;
+			this.Name = name;
+			this.Code = code;
+			this.Prefix = prefix;
+			this.Postfix = postfix;
 		}
 
-		private bool IsValid(string Name)
+		private bool IsValid(string name)
 		{
-			return Regex.IsMatch(Name, "^([A-Za-z0-9_]+)$", RegexOptions.IgnoreCase | RegexOptions.Singleline);
+			return Regex.IsMatch(name, "^([A-Za-z0-9_]+)$", RegexOptions.IgnoreCase | RegexOptions.Singleline);
 		}
 		
 	}

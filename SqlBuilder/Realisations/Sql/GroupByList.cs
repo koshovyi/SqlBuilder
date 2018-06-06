@@ -40,10 +40,10 @@ namespace SqlBuilder.Sql
 			return this;
 		}
 
-		public IGroupByList AppendWithColumn(IGroupBy expression, string Column, string ColumnAlias, string Prefix = "", string Postfix = "")
+		public IGroupByList AppendWithColumn(IGroupBy expression, string column, string columnAlias, string prefix = "", string postfix = "")
 		{
 			this._expressions.Add(expression);
-			this.Columns.AppendAlias(Column, ColumnAlias, Prefix, Postfix);
+			this.Columns.AppendAlias(column, columnAlias, prefix, postfix);
 			return this;
 		}
 
@@ -64,41 +64,39 @@ namespace SqlBuilder.Sql
 
 		#region Aggregation
 
-		public IGroupByList FuncMax(string Name, string Alias = "")
+		public IGroupByList FuncMax(string name, string aliasName = "")
 		{
-			GroupBy expression = new GroupBy(Name);
-			this.AppendWithColumn(expression, Name, Alias, "MAX(", ")");
+			GroupBy expression = new GroupBy(name);
+			this.AppendWithColumn(expression, name, aliasName, "MAX(", ")");
 			return this;
 		}
 
-		public IGroupByList FuncMin(string Name, string Alias = "")
+		public IGroupByList FuncMin(string name, string aliasName = "")
 		{
-			GroupBy expression = new GroupBy(Name);
-			this.AppendWithColumn(expression, Name, Alias, "MIN(", ")");
+			GroupBy expression = new GroupBy(name);
+			this.AppendWithColumn(expression, name, aliasName, "MIN(", ")");
 			return this;
 		}
 
-		public IGroupByList FuncCount(string Name, string Alias = "")
+		public IGroupByList FuncCount(string name, string aliasName = "")
 		{
-			GroupBy expression = new GroupBy(Name);
-			this.AppendWithColumn(expression, Name, Alias, "COUNT(", ")");
+			GroupBy expression = new GroupBy(name);
+			this.AppendWithColumn(expression, name, aliasName, "COUNT(", ")");
 			return this;
 		}
 
-		public IGroupByList FuncSum(string Name, string Alias = "")
+		public IGroupByList FuncSum(string name, string aliasName = "")
 		{
-			GroupBy expression = new GroupBy(Name);
-			this.AppendWithColumn(expression, Name, Alias, "SUM(", ")");
+			GroupBy expression = new GroupBy(name);
+			this.AppendWithColumn(expression, name, aliasName, "SUM(", ")");
 			return this;
 		}
 
 		#endregion
 
-		public string GetSql(bool GroupBy = false, string aliasTable = "")
+		public string GetSql(string tableAlias = "")
 		{
 			StringBuilder sb = new StringBuilder();
-			if (GroupBy && this._expressions.Count > 0)
-				sb.Append("GROUP BY ");
 
 			bool sep = false;
 			foreach (IGroupBy expression in this._expressions)
@@ -107,7 +105,7 @@ namespace SqlBuilder.Sql
 					sb.Append(", ");
 				else
 					sep = true;
-				sb.Append(SqlBuilder.FormatColumn(expression.Column, this.Parameters));
+				sb.Append(SqlBuilder.FormatColumn(expression.Column, this.Parameters, tableAlias));
 			}
 
 			return sb.ToString();

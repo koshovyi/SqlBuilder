@@ -10,7 +10,7 @@ namespace SqlBuilder.Interfaces
 
 		IFormatter Parameters { get; }
 
-		string GetSql();
+		string GetSql(string tableAlias = "");
 
 		int Count { get; }
 

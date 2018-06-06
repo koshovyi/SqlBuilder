@@ -15,7 +15,7 @@ namespace SqlBuilder.Tests
 
 		[TestMethod]
 		[TestCategory("Where - Equal, NotEqual")]
-		public void AndEqualSimple()
+		public void AndEqualSimple1()
 		{
 			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
 
@@ -23,6 +23,19 @@ namespace SqlBuilder.Tests
 			w.Equal("a", "b", "c");
 			string result = w.GetSql();
 			string sql = "[a]=@a AND [b]=@b AND [c]=@c";
+			Assert.AreEqual(sql, result);
+		}
+
+		[TestMethod]
+		[TestCategory("Where - Equal, NotEqual")]
+		public void AndEqualSimple2()
+		{
+			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
+
+			WhereList w = new WhereList(SqlBuilder.DefaultFormatter);
+			w.Equal("a", "b", "c");
+			string result = w.GetSql(tableAlias: "t");
+			string sql = "'t'.[a]=@a AND 't'.[b]=@b AND 't'.[c]=@c";
 			Assert.AreEqual(sql, result);
 		}
 

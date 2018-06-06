@@ -10,6 +10,8 @@ namespace SqlBuilder
 
 		public IFormatter Formatter { get; set; }
 
+		public Enums.SqlQuery Query { get; private set; }
+
 		public string TableAlias { get; set; }
 
 		public IColumnsListAggregation Columns { get; set; }
@@ -26,6 +28,7 @@ namespace SqlBuilder
 
 		public Select(IFormatter parameters, string tableAlias = "")
 		{
+			this.Query = Enums.SqlQuery.Select;
 			this.Formatter = parameters;
 			this.TableAlias = tableAlias;
 			this.Columns = new ColumnsListAggregation(this.Formatter);
@@ -57,23 +60,23 @@ namespace SqlBuilder
 			return this.GetSql();
 		}
 
-		public static Select<T> SelectAll(params string[] Columns)
+		public static Select<T> SelectAll(params string[] columns)
 		{
 			Select<T> result = new Select<T>();
-			result.Columns.Append(Columns);
+			result.Columns.Append(columns);
 			return result;
 		}
 
-		public static Select<T> SelectWherePK(params string[] Columns)
+		public static Select<T> SelectWhere(params string[] columns)
 		{
-			return SelectWherePK(SqlBuilder.DefaultFormatter, Columns);
+			return SelectWhere(SqlBuilder.DefaultFormatter, columns);
 		}
 
-		public static Select<T> SelectWherePK(IFormatter parameters, params string[] Columns)
+		public static Select<T> SelectWhere(IFormatter parameters, params string[] columns)
 		{
 			string pk = Reflection.GetPrimaryKey<T>();
 			Select<T> result = new Select<T>(parameters);
-			result.Columns.Append(Columns);
+			result.Columns.Append(columns);
 			result.Where.Equal(pk);
 			return result;
 		}

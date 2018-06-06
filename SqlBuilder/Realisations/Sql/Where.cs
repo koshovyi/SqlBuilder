@@ -14,13 +14,18 @@ namespace SqlBuilder.Sql
 		public string Value { get; set; }
 
 		public bool IsColumn { get; set; }
+
 		public string Column { get; set; }
 
-		public Where(Enums.WhereType Type, Enums.WhereLogic Logic, Enums.Parenthesis Parenthesis = Enums.Parenthesis.None)
+		public string Prefix { get; set; }
+
+		public string Postfix { get; set; }
+
+		public Where(Enums.WhereType type, Enums.WhereLogic logic, Enums.Parenthesis parenthesis = Enums.Parenthesis.None)
 		{
-			this.Type = Type;
-			this.Logic = Logic;
-			this.Parenthesis = Parenthesis;
+			this.Type = type;
+			this.Logic = logic;
+			this.Parenthesis = parenthesis;
 		}
 
 	}

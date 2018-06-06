@@ -13,6 +13,10 @@ namespace SqlBuilder.Interfaces
 
 		Enums.Parenthesis Parenthesis { get; }
 
+		string Prefix { get; set; }
+
+		string Postfix { get; set; }
+
 		bool IsColumn { get; set; }
 
 		string Column { get; set; }

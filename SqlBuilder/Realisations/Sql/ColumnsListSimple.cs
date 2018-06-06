@@ -45,26 +45,6 @@ namespace SqlBuilder.Sql
 			return this;
 		}
 
-		public void FuncMax(string Name, string Alias = "")
-		{
-			this.AppendAlias(Name, Alias, "MAX(", ")");
-		}
-
-		public void FuncMin(string Name, string Alias = "")
-		{
-			this.AppendAlias(Name, Alias, "MIN(", ")");
-		}
-
-		public void FuncCount(string Name, string Alias = "")
-		{
-			this.AppendAlias(Name, Alias, "COUNT(", ")");
-		}
-
-		public void FuncSum(string Name, string Alias = "")
-		{
-			this.AppendAlias("*", Alias, "SUM(", ")");
-		}
-
 	}
 
 }

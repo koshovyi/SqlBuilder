@@ -9,7 +9,9 @@ namespace SqlBuilder.Interfaces
 	{
 
 		Enums.OrderDirection Direction { get; set; }
+
 		string Column { get; }
+
 		string GetDirection();
 
 	}

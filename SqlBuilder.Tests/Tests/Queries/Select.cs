@@ -109,7 +109,7 @@ namespace SqlBuilder.Tests
 		{
 			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
 
-			Select<DataBaseDemo.Author> s = Select<DataBaseDemo.Author>.SelectWherePK();
+			Select<DataBaseDemo.Author> s = Select<DataBaseDemo.Author>.SelectWhere();
 			string result = s.GetSql();
 			string sql = "SELECT * FROM [tab_authors] WHERE [ID]=@ID;";
 			Assert.AreEqual(sql, result);

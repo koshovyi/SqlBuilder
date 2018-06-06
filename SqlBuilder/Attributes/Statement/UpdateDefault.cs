@@ -3,12 +3,12 @@
 namespace SqlBuilder.Attributes
 {
 
-	public class InsertDefaultAttribute : Attribute
+	public class UpdateDefaultAttribute : Attribute
 	{
 
 		public string DefaultValue { get; set; }
 
-		public InsertDefaultAttribute(string defaultValue)
+		public UpdateDefaultAttribute(string defaultValue)
 		{
 			this.DefaultValue = defaultValue;
 		}

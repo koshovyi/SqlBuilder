@@ -10,10 +10,10 @@ namespace SqlBuilder.Exceptions
 
 		public string OldName { get; set; }
 
-		public SnippetNameValidationException(string NewName, string OldName)
+		public SnippetNameValidationException(string newName, string oldName)
 		{
-			this.NewName = NewName;
-			this.OldName = OldName;
+			this.NewName = newName;
+			this.OldName = oldName;
 		}
 
 	}

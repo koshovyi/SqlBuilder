@@ -31,6 +31,15 @@ namespace SqlBuilder.Tests.Tests.Linq
 			Assert.AreEqual(result, sql);
 		}
 
+		[TestMethod]
+		[TestCategory("Linq")]
+		public void LinqDeleteAlias()
+		{
+			string result = Query<DataBaseDemo.Author>.CreateDelete().WhereLinq(x => x.Equal("a")).GetSql();
+			string sql = "DELETE FROM [tab_authors] WHERE [a]=@a;";
+			Assert.AreEqual(result, sql);
+		}
+
 	}
 
 }

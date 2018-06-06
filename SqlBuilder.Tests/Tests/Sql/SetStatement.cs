@@ -37,6 +37,19 @@ namespace SqlBuilder.Tests
 			Assert.AreEqual(sql, result);
 		}
 
+		[TestMethod]
+		[TestCategory("SetList")]
+		public void ValuesSimpleAlias()
+		{
+			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
+
+			SetList w = new SetList(SqlBuilder.DefaultFormatter);
+			w.AppendValue("a", "NOW()").AppendValue("b", "100").AppendValue("c", "NULL");
+			string result = w.GetSql("t");
+			string sql = "'t'.[a]=NOW(), 't'.[b]=100, 't'.[c]=NULL";
+			Assert.AreEqual(sql, result);
+		}
+
 	}
 
 }

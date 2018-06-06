@@ -15,6 +15,9 @@ namespace SqlBuilder
 
 		public IFormatter Formatter { get; set; }
 
+		public Enums.SqlQuery Query { get; private set; }
+
+
 		public string TableAlias { get; set; }
 
 		public IColumnsListSimple Columns { get; set; }
@@ -27,6 +30,7 @@ namespace SqlBuilder
 
 		public Insert(IFormatter formatter, bool AutoMapping = true)
 		{
+			this.Query = Enums.SqlQuery.Insert;
 			this.Formatter = formatter;
 			this.Columns = new ColumnsListSimple(this.Formatter);
 			this.Values = new ValueList(this.Formatter);
@@ -50,7 +54,7 @@ namespace SqlBuilder
 					if (attribute is IgnoreInsertAttribute)
 						ignore = true;
 					if (attribute is InsertDefaultAttribute insertDefault)
-						defaultValue = insertDefault.Default;
+						defaultValue = insertDefault.DefaultValue;
 					if (attribute is ColumnAttribute clm)
 						columnName = clm.ColumnName.ToLower();
 				}

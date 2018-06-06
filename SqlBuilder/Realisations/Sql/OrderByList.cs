@@ -35,9 +35,9 @@ namespace SqlBuilder.Sql
 			this.Parameters = parameters;
 		}
 
-		public void Append(IOrderBy Expression)
+		public void Append(IOrderBy expression)
 		{
-			this._expressions.Add(Expression);
+			this._expressions.Add(expression);
 		}
 
 		public void Clear()
@@ -45,9 +45,9 @@ namespace SqlBuilder.Sql
 			this._expressions.Clear();
 		}
 
-		public IOrderByList Ascending(params string[] Columns)
+		public IOrderByList Ascending(params string[] columns)
 		{
-			foreach(string column in Columns)
+			foreach(string column in columns)
 			{
 				IOrderBy expression = OrderBy.Ascending(column);
 				this.Append(expression);
@@ -55,9 +55,9 @@ namespace SqlBuilder.Sql
 			return this;
 		}
 
-		public IOrderByList Descending(params string[] Columns)
+		public IOrderByList Descending(params string[] columns)
 		{
-			foreach (string column in Columns)
+			foreach (string column in columns)
 			{
 				IOrderBy expression = OrderBy.Descending(column);
 				this.Append(expression);
@@ -65,11 +65,9 @@ namespace SqlBuilder.Sql
 			return this;
 		}
 
-		public string GetSql(bool OrderBy = false)
+		public string GetSql(string tableAlias = "")
 		{
 			StringBuilder sb = new StringBuilder();
-			if (OrderBy && this._expressions.Count > 0)
-				sb.Append("ORDER BY ");
 
 			bool sep = false;
 			foreach (IOrderBy expression in this._expressions)
@@ -78,7 +76,7 @@ namespace SqlBuilder.Sql
 					sb.Append(", ");
 				else
 					sep = true;
-				sb.Append(SqlBuilder.FormatColumn(expression.Column, this.Parameters) + " " + expression.GetDirection());
+				sb.Append(SqlBuilder.FormatColumn(expression.Column, this.Parameters, tableAlias) + " " + expression.GetDirection());
 			}
 
 			return sb.ToString();

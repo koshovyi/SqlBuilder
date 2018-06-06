@@ -10,6 +10,8 @@ namespace SqlBuilder.Interfaces
 
 		IFormatter Formatter { get; set; }
 
+		Enums.SqlQuery Query { get; }
+
 		string GetSql();
 
 	}

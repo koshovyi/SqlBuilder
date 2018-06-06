@@ -14,7 +14,7 @@ namespace SqlBuilder.Interfaces
 
 		IEnumerable<IGroupBy> Expressions { get; }
 
-		string GetSql(bool GroupBy = false, string aliasTable = "");
+		string GetSql(string tableAlias = "");
 
 		int Count { get; }
 
@@ -24,7 +24,7 @@ namespace SqlBuilder.Interfaces
 
 		IGroupByList Append(bool copyToColumns = false, params string[] columns);
 
-		IGroupByList AppendWithColumn(IGroupBy expression, string Column, string ColumnAlias, string Prefix = "", string Postfix = "");
+		IGroupByList AppendWithColumn(IGroupBy expression, string column, string columnAlias, string prefix = "", string postfix = "");
 
 	}
 

@@ -63,7 +63,7 @@ namespace SqlBuilder.Sql
 				if (sb.Length > 0)
 					sb.Append(", ");
 				if (!string.IsNullOrEmpty(tableAlias))
-					sb.Append(SqlBuilder.FormatAlias(tableAlias, this.Parameters));
+					sb.Append(SqlBuilder.FormatAlias(tableAlias, this.Parameters) + '.');
 				sb.Append(column.Prefix);
 				sb.Append(SqlBuilder.FormatColumn(column.Name, this.Parameters));
 				sb.Append(column.Postfix);

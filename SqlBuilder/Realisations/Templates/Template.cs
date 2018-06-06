@@ -25,33 +25,32 @@ namespace SqlBuilder.Templates
 			}
 		}
 
-		public Template(string Pattern)
+		public Template(string pattern)
 		{
-			this.Pattern = Pattern;
+			this.Pattern = pattern;
 			this.Parameters = SqlBuilder.DefaultFormatter;
 			this._expressions = new List<ITemplateSnippet>();
 		}
 
-		public ITemplate Append(params ITemplateSnippet[] Snippets)
+		public ITemplate Append(params ITemplateSnippet[] snippets)
 		{
-			foreach(ITemplateSnippet snippet in Snippets)
+			foreach(ITemplateSnippet snippet in snippets)
 				this._expressions.Add(snippet);
 			return this;
 		}
 
-		public ITemplate Append(string Name, string Code, string Prefix = "", string Postfix = "")
+		public ITemplate Append(string name, string code, string prefix = "", string postfix = "")
 		{
-			ITemplateSnippet snippet = new Snippet(Name, Code, Prefix, Postfix);
+			ITemplateSnippet snippet = new Snippet(name, code, prefix, postfix);
 			this.Append(snippet);
 			return this;
 		}
 
-		public string GetSql(bool EndOfStatement = true)
+		public string GetSql()
 		{
 			string pattern = this.Pattern;
 
-			if (EndOfStatement)
-				this.Append(SnippetLibrary.End(Parameters.EndOfStatement.ToString()));
+			this.Append(SnippetLibrary.End(Parameters.EndOfStatement.ToString()));
 
 			foreach(ITemplateSnippet snippet in this._expressions)
 			{

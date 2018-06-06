@@ -12,7 +12,7 @@ namespace SqlBuilder.Interfaces
 
 		IEnumerable<IWhere> Expressions { get; }
 
-		string GetSql(bool where = false, string tableAlias = "");
+		string GetSql(string tableAlias = "");
 
 		int Count { get; }
 
@@ -40,44 +40,44 @@ namespace SqlBuilder.Interfaces
 		IWhereList Not();
 
 		//Exp eq
-		IWhereList Equal(params string[] Columns);
+		IWhereList Equal(params string[] columns);
 
-		IWhereList EqualValue(string Column, string Value);
+		IWhereList EqualValue(string column, string value);
 
-		IWhereList NotEqual(params string[] Columns);
+		IWhereList NotEqual(params string[] columns);
 
-		IWhereList NotEqualValue(string Column, string Value);
+		IWhereList NotEqualValue(string column, string value);
 
 		//Exp less/greater
-		IWhereList EqualGreater(params string[] Columns);
+		IWhereList EqualGreater(params string[] columns);
 
-		IWhereList EqualGreaterValue(string Column, string Value);
+		IWhereList EqualGreaterValue(string column, string value);
 
-		IWhereList EqualLess(params string[] Columns);
+		IWhereList EqualLess(params string[] columns);
 
-		IWhereList EqualLessValue(string Column, string Value);
+		IWhereList EqualLessValue(string column, string value);
 
-		IWhereList Greater(params string[] Columns);
+		IWhereList Greater(params string[] columns);
 
-		IWhereList GreaterValue(string Column, string Value);
+		IWhereList GreaterValue(string column, string value);
 
-		IWhereList Less(params string[] Columns);
+		IWhereList Less(params string[] columns);
 
-		IWhereList LessValue(string Column, string Value);
+		IWhereList LessValue(string column, string value);
 
 		//Exp null
-		IWhereList IsNULL(params string[] Columns);
+		IWhereList IsNULL(params string[] columns);
 
-		IWhereList IsNotNULL(params string[] Columns);
+		IWhereList IsNotNULL(params string[] columns);
 
 		//Exp between/like
-		IWhereList Between(string Name, string Begin, string End);
+		IWhereList Between(string name, string begin, string end);
 
-		IWhereList NotBetween(string Name, string Begin, string End);
+		IWhereList NotBetween(string name, string begin, string end);
 
-		IWhereList Like(string Name, string Pattern);
+		IWhereList Like(string name, string pattern);
 
-		IWhereList NotLike(string Name, string Pattern);
+		IWhereList NotLike(string name, string pattern);
 
 	}
 

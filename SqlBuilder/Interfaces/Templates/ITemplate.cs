@@ -14,11 +14,11 @@ namespace SqlBuilder.Interfaces
 
 		IEnumerable<ITemplateSnippet> Snippets { get; }
 
-		ITemplate Append(params ITemplateSnippet[] Snippets);
+		ITemplate Append(params ITemplateSnippet[] snippets);
 
-		ITemplate Append(string Name, string Code, string Prefix = "", string Postfix = "");
+		ITemplate Append(string name, string code, string prefix = "", string postfix = "");
 
-		string GetSql(bool EndOfStatement = true);
+		string GetSql();
 
 	}
 

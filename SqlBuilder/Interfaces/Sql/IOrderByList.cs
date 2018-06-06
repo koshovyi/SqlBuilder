@@ -7,15 +7,20 @@ namespace SqlBuilder.Interfaces
 	{
 
 		IFormatter Parameters { get; }
+
 		IEnumerable<IOrderBy> Expressions { get; }
-		string GetSql(bool OrderBy = false);
+
+		string GetSql(string tableAlias = "");
 
 		int Count { get; }
-		void Clear();
-		void Append(IOrderBy Expression);
 
-		IOrderByList Ascending(params string[] Columns);
-		IOrderByList Descending(params string[] Columns);
+		void Clear();
+
+		void Append(IOrderBy expression);
+
+		IOrderByList Ascending(params string[] columns);
+
+		IOrderByList Descending(params string[] columns);
 
 	}
 

@@ -8,9 +8,9 @@ namespace SqlBuilder.Attributes
 
 		public string ColumnName { get; set; }
 
-		public ColumnAttribute(string ColumnName)
+		public ColumnAttribute(string columnName)
 		{
-			this.ColumnName = ColumnName;
+			this.ColumnName = columnName;
 		}
 
 		public override string ToString()

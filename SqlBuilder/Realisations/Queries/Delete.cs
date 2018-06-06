@@ -15,16 +15,20 @@ namespace SqlBuilder
 
 		public IFormatter Formatter { get; set; }
 
+		public Enums.SqlQuery Query { get; private set; }
+
 		public string TableAlias { get; set; }
 
 		public IWhereList Where { get; set; }
 
-		public Delete() : this(SqlBuilder.DefaultFormatter)
+		public Delete(string tableAlias = "") : this(SqlBuilder.DefaultFormatter, tableAlias)
 		{
 		}
 
-		public Delete(IFormatter parameters)
+		public Delete(IFormatter parameters, string tableAlias = "")
 		{
+			this.Query = Enums.SqlQuery.Delete;
+			this.TableAlias = tableAlias;
 			this.Formatter = parameters;
 			this.Where = new WhereList(this.Formatter);
 		}
@@ -36,7 +40,7 @@ namespace SqlBuilder
 			ITemplate result = TemplateLibrary.Delete;
 			result.Append(SnippetLibrary.Table(table));
 			if(this.Where.Count > 0)
-				result.Append(SnippetLibrary.Where(this.Where.GetSql()));
+				result.Append(SnippetLibrary.Where(this.Where.GetSql(tableAlias: this.TableAlias)));
 
 			return result.GetSql();
 		}
