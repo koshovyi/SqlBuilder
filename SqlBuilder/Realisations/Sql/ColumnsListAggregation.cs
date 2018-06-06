@@ -36,10 +36,25 @@ namespace SqlBuilder.Sql
 		{
 			Column column = new Column()
 			{
-				Name = name,
+				Value = name,
 				Alias = alias,
 				Postfix = postfix,
 				Prefix = prefix,
+				IsRaw = false,
+			};
+			this.Append(column);
+			return this;
+		}
+
+		public IColumnsListAggregation Raw(string rawSql, string alias = "")
+		{
+			Column column = new Column()
+			{
+				Value = rawSql,
+				Alias = alias,
+				Postfix = string.Empty,
+				Prefix = string.Empty,
+				IsRaw = true,
 			};
 			this.Append(column);
 			return this;

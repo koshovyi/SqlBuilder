@@ -62,11 +62,20 @@ namespace SqlBuilder.Sql
 			{
 				if (sb.Length > 0)
 					sb.Append(", ");
-				if (!string.IsNullOrEmpty(tableAlias))
+				if (!string.IsNullOrEmpty(tableAlias) && !column.IsRaw)
 					sb.Append(SqlBuilder.FormatAlias(tableAlias, this.Parameters) + '.');
-				sb.Append(column.Prefix);
-				sb.Append(SqlBuilder.FormatColumn(column.Name, this.Parameters));
-				sb.Append(column.Postfix);
+				if (column.IsRaw)
+				{
+					sb.Append('(');
+					sb.Append(column.Value);
+					sb.Append(')');
+				}
+				else
+				{
+					sb.Append(column.Prefix);
+					sb.Append(SqlBuilder.FormatColumn(column.Value, this.Parameters));
+					sb.Append(column.Postfix);
+				}
 				if (!string.IsNullOrEmpty(column.Alias))
 				{
 					sb.Append(" as ");

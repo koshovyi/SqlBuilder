@@ -105,6 +105,23 @@ namespace SqlBuilder.Tests
 			Assert.AreEqual(sql, result);
 		}
 
+		[TestMethod]
+		[TestCategory("Columns - List")]
+		public void ColumnsListSimpleRaw()
+		{
+			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
+
+			ColumnsListSimple c = new ColumnsListSimple(SqlBuilder.DefaultFormatter);
+			c.Append("a", "b", "c");
+			c.AppendAlias("last_name", "l");
+			c.Raw("SELECT NOW()");
+			c.Raw("SELECT 'abc'", "lll");
+			c.Append("d");
+			string result = c.GetSql("tbl");
+			string sql = "'tbl'.[a], 'tbl'.[b], 'tbl'.[c], 'tbl'.[last_name] as 'l', (SELECT NOW()), (SELECT 'abc') as 'lll', 'tbl'.[d]";
+			Assert.AreEqual(sql, result);
+		}
+
 	}
 
 }
