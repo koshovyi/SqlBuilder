@@ -18,7 +18,7 @@ namespace SqlBuilder.Tests
 		{
 			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
 
-			Insert<DataBaseDemo.Author> a = new Insert<DataBaseDemo.Author>();
+			Insert<DataBaseDemo.Author> a = new Insert<DataBaseDemo.Author>(true);
 			
 			string result = a.GetSql();
 			string sql = "INSERT INTO [tab_authors]([firstname], [lastname]) VALUES(@firstname, @lastname);";
@@ -31,7 +31,7 @@ namespace SqlBuilder.Tests
 		{
 			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
 
-			Insert<DataBaseDemo.Author> a = new Insert<DataBaseDemo.Author>();
+			Insert<DataBaseDemo.Author> a = new Insert<DataBaseDemo.Author>(true);
 			a.Columns.Append("created_at", "updated_at");
 			a.Values.Append("NOW()", "'2020-01-01 23:45:22'");
 
@@ -46,7 +46,7 @@ namespace SqlBuilder.Tests
 		{
 			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
 
-			Insert<DataBaseDemo.Author> a = new Insert<DataBaseDemo.Author>();
+			Insert<DataBaseDemo.Author> a = new Insert<DataBaseDemo.Author>(true);
 			a.Columns.Append("p1", "p2", "p3");
 			a.Values.AppendParameters("p1", "p2", "p3");
 
@@ -61,7 +61,7 @@ namespace SqlBuilder.Tests
 		{
 			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
 
-			Insert<DataBaseDemo.Author> a = new Insert<DataBaseDemo.Author>();
+			Insert<DataBaseDemo.Author> a = new Insert<DataBaseDemo.Author>(true);
 			a.AppendParameters("p1", "p2", "p3");
 
 			string result = a.GetSql();

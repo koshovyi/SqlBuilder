@@ -24,17 +24,18 @@ namespace SqlBuilder
 
 		public IValueList Values { get; set; }
 
-		public Insert(bool AutoMapping = true) : this(SqlBuilder.DefaultFormatter, AutoMapping)
+		public Insert(bool autoMapping = false, string tableAlias = "") : this(SqlBuilder.DefaultFormatter, autoMapping, tableAlias)
 		{
 		}
 
-		public Insert(IFormatter formatter, bool AutoMapping = true)
+		public Insert(IFormatter formatter, bool autoMapping = false, string tableAlias = "")
 		{
 			this.Query = Enums.SqlQuery.Insert;
 			this.Formatter = formatter;
 			this.Columns = new ColumnsListSimple(this.Formatter);
 			this.Values = new ValueList(this.Formatter);
-			if (AutoMapping)
+
+			if (autoMapping)
 				this.Mapping();
 		}
 
@@ -46,8 +47,8 @@ namespace SqlBuilder
 			foreach (PropertyInfo property in type.GetProperties())
 			{
 				ignore = false;
-				columnName = string.Empty;
 				defaultValue = string.Empty;
+				columnName = property.Name.ToLower();
 
 				foreach (Attribute attribute in property.GetCustomAttributes())
 				{
@@ -61,9 +62,9 @@ namespace SqlBuilder
 
 				if (!ignore)
 				{
-					this.Columns.Append(columnName == string.Empty ? property.Name.ToLower() : columnName);
+					this.Columns.Append(columnName);
 					if (defaultValue == string.Empty)
-						this.Values.Append(this.Formatter.Parameter + property.Name.ToLower());
+						this.Values.Append(this.Formatter.Parameter + columnName);
 					else
 						this.Values.Append(defaultValue);
 				}

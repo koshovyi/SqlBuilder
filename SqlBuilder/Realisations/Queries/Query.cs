@@ -24,48 +24,48 @@ namespace SqlBuilder
 
 		#region Methods
 
-		public Delete<T> Delete()
+		public Delete<T> Delete(string tableAlias = "")
 		{
-			return new Delete<T>(this.Parameters);
+			return new Delete<T>(this.Parameters, tableAlias);
 		}
 
-		public Insert<T> Insert()
+		public Insert<T> Insert(bool autoMapping = false, string tableAlias = "")
 		{
-			return new Insert<T>(this.Parameters);
+			return new Insert<T>(this.Parameters, autoMapping, tableAlias);
 		}
 
-		public Update<T> Update()
+		public Update<T> Update(bool autoMapping = false, string tableAlias = "")
 		{
-			return new Update<T>(this.Parameters);
+			return new Update<T>(this.Parameters, autoMapping, tableAlias);
 		}
 
-		public Select<T> Select()
+		public Select<T> Select(string tableAlias = "")
 		{
-			return new Select<T>(this.Parameters);
+			return new Select<T>(this.Parameters, tableAlias);
 		}
 
 		#endregion
 
 		#region Static methods
 
-		public static Delete<T> CreateDelete()
+		public static Delete<T> CreateDelete(string tableAlias = "")
 		{
-			return new Delete<T>(SqlBuilder.DefaultFormatter);
+			return new Delete<T>(SqlBuilder.DefaultFormatter, tableAlias);
 		}
 
-		public static Insert<T> CreateInsert(bool AutoMapping = true)
+		public static Insert<T> CreateInsert(bool autoMapping = false, string tableAlias = "")
 		{
-			return new Insert<T>(SqlBuilder.DefaultFormatter, AutoMapping);
+			return new Insert<T>(SqlBuilder.DefaultFormatter, autoMapping, tableAlias);
 		}
 
-		public static Select<T> CreateSelect()
+		public static Select<T> CreateSelect(string tableAlias = "")
 		{
-			return new Select<T>(SqlBuilder.DefaultFormatter);
+			return new Select<T>(SqlBuilder.DefaultFormatter, tableAlias);
 		}
 
-		public static Update<T> CreateUpdate()
+		public static Update<T> CreateUpdate(bool autoMapping = false, string tableAlias = "")
 		{
-			return new Update<T>(SqlBuilder.DefaultFormatter);
+			return new Update<T>(SqlBuilder.DefaultFormatter, autoMapping, tableAlias);
 		}
 
 		#endregion

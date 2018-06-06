@@ -53,7 +53,7 @@ namespace SqlBuilder
 			{
 				sb.AppendLine(statement.GetSql());
 			}
-			return sb.ToString();
+			return sb.ToString().Trim();
 		}
 
 		public override string ToString()

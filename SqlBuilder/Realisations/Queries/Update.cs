@@ -23,17 +23,53 @@ namespace SqlBuilder
 
 		public IWhereList Where { get; set; }
 
-		public Update(string tableAlias = "") : this(SqlBuilder.DefaultFormatter, tableAlias)
+		public Update(bool autoMapping = false, string tableAlias = "") : this(SqlBuilder.DefaultFormatter, autoMapping, tableAlias)
 		{
 		}
 
-		public Update(IFormatter parameters, string tableAlias = "")
+		public Update(IFormatter parameters, bool autoMapping = false, string tableAlias = "")
 		{
 			this.Query = Enums.SqlQuery.Update;
 			this.Formatter = parameters;
 			this.TableAlias = tableAlias;
 			this.Sets = new SetList(this.Formatter);
 			this.Where = new WhereList(this.Formatter);
+
+			if (autoMapping)
+				this.Mapping();
+		}
+
+		private void Mapping()
+		{
+			bool ignore;
+			string columnName, defaultValue;
+			Type type = typeof(T);
+			foreach (PropertyInfo property in type.GetProperties())
+			{
+				ignore = false;
+				defaultValue = string.Empty;
+				columnName = property.Name.ToLower();
+
+				foreach (Attribute attribute in property.GetCustomAttributes())
+				{
+					if (attribute is IgnoreInsertAttribute)
+						ignore = true;
+					if (attribute is InsertDefaultAttribute insertDefault)
+						defaultValue = insertDefault.DefaultValue;
+					if (attribute is ColumnAttribute clm)
+						columnName = clm.ColumnName.ToLower();
+				}
+
+				if (!ignore)
+				{
+					this.Sets.AppendValue(columnName, this.Formatter.Parameter + columnName);
+					//this.Columns.Append(columnName == string.Empty ? property.Name.ToLower() : columnName);
+					//if (defaultValue == string.Empty)
+					//	this.Values.Append(this.Formatter.Parameter + property.Name.ToLower());
+					//else
+					//	this.Values.Append(defaultValue);
+				}
+			}
 		}
 
 		public string GetSql()

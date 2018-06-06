@@ -8,13 +8,13 @@ namespace SqlBuilder.Interfaces
 	public interface IQuery<T>
 	{
 
-		Delete<T> Delete();
+		Select<T> Select(string tableAlias = "");
 
-		Insert<T> Insert();
+		Delete<T> Delete(string tableAlias = "");
 
-		Select<T> Select();
+		Insert<T> Insert(bool autoMapping = false, string tableAlias = "");
 
-		Update<T> Update();
+		Update<T> Update(bool autoMapping = false, string tableAlias = "");
 
 	}
 
