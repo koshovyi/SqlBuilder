@@ -39,10 +39,12 @@ namespace SqlBuilder.Interfaces
 
 		IWhereList Or();
 
-		IWhereList Not();
+		IWhereList AndNot();
 
 		//Exp eq
 		IWhereList Raw(string rawSql);
+
+		IWhereList In(string column, params string[] rawSql);
 
 		IWhereList Equal(params string[] columns);
 

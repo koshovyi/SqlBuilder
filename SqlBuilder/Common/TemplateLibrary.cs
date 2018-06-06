@@ -12,7 +12,7 @@ namespace SqlBuilder.Templates
 		{
 			get
 			{
-				string sql = "{{START}}SELECT {{PRECOLUMNS}}{{COLUMNS}}{{POSTCOLUMNS}} FROM {{TABLE}}{{JOINS}}{{WHERE}}{{GROUPBY}}{{ORDERBY}}{{END}}";
+				string sql = "{{START}}SELECT {{LIMIT_START}}{{OFFSET_START}}{{PRECOLUMNS}}{{COLUMNS}}{{POSTCOLUMNS}} FROM {{TABLE}}{{JOINS}}{{WHERE}}{{GROUPBY}}{{ORDERBY}}{{LIMIT_END}}{{OFFSET_END}}{{END}}";
 				return new Template(sql);
 			}
 		}

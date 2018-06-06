@@ -12,7 +12,7 @@ namespace SqlBuilder.Sql
 
 		public IFormatter Parameters { get; private set; }
 
-		public Enums.WhereLogic LogicOperator { get; private set; } = Enums.WhereLogic.AND;
+		public Enums.WhereLogic LogicOperator { get; private set; } = Enums.WhereLogic.And;
 
 		public bool HasOpenedParenthesis { get; private set; }
 
@@ -40,19 +40,19 @@ namespace SqlBuilder.Sql
 
 		public IWhereList And()
 		{
-			this.LogicOperator = Enums.WhereLogic.AND;
+			this.LogicOperator = Enums.WhereLogic.And;
 			return this;
 		}
 
 		public IWhereList Or()
 		{
-			this.LogicOperator = Enums.WhereLogic.OR;
+			this.LogicOperator = Enums.WhereLogic.Or;
 			return this;
 		}
 
-		public IWhereList Not()
+		public IWhereList AndNot()
 		{
-			this.LogicOperator = Enums.WhereLogic.NOT;
+			this.LogicOperator = Enums.WhereLogic.AndNot;
 			return this;
 		}
 
@@ -106,6 +106,20 @@ namespace SqlBuilder.Sql
 			exp.IsColumn = false;
 			exp.Value = rawSql;
 			this.Append(exp);
+			return this;
+		}
+
+		public IWhereList In(string column, params string[] rawSql)
+		{
+			StringBuilder sb = new StringBuilder();
+			foreach (string expression in rawSql)
+			{
+				if (sb.Length > 0)
+					sb.Append(", ");
+				sb.Append(expression);
+			}
+
+			CreateExpression(Enums.WhereType.In, column, " IN (" + sb.ToString() + ")");
 			return this;
 		}
 
@@ -317,12 +331,12 @@ namespace SqlBuilder.Sql
 		{
 			switch (logic)
 			{
-				case Enums.WhereLogic.NOT:
+				case Enums.WhereLogic.AndNot:
 					return "AND NOT";
-				case Enums.WhereLogic.OR:
+				case Enums.WhereLogic.Or:
 					return "OR";
 				default:
-				case Enums.WhereLogic.AND:
+				case Enums.WhereLogic.And:
 					return "AND";
 			}
 		}

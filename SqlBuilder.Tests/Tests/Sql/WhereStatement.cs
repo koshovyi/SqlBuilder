@@ -14,7 +14,7 @@ namespace SqlBuilder.Tests
 		#region Raw
 
 		[TestMethod]
-		[TestCategory("Where - Equal, NotEqual")]
+		[TestCategory("Where - Raw, In")]
 		public void RawSimple1()
 		{
 			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
@@ -27,7 +27,7 @@ namespace SqlBuilder.Tests
 		}
 
 		[TestMethod]
-		[TestCategory("Where - Equal, NotEqual")]
+		[TestCategory("Where - Raw, In")]
 		public void RawSimple2()
 		{
 			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
@@ -37,6 +37,38 @@ namespace SqlBuilder.Tests
 			w.Equal("id");
 			string result = w.GetSql();
 			string sql = "[a] NOT LIKE '%text%' AND [id]=@id";
+			Assert.AreEqual(sql, result);
+		}
+
+		#endregion
+
+		#region In
+
+		[TestMethod]
+		[TestCategory("Where - Raw, In")]
+		public void InSimple1()
+		{
+			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
+
+			WhereList w = new WhereList(SqlBuilder.DefaultFormatter);
+			w.Equal("a");
+			w.In("b", "1", "2", "3");
+			w.Equal("c");
+			string result = w.GetSql();
+			string sql = "[a]=@a AND [b] IN (1, 2, 3) AND [c]=@c";
+			Assert.AreEqual(sql, result);
+		}
+
+		[TestMethod]
+		[TestCategory("Where - Raw, In")]
+		public void InSimple2()
+		{
+			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
+
+			WhereList w = new WhereList(SqlBuilder.DefaultFormatter);
+			w.In("id_user", "SELECT id FROM tab_users");
+			string result = w.GetSql();
+			string sql = "[id_user] IN (SELECT id FROM tab_users)";
 			Assert.AreEqual(sql, result);
 		}
 
