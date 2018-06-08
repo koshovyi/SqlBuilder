@@ -1,7 +1,7 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>netcoreapp2.0</TargetFramework>
+		<TargetFramework>netstandard2.0</TargetFramework>
 		<Authors>Dmytro Koshovyi</Authors>
 		<Company>8Bytes</Company>
 		<PackageTags>sql, t-sql, tsql, mssql, mysql, postgresql, database, nosql, db, orm, dapper, entity framework</PackageTags>
@@ -13,7 +13,9 @@
 		<PackageProjectUrl>https://github.com/devellloper/SqlBuilder</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/devellloper/SqlBuilder</RepositoryUrl>
 		<RepositoryType>GIT</RepositoryType>
-		<Description>Simple SQL builder</Description>
+		<Description>Simple and powerful SQL builder</Description>
+		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+		<PackageId>Koshovyi.SqlBuilder</PackageId>
 	</PropertyGroup>
 
 </Project>
