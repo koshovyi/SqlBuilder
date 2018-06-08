@@ -13,7 +13,7 @@ namespace SqlBuilder.Tests
 
 		[TestMethod]
 		[TestCategory("Linq")]
-		public void LinqUpdateColumns1()
+		public void LinqUpdateSimpleWhere()
 		{
 			var q1 = new Update<DataBaseDemo.Author>();
 			q1.SetsLinq(x=>x.AppendValue("name", "value")).WhereLinq(x => x.Equal("a").IsNULL("b"));
@@ -24,7 +24,7 @@ namespace SqlBuilder.Tests
 
 		[TestMethod]
 		[TestCategory("Linq")]
-		public void LinqUpdateColumns2()
+		public void LinqQueryUpdateSimpleWhere()
 		{
 			string result = Query<DataBaseDemo.Author>.CreateUpdate().SetsLinq(x=>x.AppendValue("count", "123")).WhereLinq(x=>x.Equal("a")).GetSql();
 			string sql = "UPDATE [tab_authors] SET [count]=123 WHERE [a]=@a;";

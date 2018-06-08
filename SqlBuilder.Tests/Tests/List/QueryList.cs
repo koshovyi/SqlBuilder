@@ -12,7 +12,7 @@ namespace SqlBuilder.Tests
 
 		[TestMethod]
 		[TestCategory("Query - List")]
-		public void QueryListSimple1()
+		public void QueryListSimple()
 		{
 			global::SqlBuilder.QueryList l = new global::SqlBuilder.QueryList();
 			var a1 = Query<DataBaseDemo.Author>.CreateSelect();

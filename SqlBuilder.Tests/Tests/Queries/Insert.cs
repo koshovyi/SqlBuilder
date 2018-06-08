@@ -10,8 +10,6 @@ namespace SqlBuilder.Tests
 	public class Insert
 	{
 
-		#region Insert Simple
-
 		[TestMethod]
 		[TestCategory("Query - Insert")]
 		public void QueryInsertSimple1()
@@ -104,8 +102,6 @@ namespace SqlBuilder.Tests
 			string sql = "INSERT INTO [tab_authors]([p1], [p2], [p3]) VALUES(@p1, @p2, @p3);";
 			Assert.AreEqual(sql, result);
 		}
-
-		#endregion
 
 	}
 

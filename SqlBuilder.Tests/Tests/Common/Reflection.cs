@@ -26,17 +26,6 @@ namespace SqlBuilder.Tests
 
 		[TestMethod]
 		[TestCategory("Reflection")]
-		public void GetTableNameEscape()
-		{
-			string tab_books = reflection.GetTableName<DataBaseDemo.Book>();
-			Assert.AreEqual("tab_books", tab_books);
-
-			string tab_authors = reflection.GetTableName<DataBaseDemo.Author>();
-			Assert.AreEqual("tab_authors", tab_authors);
-		}
-
-		[TestMethod]
-		[TestCategory("Reflection")]
 		public void GetPrimaryKey()
 		{
 			string pk_books = reflection.GetPrimaryKey<DataBaseDemo.Book>().ToLower();

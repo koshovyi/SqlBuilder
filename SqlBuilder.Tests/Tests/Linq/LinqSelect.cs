@@ -65,14 +65,14 @@ namespace SqlBuilder.Tests
 
 		[TestMethod]
 		[TestCategory("Linq")]
-		public void LinqSelect1()
+		public void LinqSelectComplexQuery()
 		{
 			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
 
 			var q1 = new Select<DataBaseDemo.Author>();
-			q1.ColumnsLinq(x => x.Append("a", "b", "c").AppendAlias("d", "ddd").FuncMax("price")).WhereLinq(w=>w.Equal("a", "b", "c").IsNULL("active")).OrderByLinq(x=>x.Ascending("created_at"));
+			q1.ColumnsLinq(x => x.Append("a", "b", "c").AppendAlias("d", "ddd").FuncMax("price")).WhereLinq(w=>w.Equal("a", "b", "c").IsNULL("active")).GroupByLinq(x=>x.FuncCount("cnt", "ccc")).OrderByLinq(x=>x.Ascending("created_at"));
 			string result = q1.GetSql();
-			string sql = "SELECT [a], [b], [c], [d] as 'ddd', MAX([price]) FROM [tab_authors] WHERE [a]=@a AND [b]=@b AND [c]=@c AND [active] IS NULL ORDER BY [created_at] ASC;";
+			string sql = "SELECT [a], [b], [c], [d] as 'ddd', MAX([price]), COUNT([cnt]) as 'ccc' FROM [tab_authors] WHERE [a]=@a AND [b]=@b AND [c]=@c AND [active] IS NULL GROUP BY [cnt] ORDER BY [created_at] ASC;";
 			Assert.AreEqual(result, sql);
 		}
 

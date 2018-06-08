@@ -38,7 +38,7 @@ namespace SqlBuilder
 			string table = Reflection.GetTableName<T>();
 
 			ITemplate result = TemplateLibrary.Delete;
-			result.Append(SnippetLibrary.Table(table));
+			result.Append(SnippetLibrary.Table(table, this.TableAlias));
 			if(this.Where.Count > 0)
 				result.Append(SnippetLibrary.Where(this.Where.GetSql(tableAlias: this.TableAlias)));
 

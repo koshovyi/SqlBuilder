@@ -13,7 +13,19 @@ namespace SqlBuilder.Tests
 
 		[TestMethod]
 		[TestCategory("Linq")]
-		public void LinqDeleteColumns1()
+		public void LinqDeleteSimple()
+		{
+			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
+
+			var q1 = new Delete<DataBaseDemo.Author>();
+			string result = q1.GetSql();
+			string sql = "DELETE FROM [tab_authors];";
+			Assert.AreEqual(result, sql);
+		}
+
+		[TestMethod]
+		[TestCategory("Linq")]
+		public void LinqDeleteSimpleWhere()
 		{
 			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
 
@@ -26,7 +38,7 @@ namespace SqlBuilder.Tests
 
 		[TestMethod]
 		[TestCategory("Linq")]
-		public void LinqDeleteColumns2()
+		public void LinqQueryDeleteSimpleWhere()
 		{
 			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
 
@@ -37,12 +49,12 @@ namespace SqlBuilder.Tests
 
 		[TestMethod]
 		[TestCategory("Linq")]
-		public void LinqDeleteAlias()
+		public void LinqDeleteTableAlias()
 		{
 			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
 
-			string result = Query<DataBaseDemo.Author>.CreateDelete().WhereLinq(x => x.Equal("a")).GetSql();
-			string sql = "DELETE FROM [tab_authors] WHERE [a]=@a;";
+			string result = Query<DataBaseDemo.Author>.CreateDelete("t").WhereLinq(x => x.Equal("a")).GetSql();
+			string sql = "DELETE FROM [tab_authors] as 't' WHERE 't'.[a]=@a;";
 			Assert.AreEqual(result, sql);
 		}
 

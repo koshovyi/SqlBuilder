@@ -14,7 +14,7 @@ namespace SqlBuilder.Tests
 
 		[TestMethod]
 		[TestCategory("Query - Delete")]
-		public void QueryDeleteSimple1()
+		public void QueryDeleteSimpleEmpty()
 		{
 			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
 
@@ -27,7 +27,7 @@ namespace SqlBuilder.Tests
 
 		[TestMethod]
 		[TestCategory("Query - Delete")]
-		public void QueryDeleteSimple2()
+		public void QueryDeleteSimpleWhere()
 		{
 			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
 
@@ -36,6 +36,20 @@ namespace SqlBuilder.Tests
 
 			string result = d.GetSql();
 			string sql = "DELETE FROM [tab_authors] WHERE [p1]=@p1 AND [p2]<@p2 AND [p3] IS NULL;";
+			Assert.AreEqual(sql, result);
+		}
+
+		[TestMethod]
+		[TestCategory("Query - Delete")]
+		public void QueryDeleteAliasWhere()
+		{
+			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
+
+			Delete<DataBaseDemo.Author> d = new Delete<DataBaseDemo.Author>("td");
+			d.Where.Equal("p1").Less("p2").IsNULL("p3");
+
+			string result = d.GetSql();
+			string sql = "DELETE FROM [tab_authors] as 'td' WHERE 'td'.[p1]=@p1 AND 'td'.[p2]<@p2 AND 'td'.[p3] IS NULL;";
 			Assert.AreEqual(sql, result);
 		}
 

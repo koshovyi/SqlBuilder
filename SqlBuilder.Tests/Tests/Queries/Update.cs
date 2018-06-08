@@ -42,6 +42,22 @@ namespace SqlBuilder.Tests
 			Assert.AreEqual(sql, result);
 		}
 
+		[TestMethod]
+		[TestCategory("Query - Update")]
+		public void QueryUpdateAlias()
+		{
+			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
+
+			Update<DataBaseDemo.Author> u = new Update<DataBaseDemo.Author>(false, "t");
+			u.Sets.Append("a");
+			u.Sets.AppendValue("d", "1").AppendValue("e", "NOW()");
+			u.Where.Equal("id");
+
+			string result = u.GetSql();
+			string sql = "UPDATE [tab_authors] as 't' SET 't'.[a]=@a, 't'.[d]=1, 't'.[e]=NOW() WHERE 't'.[id]=@id;";
+			Assert.AreEqual(sql, result);
+		}
+
 		#endregion
 
 		#region Update mapping

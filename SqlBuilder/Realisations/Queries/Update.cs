@@ -78,9 +78,9 @@ namespace SqlBuilder
 
 			ITemplate result = TemplateLibrary.Update;
 			result.Append(SnippetLibrary.Table(table, this.TableAlias));
-			result.Append(SnippetLibrary.Sets(this.Sets.GetSql()));
+			result.Append(SnippetLibrary.Sets(this.Sets.GetSql(this.TableAlias)));
 			if (this.Where.Count > 0)
-				result.Append(SnippetLibrary.Where(this.Where.GetSql()));
+				result.Append(SnippetLibrary.Where(this.Where.GetSql(this.TableAlias)));
 
 			return result.GetSql();
 		}

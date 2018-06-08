@@ -13,7 +13,7 @@ namespace SqlBuilder.Tests
 
 		[TestMethod]
 		[TestCategory("Linq")]
-		public void LinqInsertColumns1()
+		public void LinqInsertSimple()
 		{
 			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
 
@@ -26,7 +26,7 @@ namespace SqlBuilder.Tests
 
 		[TestMethod]
 		[TestCategory("Linq")]
-		public void LinqInsertColumns2()
+		public void LinqQueryInsertSimple()
 		{
 			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
 
