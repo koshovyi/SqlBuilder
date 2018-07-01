@@ -6,7 +6,7 @@ using SqlBuilder.Interfaces;
 namespace SqlBuilder
 {
 
-	public class QueryList : Interfaces.IQueryList
+	public class QueryList : IQueryList
 	{
 
 		private List<IStatement> _list;

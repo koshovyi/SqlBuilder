@@ -54,7 +54,7 @@ namespace SqlBuilder.Sql
 			{
 				return string.IsNullOrEmpty(tableAlias)
 					? "*"
-					: SqlBuilder.FormatAlias(tableAlias, this.Parameters) + ".*";
+					: SqlBuilder.FormatTableAlias(tableAlias, this.Parameters) + ".*";
 			}
 
 			StringBuilder sb = new StringBuilder();
@@ -63,7 +63,7 @@ namespace SqlBuilder.Sql
 				if (sb.Length > 0)
 					sb.Append(", ");
 				if (!string.IsNullOrEmpty(tableAlias) && !column.IsRaw)
-					sb.Append(SqlBuilder.FormatAlias(tableAlias, this.Parameters) + '.');
+					sb.Append(SqlBuilder.FormatTableAlias(tableAlias, this.Parameters) + '.');
 				if (column.IsRaw)
 				{
 					sb.Append('(');

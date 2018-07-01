@@ -98,7 +98,7 @@ namespace SqlBuilder.Tests
 			WhereList w = new WhereList(SqlBuilder.DefaultFormatter);
 			w.Equal("a", "b", "c");
 			string result = w.GetSql(tableAlias: "t");
-			string sql = "'t'.[a]=@a AND 't'.[b]=@b AND 't'.[c]=@c";
+			string sql = "[t].[a]=@a AND [t].[b]=@b AND [t].[c]=@c";
 			Assert.AreEqual(sql, result);
 		}
 

@@ -37,7 +37,7 @@ namespace SqlBuilder.Templates
 		{
 			table = SqlBuilder.FormatTable(table);
 			if(!string.IsNullOrEmpty(tableAlias))
-				tableAlias = SqlBuilder.FormatAlias(tableAlias);
+				tableAlias = SqlBuilder.FormatTableAlias(tableAlias);
 
 			if(string.IsNullOrEmpty(tableAlias))
 				return new Snippet("TABLE", table);
@@ -53,6 +53,11 @@ namespace SqlBuilder.Templates
 		public static ITemplateSnippet Sets(string value)
 		{
 			return new Snippet("SETS", value);
+		}
+
+		public static ITemplateSnippet Join(string value)
+		{
+			return new Snippet("JOINS", ' ' + value);
 		}
 
 		public static ITemplateSnippet Values(string columns = "")

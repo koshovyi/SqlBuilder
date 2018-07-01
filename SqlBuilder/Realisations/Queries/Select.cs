@@ -16,6 +16,8 @@ namespace SqlBuilder
 
 		public IColumnsListAggregation Columns { get; set; }
 
+		public IJoinList Join { get; set; }
+
 		public IWhereList Where { get; set; }
 
 		public IGroupByList GroupBy { get; set; }
@@ -32,6 +34,7 @@ namespace SqlBuilder
 			this.Formatter = parameters;
 			this.TableAlias = tableAlias;
 			this.Columns = new ColumnsListAggregation(this.Formatter);
+			this.Join = new JoinList(this.Formatter);
 			this.Where = new WhereList(this.Formatter);
 			this.OrderBy = new OrderByList(this.Formatter);
 			this.GroupBy = new GroupByList(this.Formatter, this.Columns);
@@ -45,6 +48,11 @@ namespace SqlBuilder
 			result.Append(SnippetLibrary.Table(table, this.TableAlias));
 			result.Append(SnippetLibrary.Columns(this.Columns.GetSql(this.TableAlias)));
 
+			if (this.Join.Count > 0)
+			{
+				string joinTable = string.IsNullOrEmpty(this.TableAlias) ? table : this.TableAlias;
+				result.Append(SnippetLibrary.Join(this.Join.GetSql(joinTable)));
+			}
 			if (this.Where.Count > 0)
 				result.Append(SnippetLibrary.Where(this.Where.GetSql()));
 			if (this.GroupBy.Count > 0)

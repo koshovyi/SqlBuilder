@@ -32,6 +32,12 @@ namespace SqlBuilder.Linq
 			return q;
 		}
 
+		public static IStatementSelect JoinLinq(this IStatementSelect q, Func<IJoinList, IJoin> f)
+		{
+			f.Invoke(q.Join);
+			return q;
+		}
+
 	}
 
 }

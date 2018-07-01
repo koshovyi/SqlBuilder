@@ -10,6 +10,8 @@ namespace SqlBuilder.Sql
 
 		private readonly List<IWhere> _expressions;
 
+		#region Properties
+
 		public IFormatter Parameters { get; private set; }
 
 		public Enums.WhereLogic LogicOperator { get; private set; } = Enums.WhereLogic.And;
@@ -25,6 +27,8 @@ namespace SqlBuilder.Sql
 				return this._expressions;
 			}
 		}
+
+		#endregion
 
 		#region Construcor
 

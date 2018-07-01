@@ -30,7 +30,7 @@ namespace SqlBuilder.Tests
 			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
 
 			string result = new Select<DataBaseDemo.Author>("t").GetSql();
-			string sql = "SELECT 't'.* FROM [tab_authors] as 't';";
+			string sql = "SELECT [t].* FROM [tab_authors] as [t];";
 			Assert.AreEqual(sql, result);
 		}
 
@@ -99,7 +99,7 @@ namespace SqlBuilder.Tests
 			Select<DataBaseDemo.Author> s = new Select<DataBaseDemo.Author>("t");
 			s.Where.Equal(global::SqlBuilder.Reflection.GetPrimaryKey<DataBaseDemo.Author>());
 			string result = s.GetSql();
-			string sql = "SELECT 't'.* FROM [tab_authors] as 't' WHERE [ID]=@ID;";
+			string sql = "SELECT [t].* FROM [tab_authors] as [t] WHERE [ID]=@ID;";
 			Assert.AreEqual(sql, result);
 		}
 
@@ -224,6 +224,54 @@ namespace SqlBuilder.Tests
 			s.GroupBy.FuncMax("sm", "asm");
 			string result = s.GetSql();
 			string sql = "SELECT MAX([sm]) as 'asm' FROM [tab_authors] GROUP BY [sm];";
+			Assert.AreEqual(sql, result);
+		}
+
+		#endregion
+
+		#region Select Join
+
+		[TestMethod]
+		[TestCategory("Query - Join")]
+		public void QuerySelectJoinSimple1()
+		{
+			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
+
+			Select<DataBaseDemo.Author> s = new Select<DataBaseDemo.Author>();
+			s.Columns.Append("a1", "a2", "a3");
+			s.Join.InnerJoin("users", "u").Append("id_user", "id");
+			string result = s.GetSql();
+			string sql = "SELECT [a1], [a2], [a3] FROM [tab_authors] INNER JOIN [users] as [u] ON [tab_authors].[id_user]=[u].[id];";
+			Assert.AreEqual(sql, result);
+		}
+
+		[TestMethod]
+		[TestCategory("Query - Join")]
+		public void QuerySelectJoinSimple2()
+		{
+			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
+
+			Select<DataBaseDemo.Author> s = new Select<DataBaseDemo.Author>("t");
+			s.Columns.Append("a1");
+			s.Join.InnerJoin("users", "u").Append("id_user", "id").Append("id_status", "id2");
+			string result = s.GetSql();
+			string sql = "SELECT [t].[a1] FROM [tab_authors] as [t] INNER JOIN [users] as [u] ON [t].[id_user]=[u].[id] AND [t].[id_status]=[u].[id2];";
+			Assert.AreEqual(sql, result);
+		}
+
+		[TestMethod]
+		[TestCategory("Query - Join")]
+		public void QuerySelectJoinSimple3()
+		{
+			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
+
+			Select<DataBaseDemo.Author> s = new Select<DataBaseDemo.Author>("t");
+			s.Columns.Append("a1");
+			s.Join.InnerJoin("users", "u").Append("id_user", "id");
+			s.Join.LeftJoin("statuses").Append("id_status", "id2");
+			s.Join.RightJoin("profiles", "p").Append("id_profile", "id3");
+			string result = s.GetSql();
+			string sql = "SELECT [t].[a1] FROM [tab_authors] as [t] INNER JOIN [users] as [u] ON [t].[id_user]=[u].[id] LEFT JOIN [statuses] ON [t].[id_status]=[statuses].[id2] RIGHT JOIN [profiles] as [p] ON [t].[id_profile]=[p].[id3];";
 			Assert.AreEqual(sql, result);
 		}
 

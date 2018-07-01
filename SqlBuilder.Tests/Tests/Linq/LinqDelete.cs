@@ -54,7 +54,7 @@ namespace SqlBuilder.Tests
 			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
 
 			string result = Query<DataBaseDemo.Author>.CreateDelete("t").WhereLinq(x => x.Equal("a")).GetSql();
-			string sql = "DELETE FROM [tab_authors] as 't' WHERE 't'.[a]=@a;";
+			string sql = "DELETE FROM [tab_authors] as [t] WHERE [t].[a]=@a;";
 			Assert.AreEqual(result, sql);
 		}
 

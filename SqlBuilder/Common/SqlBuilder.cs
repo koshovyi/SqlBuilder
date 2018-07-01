@@ -22,7 +22,7 @@ namespace SqlBuilder
 		public static string FormatColumn(string column, IFormatter parameters, string tableAlias = "")
 		{
 			if (!string.IsNullOrEmpty(tableAlias))
-				tableAlias = FormatAlias(tableAlias) + '.';
+				tableAlias = FormatTableAlias(tableAlias) + '.';
 
 			column = parameters.EscapeEnabled
 				? parameters.ColumnEscapeLeft + column + parameters.ColumnEscapeRight
@@ -53,12 +53,22 @@ namespace SqlBuilder
 				: tableName;
 		}
 
-		public static string FormatAlias(string value)
+		public static string FormatTableAlias(string value)
 		{
-			return FormatAlias(value, SqlBuilder.DefaultFormatter);
+			return FormatTableAlias(value, SqlBuilder.DefaultFormatter);
 		}
 
-		public static string FormatAlias(string value, IFormatter parameters)
+		public static string FormatTableAlias(string value, IFormatter parameters)
+		{
+			return parameters.TableEscapeLeft + value + parameters.TableEscapeRight;
+		}
+
+		public static string FormatColumnAlias(string value)
+		{
+			return FormatColumnAlias(value, SqlBuilder.DefaultFormatter);
+		}
+
+		public static string FormatColumnAlias(string value, IFormatter parameters)
 		{
 			return parameters.AliasEscape + value + parameters.AliasEscape;
 		}

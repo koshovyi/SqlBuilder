@@ -105,7 +105,7 @@ namespace SqlBuilder.Tests
 			o.Ascending("c");
 			o.Descending("d");
 			string result = o.GetSql("t");
-			string sql = "'t'.[a] ASC, 't'.[b] DESC, 't'.[c] ASC, 't'.[d] DESC";
+			string sql = "[t].[a] ASC, [t].[b] DESC, [t].[c] ASC, [t].[d] DESC";
 			Assert.AreEqual(sql, result);
 		}
 

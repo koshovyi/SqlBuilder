@@ -87,7 +87,7 @@ namespace SqlBuilder.Tests
 			c.AppendAlias("last_name", "l");
 			c.AppendAlias("first_name", "f");
 			string result = c.GetSql("tbl");
-			string sql = "'tbl'.[last_name] as 'l', 'tbl'.[first_name] as 'f'";
+			string sql = "[tbl].[last_name] as 'l', [tbl].[first_name] as 'f'";
 			Assert.AreEqual(sql, result);
 		}
 
@@ -118,7 +118,7 @@ namespace SqlBuilder.Tests
 			c.Raw("SELECT 'abc'", "lll");
 			c.Append("d");
 			string result = c.GetSql("tbl");
-			string sql = "'tbl'.[a], 'tbl'.[b], 'tbl'.[c], 'tbl'.[last_name] as 'l', (SELECT NOW()), (SELECT 'abc') as 'lll', 'tbl'.[d]";
+			string sql = "[tbl].[a], [tbl].[b], [tbl].[c], [tbl].[last_name] as 'l', (SELECT NOW()), (SELECT 'abc') as 'lll', [tbl].[d]";
 			Assert.AreEqual(sql, result);
 		}
 

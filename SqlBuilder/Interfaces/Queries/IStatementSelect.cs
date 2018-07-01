@@ -10,6 +10,8 @@ namespace SqlBuilder.Interfaces
 
 		IColumnsListAggregation Columns { get; set; }
 
+		IJoinList Join { get; set; }
+
 		IWhereList Where { get; set; }
 
 		IGroupByList GroupBy { get; set; }

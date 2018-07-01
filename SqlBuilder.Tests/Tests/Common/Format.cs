@@ -30,7 +30,7 @@ namespace SqlBuilder.Tests
 
 			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
 			string result4 = SqlBuilder.FormatColumn(column, "t");
-			Assert.AreEqual("'t'.[" + column + ']', result4);
+			Assert.AreEqual("[t].[" + column + ']', result4);
 
 
 		}
@@ -56,17 +56,32 @@ namespace SqlBuilder.Tests
 
 		[TestMethod]
 		[TestCategory("Format")]
-		public void FormatAlias()
+		public void FormatAliasColumn()
 		{
 			string alias = "text for alias";
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
 
-			string result1 = SqlBuilder.FormatAlias(alias);
+			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
+			string result1 = SqlBuilder.FormatColumnAlias(alias);
 			Assert.AreEqual('\'' + alias + '\'', result1);
 
 			SqlBuilder.DefaultFormatter = FormatterLibrary.MySql;
-			string result2 = SqlBuilder.FormatAlias(alias);
+			string result2 = SqlBuilder.FormatColumnAlias(alias);
 			Assert.AreEqual('\"' + alias + '\"', result2);
+		}
+
+		[TestMethod]
+		[TestCategory("Format")]
+		public void FormatAliasTable()
+		{
+			string alias = "tbl";
+
+			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
+			string result1 = SqlBuilder.FormatTableAlias(alias);
+			Assert.AreEqual('[' + alias + ']', result1);
+
+			SqlBuilder.DefaultFormatter = FormatterLibrary.MySql;
+			string result2 = SqlBuilder.FormatTableAlias(alias);
+			Assert.AreEqual('`' + alias + '`', result2);
 		}
 
 		[TestMethod]

@@ -68,7 +68,7 @@ namespace SqlBuilder.Tests
 
 			g.Append(false, "a", "b", "c");
 			string result = g.GetSql("t");
-			string sql = "'t'.[a], 't'.[b], 't'.[c]";
+			string sql = "[t].[a], [t].[b], [t].[c]";
 			Assert.AreEqual(sql, result);
 		}
 

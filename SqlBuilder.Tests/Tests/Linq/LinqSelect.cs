@@ -65,6 +65,19 @@ namespace SqlBuilder.Tests
 
 		[TestMethod]
 		[TestCategory("Linq")]
+		public void LinqSelectJoin()
+		{
+			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
+
+			var q1 = new Select<DataBaseDemo.Author>();
+			q1.JoinLinq(j => j.LeftJoin("users", "id_user", "id", "u").Append("id_status", "ids")).JoinLinq(j => j.FullJoin("cities", "id_city", "idc", "c"));
+			string result = q1.GetSql();
+			string sql = "SELECT * FROM [tab_authors] LEFT JOIN [users] as [u] ON [tab_authors].[id_user]=[u].[id] AND [tab_authors].[id_status]=[u].[ids] FULL JOIN [cities] as [c] ON [tab_authors].[id_city]=[c].[idc];";
+			Assert.AreEqual(result, sql);
+		}
+
+		[TestMethod]
+		[TestCategory("Linq")]
 		public void LinqSelectComplexQuery()
 		{
 			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;

@@ -49,7 +49,7 @@ namespace SqlBuilder.Tests
 			d.Where.Equal("p1").Less("p2").IsNULL("p3");
 
 			string result = d.GetSql();
-			string sql = "DELETE FROM [tab_authors] as 'td' WHERE 'td'.[p1]=@p1 AND 'td'.[p2]<@p2 AND 'td'.[p3] IS NULL;";
+			string sql = "DELETE FROM [tab_authors] as [td] WHERE [td].[p1]=@p1 AND [td].[p2]<@p2 AND [td].[p3] IS NULL;";
 			Assert.AreEqual(sql, result);
 		}
 

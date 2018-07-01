@@ -54,7 +54,7 @@ namespace SqlBuilder.Tests
 			u.Where.Equal("id");
 
 			string result = u.GetSql();
-			string sql = "UPDATE [tab_authors] as 't' SET 't'.[a]=@a, 't'.[d]=1, 't'.[e]=NOW() WHERE 't'.[id]=@id;";
+			string sql = "UPDATE [tab_authors] as [t] SET [t].[a]=@a, [t].[d]=1, [t].[e]=NOW() WHERE [t].[id]=@id;";
 			Assert.AreEqual(sql, result);
 		}
 
@@ -63,6 +63,7 @@ namespace SqlBuilder.Tests
 		#region Update mapping
 
 		[TestMethod]
+		[TestCategory("Query - Update")]
 		public void UpdateMapping1()
 		{
 			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
@@ -75,6 +76,7 @@ namespace SqlBuilder.Tests
 		}
 
 		[TestMethod]
+		[TestCategory("Query - Update")]
 		public void UpdateMapping2()
 		{
 			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
@@ -87,6 +89,7 @@ namespace SqlBuilder.Tests
 		}
 
 		[TestMethod]
+		[TestCategory("Query - Update")]
 		public void UpdateMapping3()
 		{
 			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
