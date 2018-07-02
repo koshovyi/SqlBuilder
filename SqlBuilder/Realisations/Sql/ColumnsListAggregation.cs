@@ -60,6 +60,15 @@ namespace SqlBuilder.Sql
 			return this;
 		}
 
+		public IColumnsListAggregation Raw(params string[] rawSql)
+		{
+			foreach(string sql in rawSql)
+			{
+				this.Raw(sql);
+			}
+			return this;
+		}
+
 		public IColumnsListAggregation FuncMax(string name, string aliasName = "")
 		{
 			this.AppendAlias(name, aliasName, "MAX(", ")");

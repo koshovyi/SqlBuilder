@@ -275,6 +275,21 @@ namespace SqlBuilder.Tests
 			Assert.AreEqual(sql, result);
 		}
 
+		[TestMethod]
+		[TestCategory("Query - Join")]
+		public void QuerySelectJoinSimple4()
+		{
+			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
+
+			Select<DataBaseDemo.Author> s = new Select<DataBaseDemo.Author>();
+			s.Columns.Raw("[tab_authors].*", "[u].*", "[s].*");
+			s.Join.LeftJoin("users", "id_user", "id", "u");
+			s.Join.LeftJoin("statuses", "id_status", "id", "s");
+			string result = s.GetSql();
+			string sql = "SELECT [tab_authors].*, [u].*, [s].* FROM [tab_authors] LEFT JOIN [users] as [u] ON [tab_authors].[id_user]=[u].[id] LEFT JOIN [statuses] as [s] ON [tab_authors].[id_status]=[s].[id];";
+			Assert.AreEqual(sql, result);
+		}
+
 		#endregion
 
 		#region Select Hard

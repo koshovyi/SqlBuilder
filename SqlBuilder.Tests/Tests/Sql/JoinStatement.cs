@@ -113,7 +113,7 @@ namespace SqlBuilder.Tests
 
 		[TestMethod]
 		[TestCategory("Join")]
-		public void JoinSimpleOneTable()
+		public void JoinSimpleTwoTables()
 		{
 			JoinList list = new JoinList(SqlBuilder.DefaultFormatter);
 

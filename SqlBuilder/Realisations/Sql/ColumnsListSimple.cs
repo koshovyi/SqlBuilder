@@ -60,6 +60,15 @@ namespace SqlBuilder.Sql
 			return this;
 		}
 
+		public IColumnsListSimple Raw(params string[] rawSql)
+		{
+			foreach(string sql in rawSql)
+			{
+				this.Raw(sql);
+			}
+			return this;
+		}
+
 	}
 
 }

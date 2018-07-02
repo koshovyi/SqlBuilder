@@ -114,8 +114,8 @@ namespace SqlBuilder.Tests
 			ColumnsListSimple c = new ColumnsListSimple(SqlBuilder.DefaultFormatter);
 			c.Append("a", "b", "c");
 			c.AppendAlias("last_name", "l");
-			c.Raw("SELECT NOW()");
-			c.Raw("SELECT 'abc'", "lll");
+			c.Raw("(SELECT NOW())");
+			c.Raw("(SELECT 'abc')", "lll");
 			c.Append("d");
 			string result = c.GetSql("tbl");
 			string sql = "[tbl].[a], [tbl].[b], [tbl].[c], [tbl].[last_name] as 'l', (SELECT NOW()), (SELECT 'abc') as 'lll', [tbl].[d]";

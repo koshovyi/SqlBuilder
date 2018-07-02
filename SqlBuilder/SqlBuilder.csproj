@@ -5,9 +5,9 @@
 		<Authors>Dmytro Koshovyi</Authors>
 		<Company>8Bytes</Company>
 		<PackageTags>sql, t-sql, tsql, mssql, mysql, postgresql, database, nosql, db, orm, dapper, entity framework</PackageTags>
-		<AssemblyVersion>0.1.2.0</AssemblyVersion>
+		<AssemblyVersion>0.1.3.0</AssemblyVersion>
 		<FileVersion>0.1.2.0</FileVersion>
-		<Version>0.1.2</Version>
+		<Version>0.1.3</Version>
 		<Copyright>Dmytro Koshovyi (c), Kyiv Ukraine, 8bytes.net</Copyright>
 		<PackageLicenseUrl>http://www.koshovyi.com</PackageLicenseUrl>
 		<PackageProjectUrl>https://github.com/devellloper/SqlBuilder</PackageProjectUrl>

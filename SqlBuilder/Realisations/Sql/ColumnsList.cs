@@ -66,9 +66,9 @@ namespace SqlBuilder.Sql
 					sb.Append(SqlBuilder.FormatTableAlias(tableAlias, this.Parameters) + '.');
 				if (column.IsRaw)
 				{
-					sb.Append('(');
+					//sb.Append('(');
 					sb.Append(column.Value);
-					sb.Append(')');
+					//sb.Append(')');
 				}
 				else
 				{

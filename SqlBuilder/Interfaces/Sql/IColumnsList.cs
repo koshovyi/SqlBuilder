@@ -29,6 +29,8 @@ namespace SqlBuilder.Interfaces
 		T AppendAlias(string name, string alias, string prefix = "", string postfix = "");
 
 		T Raw(string rawSql, string alias = "");
+
+		T Raw(params string[] rawSql);
 	}
 
 	public interface IColumnsListSimple : IColumnsList, IColumnsList<IColumnsListSimple>
