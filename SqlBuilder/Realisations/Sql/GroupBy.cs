@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using SqlBuilder.Enums;
-using SqlBuilder.Interfaces;
+﻿using SqlBuilder.Interfaces;
 
 namespace SqlBuilder.Sql
 {

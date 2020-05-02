@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using SqlBuilder.Interfaces;
+﻿using SqlBuilder.Interfaces;
+using System;
 
 namespace SqlBuilder.Sql
 {

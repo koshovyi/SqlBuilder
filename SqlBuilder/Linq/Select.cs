@@ -1,6 +1,5 @@
-﻿using System;
-using SqlBuilder;
-using SqlBuilder.Interfaces;
+﻿using SqlBuilder.Interfaces;
+using System;
 
 namespace SqlBuilder.Linq
 {

@@ -1,5 +1,5 @@
-﻿using System.Text.RegularExpressions;
-using SqlBuilder.Interfaces;
+﻿using SqlBuilder.Interfaces;
+using System.Text.RegularExpressions;
 
 namespace SqlBuilder.Templates
 {

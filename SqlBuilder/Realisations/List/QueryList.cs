@@ -1,7 +1,6 @@
-﻿using System;
+﻿using SqlBuilder.Interfaces;
 using System.Collections.Generic;
 using System.Text;
-using SqlBuilder.Interfaces;
 
 namespace SqlBuilder
 {

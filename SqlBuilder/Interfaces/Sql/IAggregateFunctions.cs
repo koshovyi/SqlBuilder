@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SqlBuilder.Interfaces
+﻿namespace SqlBuilder.Interfaces
 {
 
 	public interface IAggregateFunctions<out T>

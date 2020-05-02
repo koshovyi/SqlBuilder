@@ -1,8 +1,7 @@
-﻿using System;
+﻿using SqlBuilder.Attributes;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
-using SqlBuilder.Attributes;
-using SqlBuilder.Interfaces;
 
 namespace SqlBuilder
 {

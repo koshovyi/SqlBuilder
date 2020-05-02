@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SqlBuilder.Templates
+﻿namespace SqlBuilder.Templates
 {
 
 	public static class TemplateLibrary

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SqlBuilder.Common
+﻿namespace SqlBuilder.Common
 {
 
 	public static class Compiler
