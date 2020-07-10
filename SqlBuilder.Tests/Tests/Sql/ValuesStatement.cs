@@ -1,7 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using SqlBuilder.Sql;
 
 namespace SqlBuilder.Tests
@@ -15,9 +12,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("ValueList")]
 		public void ValuesSimple1()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			ValueList w = new ValueList(SqlBuilder.DefaultFormatter);
+			ValueList w = new ValueList(global::SqlBuilder.Format.MsSQL);
 			w.Append("a", "b", "c");
 			string result = w.GetSql();
 			string sql = "a, b, c";
@@ -28,9 +23,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("ValueList")]
 		public void ValuesSimple2()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			ValueList w = new ValueList(SqlBuilder.DefaultFormatter);
+			ValueList w = new ValueList(global::SqlBuilder.Format.MsSQL);
 			w.AppendParameters("a", "b", "c");
 			string result = w.GetSql();
 			string sql = "@a, @b, @c";

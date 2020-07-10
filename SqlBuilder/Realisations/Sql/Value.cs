@@ -1,9 +1,7 @@
-﻿using SqlBuilder.Interfaces;
-
-namespace SqlBuilder.Sql
+﻿namespace SqlBuilder.Sql
 {
 
-	public class Value : IValue
+	public class Value
 	{
 
 		public string Expression { get; set; }

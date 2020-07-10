@@ -11,9 +11,13 @@ namespace SqlBuilder.Tests.DataBaseDemo
 		[PrimaryKey, IgnoreInsert, IgnoreUpdate]
 		public int ID { get; set; }
 
-		[Column("created_at")]
+		[ColumnName("created_at")]
 		[InsertDefault("NOW()")]
 		public DateTime CreatedAt {get;set;}
+
+		[ColumnName("updated_at")]
+		[UpdateDefault("NOW()")]
+		public DateTime UpdatedAt { get; set; }
 
 		public string Name { get; set; }
 
@@ -24,6 +28,12 @@ namespace SqlBuilder.Tests.DataBaseDemo
 
 		[ForeignKey]
 		public int ID_Publisher { get; set; }
+
+		[ForeignKey(true)]
+		public int ID_Custom1 { get; set; }
+
+		[ForeignKey("customField")]
+		public int ID_Custom2 { get; set; }
 
 		[ForeignKey]
 		public int ID_Shop { get; set; }

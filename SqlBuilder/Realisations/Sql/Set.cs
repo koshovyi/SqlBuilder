@@ -1,9 +1,7 @@
-﻿using SqlBuilder.Interfaces;
-
-namespace SqlBuilder.Sql
+﻿namespace SqlBuilder.Sql
 {
 
-	public class Set : ISet
+	public class Set
 	{
 
 		public string Name { get; set; }

@@ -9,21 +9,23 @@ namespace SqlBuilder
 	public static class Reflection
 	{
 
-		public static IEnumerable<A> GetAttributes<T, A>()
-		{
-			Type type = typeof(T);
-			foreach (A attr in type.GetCustomAttributes(typeof(A), false))
-			{
-				yield return attr;
-			}
-		}
-
 		public static string GetTableName<T>()
 		{
-			string result = typeof(T).Name.ToLower();
+			string result = typeof(T).Name;
 			foreach (TableNameAttribute a in typeof(T).GetCustomAttributes(typeof(TableNameAttribute), false))
 			{
-				result = a.TableName;
+				result = a.Name;
+				break;
+			}
+			return result;
+		}
+
+		public static string GetTableAlias<T>()
+		{
+			string result = string.Empty;
+			foreach (TableNameAttribute a in typeof(T).GetCustomAttributes(typeof(TableNameAttribute), false))
+			{
+				result = a.Alias;
 				break;
 			}
 			return result;
@@ -36,6 +38,8 @@ namespace SqlBuilder
 			{
 				foreach (PrimaryKeyAttribute pk in property.GetCustomAttributes(typeof(PrimaryKeyAttribute), false))
 				{
+					if(pk.ToLowerCase)
+						return property.Name.ToLower();
 					return property.Name;
 				}
 			}
@@ -49,13 +53,22 @@ namespace SqlBuilder
 			List<string> result = new List<string>();
 			foreach (PropertyInfo property in type.GetProperties())
 			{
+				string name = string.Empty;
 				foreach (ForeignKeyAttribute pk in property.GetCustomAttributes(typeof(ForeignKeyAttribute), false))
 				{
-					result.Add(property.Name);
+					name = pk.Name;
+					if (string.IsNullOrEmpty(name))
+						name = property.Name;
+					if (pk.ToLowerCase)
+						name = name.ToLower();
 					break;
 				}
+				if(!string.IsNullOrEmpty(name))
+					result.Add(name);
 			}
 
+			if (result.Count == 0)
+				throw new Exceptions.ForeignKeyNotFoundException();
 			return result.ToArray();
 		}
 

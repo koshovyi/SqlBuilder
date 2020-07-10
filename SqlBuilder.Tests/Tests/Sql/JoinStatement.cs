@@ -1,8 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SqlBuilder.Sql;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace SqlBuilder.Tests
 {
@@ -17,9 +14,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Join")]
 		public void JoinPrimitivesInner()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			Join j = new Join("users");
+			Join j = new Join(global::SqlBuilder.Format.MsSQL, "users");
 			j.Append("id_user", "id");
 
 			string result = j.GetSql("t");
@@ -32,9 +27,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Join")]
 		public void JoinPrimitivesLeft()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			Join j = new Join("users", type: Enums.JoinType.LEFT);
+			Join j = new Join(global::SqlBuilder.Format.MsSQL, "users", type: Enums.JoinType.LEFT);
 			j.Append("id_user", "id");
 
 			string result = j.GetSql("t");
@@ -47,9 +40,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Join")]
 		public void JoinPrimitivesRight()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			Join j = new Join("users", type: Enums.JoinType.RIGHT);
+			Join j = new Join(global::SqlBuilder.Format.MsSQL, "users", type: Enums.JoinType.RIGHT);
 			j.Append("id_user", "id");
 
 			string result = j.GetSql("t");
@@ -62,9 +53,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Join")]
 		public void JoinPrimitivesFull()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			Join j = new Join("users", type: Enums.JoinType.FULL);
+			Join j = new Join(global::SqlBuilder.Format.MsSQL, "users", type: Enums.JoinType.FULL);
 			j.Append("id_user", "id");
 
 			string result = j.GetSql("t");
@@ -81,9 +70,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Join")]
 		public void JoinPrimitives1()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			Join j = new Join("users");
+			Join j = new Join(global::SqlBuilder.Format.MsSQL, "users");
 			j.Append("id_user", "id").Append("id_admin", "id");
 
 			string result = j.GetSql("t");
@@ -96,9 +83,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Join")]
 		public void JoinPrimitives2()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			Join j = new Join("users", "u");
+			Join j = new Join(global::SqlBuilder.Format.MsSQL, "users", "u", Enums.JoinType.INNER);
 			j.Append("id_user", "id").Append("id_admin", "id");
 
 			string result = j.GetSql("t");
@@ -115,13 +100,13 @@ namespace SqlBuilder.Tests
 		[TestCategory("Join")]
 		public void JoinSimpleTwoTables()
 		{
-			JoinList list = new JoinList(SqlBuilder.DefaultFormatter);
+			JoinList list = new JoinList(global::SqlBuilder.Format.MsSQL);
 
-			Join j1 = new Join("users");
+			Join j1 = new Join(global::SqlBuilder.Format.MsSQL, "users");
 			j1.Append("id_user", "id").Append("id_admin", "id");
 			list.Append(j1);
 
-			Join j2 = new Join("profiles", "p", Enums.JoinType.LEFT);
+			Join j2 = new Join(global::SqlBuilder.Format.MsSQL, "profiles", "p", Enums.JoinType.LEFT);
 			j2.Append("id_profile", "id");
 			list.Append(j2);
 

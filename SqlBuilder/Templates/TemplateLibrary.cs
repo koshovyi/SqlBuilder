@@ -4,7 +4,7 @@
 	public static class TemplateLibrary
 	{
 
-		public static Interfaces.ITemplate Select
+		public static Template Select
 		{
 			get
 			{
@@ -13,7 +13,7 @@
 			}
 		}
 
-		public static Interfaces.ITemplate Insert
+		public static Template Insert
 		{
 			get
 			{
@@ -22,7 +22,7 @@
 			}
 		}
 
-		public static Interfaces.ITemplate Delete
+		public static Template Delete
 		{
 			get
 			{
@@ -31,7 +31,7 @@
 			}
 		}
 
-		public static Interfaces.ITemplate Update
+		public static Template Update
 		{
 			get
 			{
@@ -40,7 +40,7 @@
 			}
 		}
 
-		public static Interfaces.ITemplate Truncate
+		public static Template Truncate
 		{
 			get
 			{
@@ -49,7 +49,7 @@
 			}
 		}
 
-		public static Interfaces.ITemplate DropDatabase
+		public static Template DropDatabase
 		{
 			get
 			{
@@ -58,7 +58,7 @@
 			}
 		}
 
-		public static Interfaces.ITemplate DropTable
+		public static Template DropTable
 		{
 			get
 			{

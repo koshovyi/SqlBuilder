@@ -7,12 +7,12 @@ namespace SqlBuilder.Sql
 	public class ColumnsListAggregation : ColumnsList, IColumnsListAggregation
 	{
 
-		public ColumnsListAggregation(IFormatter parameters) : base(parameters)
+		internal ColumnsListAggregation(Format parameters) : base(parameters)
 		{
 			this.Parameters = parameters;
 		}
 
-		public IColumnsListAggregation Append(IColumn expression)
+		public IColumnsListAggregation Append(Column expression)
 		{
 			if (expression == null)
 				throw new ArgumentNullException(nameof(expression));
@@ -89,6 +89,14 @@ namespace SqlBuilder.Sql
 		public IColumnsListAggregation FuncSum(string name, string aliasName = "")
 		{
 			this.AppendAlias("*", aliasName, "SUM(", ")");
+			return this;
+		}
+
+		public IColumnsListAggregation SubQuery(IStatementSelect select, string alias = "")
+		{
+			if (!string.IsNullOrEmpty(alias))
+				alias = this.Parameters.AliasOperator + SqlBuilder.FormatColumnAlias(alias, this.Parameters);
+			this.Raw('(' + select.GetSql(true) + ')' + alias);
 			return this;
 		}
 

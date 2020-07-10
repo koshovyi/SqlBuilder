@@ -1,7 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using SqlBuilder.Sql;
 
 namespace SqlBuilder.Tests
@@ -17,9 +14,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Where - Raw, In")]
 		public void RawSimple1()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			WhereList w = new WhereList(SqlBuilder.DefaultFormatter);
+			WhereList w = new WhereList(global::SqlBuilder.Format.MsSQL);
 			w.Raw("[a] IS NULL AND [b]=2 AND [c] NOT LIKE '%text%'");
 			string result = w.GetSql();
 			string sql = "[a] IS NULL AND [b]=2 AND [c] NOT LIKE '%text%'";
@@ -30,9 +25,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Where - Raw, In")]
 		public void RawSimple2()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			WhereList w = new WhereList(SqlBuilder.DefaultFormatter);
+			WhereList w = new WhereList(global::SqlBuilder.Format.MsSQL);
 			w.Raw("[a] NOT LIKE '%text%'");
 			w.Equal("id");
 			string result = w.GetSql();
@@ -48,9 +41,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Where - Raw, In")]
 		public void InSimple1()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			WhereList w = new WhereList(SqlBuilder.DefaultFormatter);
+			WhereList w = new WhereList(global::SqlBuilder.Format.MsSQL);
 			w.Equal("a");
 			w.In("b", "1", "2", "3");
 			w.Equal("c");
@@ -63,9 +54,18 @@ namespace SqlBuilder.Tests
 		[TestCategory("Where - Raw, In")]
 		public void InSimple2()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
+			WhereList w = new WhereList(global::SqlBuilder.Format.MsSQL);
+			w.In("id_user", "SELECT id FROM tab_users");
+			string result = w.GetSql();
+			string sql = "[id_user] IN (SELECT id FROM tab_users)";
+			Assert.AreEqual(sql, result);
+		}
 
-			WhereList w = new WhereList(SqlBuilder.DefaultFormatter);
+		[TestMethod]
+		[TestCategory("Where - Raw, In")]
+		public void InSimple3()
+		{
+			WhereList w = new WhereList(global::SqlBuilder.Format.MsSQL);
 			w.In("id_user", "SELECT id FROM tab_users");
 			string result = w.GetSql();
 			string sql = "[id_user] IN (SELECT id FROM tab_users)";
@@ -80,9 +80,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Where - Equal, NotEqual")]
 		public void AndEqualSimple1()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			WhereList w = new WhereList(SqlBuilder.DefaultFormatter);
+			WhereList w = new WhereList(global::SqlBuilder.Format.MsSQL);
 			w.Equal("a", "b", "c");
 			string result = w.GetSql();
 			string sql = "[a]=@a AND [b]=@b AND [c]=@c";
@@ -93,9 +91,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Where - Equal, NotEqual")]
 		public void AndEqualSimple2()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			WhereList w = new WhereList(SqlBuilder.DefaultFormatter);
+			WhereList w = new WhereList(global::SqlBuilder.Format.MsSQL);
 			w.Equal("a", "b", "c");
 			string result = w.GetSql(tableAlias: "t");
 			string sql = "[t].[a]=@a AND [t].[b]=@b AND [t].[c]=@c";
@@ -106,9 +102,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Where - Equal, NotEqual")]
 		public void AndEqualParamValue()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			WhereList w = new WhereList(SqlBuilder.DefaultFormatter);
+			WhereList w = new WhereList(global::SqlBuilder.Format.MsSQL);
 			w.EqualValue("a", "1");
 			w.EqualValue("b", "2");
 			w.EqualValue("c", "3");
@@ -121,9 +115,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Where - Equal, NotEqual")]
 		public void AndNotEqualSimple()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			WhereList w = new WhereList(SqlBuilder.DefaultFormatter);
+			WhereList w = new WhereList(global::SqlBuilder.Format.MsSQL);
 			w.NotEqual("a", "b", "c");
 			string result = w.GetSql();
 			string sql = "[a]!=@a AND [b]!=@b AND [c]!=@c";
@@ -134,9 +126,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Where - Equal, NotEqual")]
 		public void AndNotEqualParamValue()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			WhereList w = new WhereList(SqlBuilder.DefaultFormatter);
+			WhereList w = new WhereList(global::SqlBuilder.Format.MsSQL);
 			w.NotEqualValue("a", "1");
 			w.NotEqualValue("b", "2");
 			w.NotEqualValue("c", "3");
@@ -153,9 +143,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Where - Combinations")]
 		public void ComboAndEqualAndNotEqual()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			WhereList w = new WhereList(SqlBuilder.DefaultFormatter);
+			WhereList w = new WhereList(global::SqlBuilder.Format.MsSQL);
 			w.EqualValue("a", "1");
 			w.NotEqualValue("b", "2");
 			string result = w.GetSql();
@@ -171,9 +159,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Where - Greater, Less")]
 		public void AndEqualGreater()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			WhereList w = new WhereList(SqlBuilder.DefaultFormatter);
+			WhereList w = new WhereList(global::SqlBuilder.Format.MsSQL);
 			w.EqualGreater("a", "b", "c");
 			string result = w.GetSql();
 			string sql = "[a]>=@a AND [b]>=@b AND [c]>=@c";
@@ -184,9 +170,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Where - Greater, Less")]
 		public void AndEqualLess()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			WhereList w = new WhereList(SqlBuilder.DefaultFormatter);
+			WhereList w = new WhereList(global::SqlBuilder.Format.MsSQL);
 			w.EqualLess("a", "b", "c");
 			string result = w.GetSql();
 			string sql = "[a]<=@a AND [b]<=@b AND [c]<=@c";
@@ -197,9 +181,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Where - Greater, Less")]
 		public void AndGreater()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			WhereList w = new WhereList(SqlBuilder.DefaultFormatter);
+			WhereList w = new WhereList(global::SqlBuilder.Format.MsSQL);
 			w.Greater("a", "b", "c");
 			string result = w.GetSql();
 			string sql = "[a]>@a AND [b]>@b AND [c]>@c";
@@ -210,9 +192,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Where - Greater, Less")]
 		public void AndLess()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			WhereList w = new WhereList(SqlBuilder.DefaultFormatter);
+			WhereList w = new WhereList(global::SqlBuilder.Format.MsSQL);
 			w.Less("a", "b", "c");
 			string result = w.GetSql();
 			string sql = "[a]<@a AND [b]<@b AND [c]<@c";
@@ -223,9 +203,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Where - Greater, Less")]
 		public void AndEqualGreaterParam()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			WhereList w = new WhereList(SqlBuilder.DefaultFormatter);
+			WhereList w = new WhereList(global::SqlBuilder.Format.MsSQL);
 			w.EqualGreaterValue("a", "1");
 			w.EqualGreaterValue("b", "2");
 			w.EqualGreaterValue("c", "3");
@@ -238,9 +216,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Where - Greater, Less")]
 		public void AndEqualLessParam()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			WhereList w = new WhereList(SqlBuilder.DefaultFormatter);
+			WhereList w = new WhereList(global::SqlBuilder.Format.MsSQL);
 			w.EqualLessValue("a", "1");
 			w.EqualLessValue("b", "2");
 			w.EqualLessValue("c", "3");
@@ -253,9 +229,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Where - Greater, Less")]
 		public void AndGreaterParam()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			WhereList w = new WhereList(SqlBuilder.DefaultFormatter);
+			WhereList w = new WhereList(global::SqlBuilder.Format.MsSQL);
 			w.GreaterValue("a", "1");
 			w.GreaterValue("b", "2");
 			w.GreaterValue("c", "3");
@@ -268,9 +242,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Where - Greater, Less")]
 		public void AndLessParam()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			WhereList w = new WhereList(SqlBuilder.DefaultFormatter);
+			WhereList w = new WhereList(global::SqlBuilder.Format.MsSQL);
 			w.LessValue("a", "1");
 			w.LessValue("b", "2");
 			w.LessValue("c", "3");
@@ -287,9 +259,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Where - Combinations")]
 		public void ComboAndGreaterAndLess()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			WhereList w = new WhereList(SqlBuilder.DefaultFormatter);
+			WhereList w = new WhereList(global::SqlBuilder.Format.MsSQL);
 			w.Greater("a");
 			w.Less("b");
 			string result = w.GetSql();
@@ -305,9 +275,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Where - Combinations")]
 		public void IsNullSimple()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			WhereList w = new WhereList(SqlBuilder.DefaultFormatter);
+			WhereList w = new WhereList(global::SqlBuilder.Format.MsSQL);
 			w.IsNULL("a", "b", "c");
 			string result = w.GetSql();
 			string sql = "[a] IS NULL AND [b] IS NULL AND [c] IS NULL";
@@ -318,9 +286,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Where - Combinations")]
 		public void IsNotNullSimple()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			WhereList w = new WhereList(SqlBuilder.DefaultFormatter);
+			WhereList w = new WhereList(global::SqlBuilder.Format.MsSQL);
 			w.IsNotNULL("a", "b", "c");
 			string result = w.GetSql();
 			string sql = "[a] IS NOT NULL AND [b] IS NOT NULL AND [c] IS NOT NULL";
@@ -335,9 +301,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Where - Parenthesis")]
 		public void WhereParenthesis1()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			WhereList w = new WhereList(SqlBuilder.DefaultFormatter);
+			WhereList w = new WhereList(global::SqlBuilder.Format.MsSQL);
 			w.OpenParenthesis();
 			w.Or();
 			w.IsNULL("a", "b", "c");
@@ -351,9 +315,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Where - Parenthesis")]
 		public void WhereParenthesis2()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			WhereList w = new WhereList(SqlBuilder.DefaultFormatter);
+			WhereList w = new WhereList(global::SqlBuilder.Format.MsSQL);
 			w.Equal("id");
 			w.OpenParenthesis(2);
 			w.IsNULL("a", "b", "c");
@@ -372,9 +334,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Where - Parenthesis")]
 		public void WhereParenthesis3()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			WhereList w = new WhereList(SqlBuilder.DefaultFormatter);
+			WhereList w = new WhereList(global::SqlBuilder.Format.MsSQL);
 			w.OpenParenthesis(3);
 			w.Or();
 			w.IsNULL("a", "b");
@@ -397,9 +357,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Where - Parenthesis")]
 		public void WhereParenthesis4()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			WhereList w = new WhereList(SqlBuilder.DefaultFormatter);
+			WhereList w = new WhereList(global::SqlBuilder.Format.MsSQL);
 			w.RawParenthesis("[a] IS NULL OR [b] IS NULL");
 			string result = w.GetSql();
 			string sql = "([a] IS NULL OR [b] IS NULL)";
@@ -410,9 +368,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Where - Parenthesis")]
 		public void WhereParenthesis5()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			WhereList w = new WhereList(SqlBuilder.DefaultFormatter);
+			WhereList w = new WhereList(global::SqlBuilder.Format.MsSQL);
 			w.RawParenthesis("[a] IS NULL OR [b] IS NULL");
 			w.RawParenthesis("[c] IS NULL OR [d] IS NULL");
 			string result = w.GetSql();

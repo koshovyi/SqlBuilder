@@ -8,33 +8,60 @@ using System.Reflection;
 namespace SqlBuilder
 {
 
-	public class Update<T> : IStatementUpdate
+	public class Update : IStatementUpdate
 	{
 
-		public IFormatter Formatter { get; set; }
+		public Format Format { get; set; }
 
 		public Enums.SqlQuery Query { get; private set; }
 
+		public string TableName { get; set; }
+
 		public string TableAlias { get; set; }
 
-		public ISetList Sets { get; set; }
+		public SetList Sets { get; set; }
 
-		public IWhereList Where { get; set; }
+		public WhereList Where { get; set; }
 
-		public Update(bool autoMapping = false, string tableAlias = "") : this(SqlBuilder.DefaultFormatter, autoMapping, tableAlias)
-		{
-		}
-
-		public Update(IFormatter parameters, bool autoMapping = false, string tableAlias = "")
+		public Update(Format parameters, string tableName, string tableAlias = "")
 		{
 			this.Query = Enums.SqlQuery.Update;
-			this.Formatter = parameters;
+			this.Format = parameters;
+			this.TableName = tableName;
 			this.TableAlias = tableAlias;
-			this.Sets = new SetList(this.Formatter);
-			this.Where = new WhereList(this.Formatter);
+			this.Sets = new SetList(this.Format);
+			this.Where = new WhereList(this.Format);
+		}
 
-			if (autoMapping)
-				this.Mapping();
+		public string GetSql()
+		{
+			Template result = TemplateLibrary.Update;
+			result.Append(SnippetLibrary.Table(this.TableName, this.Format, this.TableAlias));
+			result.Append(SnippetLibrary.Sets(this.Sets.GetSql(this.TableAlias)));
+			if (this.Where.Count > 0)
+				result.Append(SnippetLibrary.Where(this.Where.GetSql(this.TableAlias)));
+
+			return result.GetSql(this.Format);
+		}
+
+		public override string ToString()
+		{
+			return this.GetSql();
+		}
+
+	}
+
+	public class Update<T> : Update
+	{
+
+		public Update(Format format) : base(format, Reflection.GetTableName<T>(), Reflection.GetTableAlias<T>())
+		{
+			this.Mapping();
+		}
+
+		public Update(Format format, string tableAlias) : base(format, Reflection.GetTableName<T>(), tableAlias)
+		{
+			this.Mapping();
 		}
 
 		private void Mapping()
@@ -50,56 +77,22 @@ namespace SqlBuilder
 
 				foreach (Attribute attribute in property.GetCustomAttributes())
 				{
-					if (attribute is IgnoreInsertAttribute)
+					if (attribute is IgnoreUpdateAttribute)
 						ignore = true;
-					if (attribute is InsertDefaultAttribute insertDefault)
+					if (attribute is UpdateDefaultAttribute insertDefault)
 						defaultValue = insertDefault.DefaultValue;
-					if (attribute is ColumnAttribute clm)
-						columnName = clm.ColumnName.ToLower();
+					if (attribute is ColumnNameAttribute clm)
+						columnName = clm.Name.ToLower();
 				}
 
 				if (!ignore)
 				{
-					this.Sets.AppendValue(columnName, this.Formatter.Parameter + columnName);
-					//this.Columns.Append(columnName == string.Empty ? property.Name.ToLower() : columnName);
-					//if (defaultValue == string.Empty)
-					//	this.Values.Append(this.Formatter.Parameter + property.Name.ToLower());
-					//else
-					//	this.Values.Append(defaultValue);
+					if (defaultValue == string.Empty)
+						this.Sets.AppendValue(columnName, this.Format.Parameter + columnName);
+					else
+						this.Sets.AppendValue(columnName, defaultValue);
 				}
 			}
-		}
-
-		public string GetSql()
-		{
-			string table = Reflection.GetTableName<T>();
-
-			ITemplate result = TemplateLibrary.Update;
-			result.Append(SnippetLibrary.Table(table, this.TableAlias));
-			result.Append(SnippetLibrary.Sets(this.Sets.GetSql(this.TableAlias)));
-			if (this.Where.Count > 0)
-				result.Append(SnippetLibrary.Where(this.Where.GetSql(this.TableAlias)));
-
-			return result.GetSql();
-		}
-
-		public override string ToString()
-		{
-			return this.GetSql();
-		}
-
-		public static Insert<T> InsertWithMapping(params string[] parameters)
-		{
-			Insert<T> result = new Insert<T>();
-			result.AppendParameters(parameters);
-			return result;
-		}
-
-		public static Insert<T> InsertWithoutMapping(params string[] parameters)
-		{
-			Insert<T> result = new Insert<T>(false);
-			result.AppendParameters(parameters);
-			return result;
 		}
 
 	}

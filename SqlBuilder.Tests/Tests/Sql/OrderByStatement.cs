@@ -1,7 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using SqlBuilder.Sql;
 
 namespace SqlBuilder.Tests
@@ -15,9 +12,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("OrderBy")]
 		public void OrderByASCSimple1()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			OrderByList o = new OrderByList(SqlBuilder.DefaultFormatter);
+			OrderByList o = new OrderByList(global::SqlBuilder.Format.MsSQL);
 			o.Ascending("a");
 			string result = o.GetSql();
 			string sql = "[a] ASC";
@@ -28,9 +23,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("OrderBy")]
 		public void OrderByASCSimple2()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			OrderByList o = new OrderByList(SqlBuilder.DefaultFormatter);
+			OrderByList o = new OrderByList(global::SqlBuilder.Format.MsSQL);
 			o.Ascending("a", "b", "c");
 			string result = o.GetSql();
 			string sql = "[a] ASC, [b] ASC, [c] ASC";
@@ -41,9 +34,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("OrderBy")]
 		public void OrderByDESCSimple1()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			OrderByList o = new OrderByList(SqlBuilder.DefaultFormatter);
+			OrderByList o = new OrderByList(global::SqlBuilder.Format.MsSQL);
 			o.Descending("a");
 			string result = o.GetSql();
 			string sql = "[a] DESC";
@@ -54,9 +45,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("OrderBy")]
 		public void OrderByDESCSimple2()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			OrderByList o = new OrderByList(SqlBuilder.DefaultFormatter);
+			OrderByList o = new OrderByList(global::SqlBuilder.Format.MsSQL);
 			o.Descending("a", "b", "c");
 			string result = o.GetSql();
 			string sql = "[a] DESC, [b] DESC, [c] DESC";
@@ -67,9 +56,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("OrderBy")]
 		public void OrderByASCAndDESC1()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			OrderByList o = new OrderByList(SqlBuilder.DefaultFormatter);
+			OrderByList o = new OrderByList(global::SqlBuilder.Format.MsSQL);
 			o.Ascending("a");
 			o.Descending("b");
 			o.Ascending("c");
@@ -83,9 +70,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("OrderBy")]
 		public void OrderByASCAndDESC2()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			OrderByList o = new OrderByList(SqlBuilder.DefaultFormatter);
+			OrderByList o = new OrderByList(global::SqlBuilder.Format.MsSQL);
 			o.Ascending("a", "b", "c");
 			o.Descending("d", "e", "f");
 			string result = o.GetSql();
@@ -97,9 +82,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("OrderBy")]
 		public void OrderByASCAndDESCAlias()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			OrderByList o = new OrderByList(SqlBuilder.DefaultFormatter);
+			OrderByList o = new OrderByList(global::SqlBuilder.Format.MsSQL);
 			o.Ascending("a");
 			o.Descending("b");
 			o.Ascending("c");

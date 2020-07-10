@@ -1,76 +1,45 @@
-﻿using System.Text;
-using SqlBuilder.Interfaces;
-
-namespace SqlBuilder
+﻿namespace SqlBuilder
 {
 
 	public static partial class SqlBuilder
 	{
 
-		public static IFormatter DefaultFormatter { get; set; }
-
 		static SqlBuilder()
 		{
-			DefaultFormatter = FormatterLibrary.MsSql;
 		}
 
-		public static string FormatColumn(string column, string tableAlias = "")
-		{
-			return FormatColumn(column, SqlBuilder.DefaultFormatter, tableAlias);
-		}
-
-		public static string FormatColumn(string column, IFormatter parameters, string tableAlias = "")
+		public static string FormatColumn(string column, Format formatter, string tableAlias = "")
 		{
 			if (!string.IsNullOrEmpty(tableAlias))
-				tableAlias = FormatTableAlias(tableAlias) + '.';
+				tableAlias = FormatTableAlias(tableAlias, formatter) + '.';
 
-			column = parameters.EscapeEnabled
-				? parameters.ColumnEscapeLeft + column + parameters.ColumnEscapeRight
+			column = formatter.EscapeEnabled
+				? formatter.ColumnEscapeLeft + column + formatter.ColumnEscapeRight
 				: column;
 
 			return tableAlias + column;
 		}
 
-		public static string FormatParameter(string column)
+		public static string FormatParameter(string column, Format formatter)
 		{
-			return FormatParameter(column, SqlBuilder.DefaultFormatter);
+			return formatter.Parameter + column;
 		}
 
-		public static string FormatParameter(string column, IFormatter parameters)
+		public static string FormatTable(string tableName, Format formatter)
 		{
-			return parameters.Parameter + column;
-		}
-
-		public static string FormatTable(string tableName)
-		{
-			return FormatTable(tableName, SqlBuilder.DefaultFormatter);
-		}
-
-		public static string FormatTable(string tableName, IFormatter parameters)
-		{
-			return parameters.EscapeEnabled
-				? parameters.TableEscapeLeft + tableName + parameters.TableEscapeRight
+			return formatter.EscapeEnabled
+				? formatter.TableEscapeLeft + tableName + formatter.TableEscapeRight
 				: tableName;
 		}
 
-		public static string FormatTableAlias(string value)
+		public static string FormatTableAlias(string value, Format formatter)
 		{
-			return FormatTableAlias(value, SqlBuilder.DefaultFormatter);
+			return formatter.TableEscapeLeft + value + formatter.TableEscapeRight;
 		}
 
-		public static string FormatTableAlias(string value, IFormatter parameters)
+		public static string FormatColumnAlias(string value, Format formatter)
 		{
-			return parameters.TableEscapeLeft + value + parameters.TableEscapeRight;
-		}
-
-		public static string FormatColumnAlias(string value)
-		{
-			return FormatColumnAlias(value, SqlBuilder.DefaultFormatter);
-		}
-
-		public static string FormatColumnAlias(string value, IFormatter parameters)
-		{
-			return parameters.AliasEscape + value + parameters.AliasEscape;
+			return formatter.AliasEscape + value + formatter.AliasEscape;
 		}
 
 	}

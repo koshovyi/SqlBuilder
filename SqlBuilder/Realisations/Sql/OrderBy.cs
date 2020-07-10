@@ -1,10 +1,9 @@
 ﻿using SqlBuilder.Enums;
-using SqlBuilder.Interfaces;
 
 namespace SqlBuilder.Sql
 {
 
-	public class OrderBy : IOrderBy
+	public class OrderBy
 	{
 
 		public OrderDirection Direction { get; set; }
@@ -29,12 +28,12 @@ namespace SqlBuilder.Sql
 			}
 		}
 
-		public static IOrderBy Ascending(string column)
+		public static OrderBy Ascending(string column)
 		{
 			return new OrderBy(column, OrderDirection.ASC);
 		}
 
-		public static IOrderBy Descending(string column)
+		public static OrderBy Descending(string column)
 		{
 			return new OrderBy(column, OrderDirection.DESC);
 		}

@@ -7,12 +7,12 @@ namespace SqlBuilder.Sql
 	public class ColumnsListSimple : ColumnsList, IColumnsListSimple
 	{
 
-		public ColumnsListSimple(IFormatter parameters) : base(parameters)
+		internal ColumnsListSimple(Format parameters) : base(parameters)
 		{
 			this.Parameters = parameters;
 		}
 
-		public IColumnsListSimple Append(IColumn expression)
+		public IColumnsListSimple Append(Column expression)
 		{
 			if (expression == null)
 				throw new ArgumentNullException(nameof(expression));
@@ -65,6 +65,14 @@ namespace SqlBuilder.Sql
 			{
 				this.Raw(sql);
 			}
+			return this;
+		}
+
+		public IColumnsListSimple SubQuery(IStatementSelect select, string alias = "")
+		{
+			if (!string.IsNullOrEmpty(alias))
+				alias = this.Parameters.AliasOperator + SqlBuilder.FormatColumnAlias(alias, this.Parameters);
+			this.Raw('(' + select.GetSql() + ')' + alias);
 			return this;
 		}
 

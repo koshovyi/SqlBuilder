@@ -1,13 +1,10 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace SqlBuilder.Tests
 {
 
 	[TestClass]
-	public class Format
+	public class FormatTests
 	{
 
 		[TestMethod]
@@ -15,24 +12,20 @@ namespace SqlBuilder.Tests
 		public void FormatColumns()
 		{
 			string column = "date";
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
 
-			string result1 = SqlBuilder.FormatColumn(column);
+			string result1 = SqlBuilder.FormatColumn(column, Format.MsSQL);
 			Assert.AreEqual('[' + column + ']', result1);
 
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MySql;
-			string result2 = SqlBuilder.FormatColumn(column);
+			string result2 = SqlBuilder.FormatColumn(column, Format.MySQL);
 			Assert.AreEqual('`' + column + '`', result2);
 
-			SqlBuilder.DefaultFormatter.EscapeEnabled = false;
-			string result3 = SqlBuilder.FormatColumn(column);
+			Format c = Format.MySQL;
+			c.EscapeEnabled = false;
+			string result3 = SqlBuilder.FormatColumn(column, c);
 			Assert.AreEqual(column, result3);
 
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-			string result4 = SqlBuilder.FormatColumn(column, "t");
+			string result4 = SqlBuilder.FormatColumn(column, Format.MsSQL, "t");
 			Assert.AreEqual("[t].[" + column + ']', result4);
-
-
 		}
 
 		[TestMethod]
@@ -40,17 +33,16 @@ namespace SqlBuilder.Tests
 		public void FormatTable()
 		{
 			string table = "tab_users";
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
 
-			string result1 = SqlBuilder.FormatTable(table);
+			string result1 = SqlBuilder.FormatTable(table, Format.MsSQL);
 			Assert.AreEqual('[' + table + ']', result1);
 
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MySql;
-			string result2 = SqlBuilder.FormatTable(table);
+			string result2 = SqlBuilder.FormatTable(table, Format.MySQL);
 			Assert.AreEqual('`' + table + '`', result2);
 
-			SqlBuilder.DefaultFormatter.EscapeEnabled = false;
-			string result3 = SqlBuilder.FormatTable(table);
+			Format c = Format.MySQL;
+			c.EscapeEnabled = false;
+			string result3 = SqlBuilder.FormatTable(table, c);
 			Assert.AreEqual(table, result3);
 		}
 
@@ -60,12 +52,10 @@ namespace SqlBuilder.Tests
 		{
 			string alias = "text for alias";
 
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-			string result1 = SqlBuilder.FormatColumnAlias(alias);
+			string result1 = SqlBuilder.FormatColumnAlias(alias, Format.MsSQL);
 			Assert.AreEqual('\'' + alias + '\'', result1);
 
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MySql;
-			string result2 = SqlBuilder.FormatColumnAlias(alias);
+			string result2 = SqlBuilder.FormatColumnAlias(alias, Format.MySQL);
 			Assert.AreEqual('\"' + alias + '\"', result2);
 		}
 
@@ -75,12 +65,10 @@ namespace SqlBuilder.Tests
 		{
 			string alias = "tbl";
 
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-			string result1 = SqlBuilder.FormatTableAlias(alias);
+			string result1 = SqlBuilder.FormatTableAlias(alias, Format.MsSQL);
 			Assert.AreEqual('[' + alias + ']', result1);
 
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MySql;
-			string result2 = SqlBuilder.FormatTableAlias(alias);
+			string result2 = SqlBuilder.FormatTableAlias(alias, Format.MySQL);
 			Assert.AreEqual('`' + alias + '`', result2);
 		}
 
@@ -89,13 +77,11 @@ namespace SqlBuilder.Tests
 		public void FormatParameter()
 		{
 			string name = "login";
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
 
-			string result1 = SqlBuilder.FormatParameter(name);
+			string result1 = SqlBuilder.FormatParameter(name, Format.MsSQL);
 			Assert.AreEqual('@' + name, result1);
 
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MySql;
-			string result2 = SqlBuilder.FormatParameter(name);
+			string result2 = SqlBuilder.FormatParameter(name, Format.MySQL);
 			Assert.AreEqual('?' + name, result2);
 		}
 

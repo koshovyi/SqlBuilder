@@ -5,14 +5,14 @@ using System.Text;
 namespace SqlBuilder.Sql
 {
 
-	public class Join : IJoin
+	public class Join
 	{
 
-		protected readonly List<IJoinItem> _expressions;
+		protected readonly List<JoinItem> _expressions;
 
 		#region Properties
 
-		public IFormatter Parameters { get; set; }
+		public Format Parameters { get; set; }
 
 		public Enums.JoinType Type { get; set; }
 
@@ -20,7 +20,7 @@ namespace SqlBuilder.Sql
 
 		public string TableAlias { get; set; }
 
-		public IEnumerable<IJoinItem> Expressions
+		public IEnumerable<JoinItem> Expressions
 		{
 			get
 			{
@@ -40,13 +40,13 @@ namespace SqlBuilder.Sql
 
 		#region Constructors
 
-		public Join(string table, string tableAlias = "", Enums.JoinType type = Enums.JoinType.INNER) : this(SqlBuilder.DefaultFormatter, table, tableAlias, type)
+		public Join(Format parameters, string table, Enums.JoinType type = Enums.JoinType.INNER) : this(parameters, table, string.Empty, type)
 		{
 		}
 
-		public Join(IFormatter parameters, string table, string tableAlias, Enums.JoinType type)
+		public Join(Format parameters, string table, string tableAlias, Enums.JoinType type)
 		{
-			this._expressions = new List<IJoinItem>();
+			this._expressions = new List<JoinItem>();
 			this.Parameters = parameters;
 			this.Type = type;
 			this.Table = table;
@@ -55,22 +55,22 @@ namespace SqlBuilder.Sql
 
 		#endregion
 
-		public IJoin Append(IJoinItem item)
+		public Join Append(JoinItem item)
 		{
 			this._expressions.Add(item);
 			return this;
 		}
 
-		public IJoin Append(string sourceColumn, string destColumn)
+		public Join Append(string sourceColumn, string destColumn)
 		{
-			IJoinItem item = new JoinItem(sourceColumn, destColumn);
+			JoinItem item = new JoinItem(sourceColumn, destColumn);
 			this._expressions.Add(item);
 			return this;
 		}
 
-		public IJoin AppendRaw(string rawSql)
+		public Join AppendRaw(string rawSql)
 		{
-			IJoinItem item = new JoinItem(rawSql);
+			JoinItem item = new JoinItem(rawSql);
 			this._expressions.Add(item);
 			return this;
 		}
@@ -88,13 +88,13 @@ namespace SqlBuilder.Sql
 			sb.Append(SqlBuilder.FormatTable(this.Table, this.Parameters));
 			if (!string.IsNullOrEmpty(this.TableAlias))
 			{
-				sb.Append(" as ");
+				sb.Append(this.Parameters.AliasOperator);
 				sb.Append(SqlBuilder.FormatTableAlias(this.TableAlias, this.Parameters));
 			}
 			sb.Append(" ON ");
 
 			StringBuilder ex = new StringBuilder();
-			foreach (IJoinItem item in this._expressions)
+			foreach (JoinItem item in this._expressions)
 			{
 				if (ex.Length > 0)
 					ex.Append(" AND ");

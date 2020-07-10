@@ -3,7 +3,7 @@
 namespace SqlBuilder.Exceptions
 {
 
-	public class ParenthesisExpectedException : Exception
+	public class ForeignKeyNotFoundException : Exception
 	{
 	}
 

@@ -1,9 +1,7 @@
-﻿using SqlBuilder.Interfaces;
-
-namespace SqlBuilder.Sql
+﻿namespace SqlBuilder.Sql
 {
 
-	public class JoinItem : IJoinItem
+	public class JoinItem
 	{
 
 		public bool IsRaw { get; set; }

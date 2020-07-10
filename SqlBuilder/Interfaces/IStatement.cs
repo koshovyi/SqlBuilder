@@ -4,7 +4,7 @@
 	public interface IStatement
 	{
 
-		IFormatter Formatter { get; set; }
+		Format Format { get; set; }
 
 		Enums.SqlQuery Query { get; }
 
@@ -12,10 +12,12 @@
 
 	}
 
-	public interface IStatementTableAlias
+	public interface IStatementTable : IStatement
 	{
 
 		string TableAlias { get; set; }
+
+		string TableName { get; set; }
 
 	}
 

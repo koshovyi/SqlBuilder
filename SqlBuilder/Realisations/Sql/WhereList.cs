@@ -4,14 +4,14 @@ using System.Text;
 
 namespace SqlBuilder.Sql
 {
-	public class WhereList : IWhereList
+	public class WhereList
 	{
 
-		private readonly List<IWhere> _expressions;
+		private readonly List<Where> _expressions;
 
 		#region Properties
 
-		public IFormatter Parameters { get; private set; }
+		public Format Parameters { get; private set; }
 
 		public Enums.WhereLogic LogicOperator { get; private set; } = Enums.WhereLogic.And;
 
@@ -19,7 +19,7 @@ namespace SqlBuilder.Sql
 
 		public int Level { get; private set; }
 
-		public IEnumerable<IWhere> Expressions
+		public IEnumerable<Where> Expressions
 		{
 			get
 			{
@@ -31,9 +31,9 @@ namespace SqlBuilder.Sql
 
 		#region Construcor
 
-		public WhereList(IFormatter parameters)
+		public WhereList(Format parameters)
 		{
-			this._expressions = new List<IWhere>();
+			this._expressions = new List<Where>();
 			this.Parameters = parameters;
 		}
 
@@ -41,19 +41,19 @@ namespace SqlBuilder.Sql
 
 		#region Logic operators
 
-		public IWhereList And()
+		public WhereList And()
 		{
 			this.LogicOperator = Enums.WhereLogic.And;
 			return this;
 		}
 
-		public IWhereList Or()
+		public WhereList Or()
 		{
 			this.LogicOperator = Enums.WhereLogic.Or;
 			return this;
 		}
 
-		public IWhereList AndNot()
+		public WhereList AndNot()
 		{
 			this.LogicOperator = Enums.WhereLogic.AndNot;
 			return this;
@@ -71,7 +71,7 @@ namespace SqlBuilder.Sql
 			}
 		}
 
-		public void Append(IWhere expression)
+		public void Append(Where expression)
 		{
 			this._expressions.Add(expression);
 		}
@@ -83,19 +83,23 @@ namespace SqlBuilder.Sql
 
 		private void CreateExpression(Enums.WhereType type, string column, string value, string prefix = "", string postfix = "")
 		{
-			IWhere exp = new Where(type, this.LogicOperator);
-			exp.Column = column;
-			exp.IsColumn = true;
-			exp.Value = value;
-			exp.Prefix = prefix;
-			exp.Postfix = postfix;
+			Where exp = new Where(type, this.LogicOperator)
+			{
+				Column = column,
+				IsColumn = true,
+				Value = value,
+				Prefix = prefix,
+				Postfix = postfix,
+			};
 			this.Append(exp);
 		}
 
 		private void CreateParenthesis(Enums.Parenthesis parenthesis, string value = "")
 		{
-			IWhere exp = new Where(Enums.WhereType.None, this.LogicOperator, parenthesis);
-			exp.Value = value;
+			Where exp = new Where(Enums.WhereType.None, this.LogicOperator, parenthesis)
+			{
+				Value = value,
+			};
 			this.Append(exp);
 		}
 
@@ -103,16 +107,25 @@ namespace SqlBuilder.Sql
 
 		#region Expressions
 
-		public IWhereList Raw(string rawSql)
+		public WhereList Raw(string rawSql)
 		{
-			IWhere exp = new Where(Enums.WhereType.Raw, this.LogicOperator);
-			exp.IsColumn = false;
-			exp.Value = rawSql;
+			Where exp = new Where(Enums.WhereType.Raw, this.LogicOperator)
+			{
+				IsColumn = false,
+				Value = rawSql,
+			};
 			this.Append(exp);
 			return this;
 		}
 
-		public IWhereList In(string column, params string[] rawSql)
+		public WhereList In(string column, IStatementSelect query)
+		{
+			CreateExpression(Enums.WhereType.In, column, " IN (" + query.GetSql(true).ToString() + ")");
+
+			return this;
+		}
+
+		public WhereList In(string column, params string[] rawSql)
 		{
 			StringBuilder sb = new StringBuilder();
 			foreach (string expression in rawSql)
@@ -126,85 +139,85 @@ namespace SqlBuilder.Sql
 			return this;
 		}
 
-		public IWhereList EqualValue(string column, string value)
+		public WhereList EqualValue(string column, string value)
 		{
 			CreateExpression(Enums.WhereType.Equal, column, '=' + value);
 			return this;
 		}
 
-		public IWhereList Equal(params string[] columns)
+		public WhereList Equal(params string[] columns)
 		{
 			foreach (string expression in columns)
 				this.EqualValue(expression, this.Parameters.Parameter + expression);
 			return this;
 		}
 
-		public IWhereList NotEqualValue(string column, string value)
+		public WhereList NotEqualValue(string column, string value)
 		{
 			CreateExpression(Enums.WhereType.NotEqual, column, "!=" + value);
 			return this;
 		}
 
-		public IWhereList NotEqual(params string[] columns)
+		public WhereList NotEqual(params string[] columns)
 		{
 			foreach (string expression in columns)
 				this.NotEqualValue(expression, this.Parameters.Parameter + expression);
 			return this;
 		}
 
-		public IWhereList EqualLessValue(string column, string value)
+		public WhereList EqualLessValue(string column, string value)
 		{
 			CreateExpression(Enums.WhereType.EqualLess, column, "<=" + value);
 			return this;
 		}
 
-		public IWhereList EqualLess(params string[] columns)
+		public WhereList EqualLess(params string[] columns)
 		{
 			foreach(string expression in columns)
 				this.EqualLessValue(expression, this.Parameters.Parameter + expression);
 			return this;
 		}
 
-		public IWhereList EqualGreaterValue(string column, string value)
+		public WhereList EqualGreaterValue(string column, string value)
 		{
 			CreateExpression(Enums.WhereType.EqualGreater, column, ">=" + value);
 			return this;
 		}
 
-		public IWhereList EqualGreater(params string[] columns)
+		public WhereList EqualGreater(params string[] columns)
 		{
 			foreach (string expression in columns)
 				this.EqualGreaterValue(expression, this.Parameters.Parameter + expression);
 			return this;
 		}
 
-		public IWhereList LessValue(string column, string value)
+		public WhereList LessValue(string column, string value)
 		{
 			CreateExpression(Enums.WhereType.Less, column, "<" + value);
 			return this;
 		}
 
-		public IWhereList Less(params string[] columns)
+		public WhereList Less(params string[] columns)
 		{
 			foreach (string expression in columns)
 				this.LessValue(expression, this.Parameters.Parameter + expression);
 			return this;
 		}
 
-		public IWhereList GreaterValue(string column, string value)
+		public WhereList GreaterValue(string column, string value)
 		{
 			CreateExpression(Enums.WhereType.Less, column, ">" + value);
 			return this;
 		}
 
-		public IWhereList Greater(params string[] columns)
+		public WhereList Greater(params string[] columns)
 		{
 			foreach (string expression in columns)
 				this.GreaterValue(expression, this.Parameters.Parameter + expression);
 			return this;
 		}
 
-		public IWhereList IsNULL(params string[] columns)
+		public WhereList IsNULL(params string[] columns)
 		{
 			foreach (string expression in columns)
 			{
@@ -213,7 +226,7 @@ namespace SqlBuilder.Sql
 			return this;
 		}
 
-		public IWhereList IsNotNULL(params string[] columns)
+		public WhereList IsNotNULL(params string[] columns)
 		{
 			foreach (string expression in columns)
 			{
@@ -222,28 +235,28 @@ namespace SqlBuilder.Sql
 			return this;
 		}
 
-		public IWhereList Between(string name, string begin, string end)
+		public WhereList Between(string name, string begin, string end)
 		{
 			string value = " BETWEEN " + this.Parameters.Parameter + begin + " AND " + this.Parameters.Parameter + end;
 			CreateExpression(Enums.WhereType.Between, name, value);
 			return this;
 		}
 
-		public IWhereList NotBetween(string name, string begin, string end)
+		public WhereList NotBetween(string name, string begin, string end)
 		{
 			string value = " NOT BETWEEN " + this.Parameters.Parameter + begin + " AND " + this.Parameters.Parameter + end;
 			CreateExpression(Enums.WhereType.NotBetween, name, value);
 			return this;
 		}
 
-		public IWhereList Like(string name, string pattern)
+		public WhereList Like(string name, string pattern)
 		{
 			string value = this.Parameters.Parameter + name + " LIKE " + pattern;
 			CreateExpression(Enums.WhereType.Like, "", value);
 			return this;
 		}
 
-		public IWhereList NotLike(string name, string pattern)
+		public WhereList NotLike(string name, string pattern)
 		{
 			string value = this.Parameters.Parameter + name + " NOT LIKE " + pattern;
 			CreateExpression(Enums.WhereType.NotLike, "", value);
@@ -254,7 +267,7 @@ namespace SqlBuilder.Sql
 
 		#region Parenthesis
 
-		public IWhereList OpenParenthesis(int count = 1)
+		public WhereList OpenParenthesis(int count = 1)
 		{
 			for (int i = 0; i < count; i++)
 			{
@@ -265,7 +278,7 @@ namespace SqlBuilder.Sql
 			return this;
 		}
 
-		public IWhereList CloseParenthesis(int count = 1)
+		public WhereList CloseParenthesis(int count = 1)
 		{
 			for (int i = 0; i < count; i++)
 			{
@@ -279,7 +292,7 @@ namespace SqlBuilder.Sql
 			return this;
 		}
 
-		public IWhereList RawParenthesis(string rawSql)
+		public WhereList RawParenthesis(string rawSql)
 		{
 			this.OpenParenthesis();
 			this.Raw(rawSql);
@@ -296,7 +309,7 @@ namespace SqlBuilder.Sql
 			StringBuilder sb = new StringBuilder();
 
 			bool logic = false, lastparenthesis = false;
-			foreach(IWhere expression in this._expressions)
+			foreach(Where expression in this._expressions)
 			{
 				if (logic && !lastparenthesis && expression.Parenthesis != Enums.Parenthesis.CloseParenthesis)
 				{
@@ -320,7 +333,7 @@ namespace SqlBuilder.Sql
 				else
 				{
 					if (expression.IsColumn)
-						sb.Append(SqlBuilder.FormatColumn(expression.Column, tableAlias));
+						sb.Append(SqlBuilder.FormatColumn(expression.Column, this.Parameters, tableAlias));
 
 					sb.Append(expression.Value);
 					lastparenthesis = false;

@@ -1,24 +1,20 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using SqlBuilder.Linq;
 
 namespace SqlBuilder.Tests
 {
 
 	[TestClass]
-	public class Delete
+	public class DeleteTests
 	{
 
 		#region Delete Simple
 
 		[TestMethod]
 		[TestCategory("Query - Delete")]
-		public void QueryDeleteSimpleEmpty()
+		public void QueryDeleteSimpleEmpty1()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			Delete<DataBaseDemo.Author> d = new Delete<DataBaseDemo.Author>();
+			Delete<DataBaseDemo.Author> d = new Delete<DataBaseDemo.Author>(Format.MsSQL);
 			
 			string result = d.GetSql();
 			string sql = "DELETE FROM [tab_authors];";
@@ -27,11 +23,43 @@ namespace SqlBuilder.Tests
 
 		[TestMethod]
 		[TestCategory("Query - Delete")]
-		public void QueryDeleteSimpleWhere()
+		public void QueryDeleteSimpleEmpty2()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
+			Delete d = new Delete(Format.MsSQL, "table");
 
-			Delete<DataBaseDemo.Author> d = new Delete<DataBaseDemo.Author>();
+			string result = d.GetSql();
+			string sql = "DELETE FROM [table];";
+			Assert.AreEqual(sql, result);
+		}
+
+		[TestMethod]
+		[TestCategory("Query - Delete")]
+		public void QueryDeleteSimpleEmpty3()
+		{
+			Delete d = new Delete(Format.MsSQL, "table", "t");
+
+			string result = d.GetSql();
+			string sql = "DELETE FROM [table] as [t];";
+			Assert.AreEqual(sql, result);
+		}
+
+		[TestMethod]
+		[TestCategory("Query - Delete")]
+		public void QueryDeleteSimpleWhere1()
+		{
+			string result = new Delete<DataBaseDemo.Author>(Format.MsSQL)
+				.Where("id")
+				.GetSql();
+
+			string sql = "DELETE FROM [tab_authors] WHERE [id]=@id;";
+			Assert.AreEqual(sql, result);
+		}
+
+		[TestMethod]
+		[TestCategory("Query - Delete")]
+		public void QueryDeleteSimpleWhere2()
+		{
+			Delete<DataBaseDemo.Author> d = new Delete<DataBaseDemo.Author>(Format.MsSQL);
 			d.Where.Equal("p1").Less("p2").IsNULL("p3");
 
 			string result = d.GetSql();
@@ -41,12 +69,22 @@ namespace SqlBuilder.Tests
 
 		[TestMethod]
 		[TestCategory("Query - Delete")]
+		public void QueryDeleteSimpleWhere3()
+		{
+			string result = new Delete<DataBaseDemo.Author>(Format.MsSQL)
+			.Where(w => w.EqualValue("id", "123"))
+			.GetSql();
+
+			string sql = "DELETE FROM [tab_authors] WHERE [id]=123;";
+			Assert.AreEqual(sql, result);
+		}
+
+		[TestMethod]
+		[TestCategory("Query - Delete")]
 		public void QueryDeleteAliasWhere()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			Delete<DataBaseDemo.Author> d = new Delete<DataBaseDemo.Author>("td");
-			d.Where.Equal("p1").Less("p2").IsNULL("p3");
+			Delete<DataBaseDemo.Author> d = new Delete<DataBaseDemo.Author>(Format.MsSQL, "td");
+			d.Where(w => w.Equal("p1").Less("p2").IsNULL("p3"));
 
 			string result = d.GetSql();
 			string sql = "DELETE FROM [tab_authors] as [td] WHERE [td].[p1]=@p1 AND [td].[p2]<@p2 AND [td].[p3] IS NULL;";

@@ -8,33 +8,60 @@ using System.Reflection;
 namespace SqlBuilder
 {
 
-	public class Insert<T> : IStatementInsert
+	public class Insert : IStatementInsert
 	{
 
-		public IFormatter Formatter { get; set; }
+		public Format Format { get; set; }
 
 		public Enums.SqlQuery Query { get; private set; }
 
+		public string TableName { get; set; }
 
 		public string TableAlias { get; set; }
 
 		public IColumnsListSimple Columns { get; set; }
 
-		public IValueList Values { get; set; }
+		public ValueList Values { get; set; }
 
-		public Insert(bool autoMapping = false, string tableAlias = "") : this(SqlBuilder.DefaultFormatter, autoMapping, tableAlias)
-		{
-		}
-
-		public Insert(IFormatter formatter, bool autoMapping = false, string tableAlias = "")
+		public Insert(Format formatter, string tableName)
 		{
 			this.Query = Enums.SqlQuery.Insert;
-			this.Formatter = formatter;
-			this.Columns = new ColumnsListSimple(this.Formatter);
-			this.Values = new ValueList(this.Formatter);
+			this.Format = formatter;
+			this.TableName = tableName;
+			this.Columns = new ColumnsListSimple(this.Format);
+			this.Values = new ValueList(this.Format);
+		}
 
-			if (autoMapping)
-				this.Mapping();
+		public IStatementInsert AppendParameters(params string[] parameters)
+		{
+			this.Columns.Append(parameters);
+			this.Values.AppendParameters(parameters);
+			return this;
+		}
+
+		public string GetSql()
+		{
+			Template result = TemplateLibrary.Insert;
+			result.Append(SnippetLibrary.Table(this.TableName, this.Format));
+			result.Append(SnippetLibrary.Columns(this.Columns.GetSql(this.TableAlias)));
+			result.Append(SnippetLibrary.Values(this.Values.GetSql()));
+
+			return result.GetSql(this.Format);
+		}
+
+		public override string ToString()
+		{
+			return this.GetSql();
+		}
+
+	}
+
+	public class Insert<T> : Insert
+	{
+
+		public Insert(Format format) : base(format, Reflection.GetTableName<T>())
+		{
+			this.Mapping();
 		}
 
 		private void Mapping()
@@ -54,57 +81,19 @@ namespace SqlBuilder
 						ignore = true;
 					if (attribute is InsertDefaultAttribute insertDefault)
 						defaultValue = insertDefault.DefaultValue;
-					if (attribute is ColumnAttribute clm)
-						columnName = clm.ColumnName.ToLower();
+					if (attribute is ColumnNameAttribute clm)
+						columnName = clm.Name.ToLower();
 				}
 
 				if (!ignore)
 				{
 					this.Columns.Append(columnName);
 					if (defaultValue == string.Empty)
-						this.Values.Append(this.Formatter.Parameter + columnName);
+						this.Values.Append(this.Format.Parameter + columnName);
 					else
 						this.Values.Append(defaultValue);
 				}
 			}
-		}
-
-		public IStatementInsert AppendParameters(params string[] parameters)
-		{
-			this.Columns.Append(parameters);
-			this.Values.AppendParameters(parameters);
-			return this;
-		}
-
-		public string GetSql()
-		{
-			string table = Reflection.GetTableName<T>();
-
-			ITemplate result = TemplateLibrary.Insert;
-			result.Append(SnippetLibrary.Table(table));
-			result.Append(SnippetLibrary.Columns(this.Columns.GetSql(this.TableAlias)));
-			result.Append(SnippetLibrary.Values(this.Values.GetSql()));
-
-			return result.GetSql();
-		}
-
-		public override string ToString()
-		{
-			return this.GetSql();
-		}
-
-		public static Insert<T> Mapping(params string[] parameters)
-		{
-			Insert<T> result = new Insert<T>(true);
-			result.AppendParameters(parameters);
-			return result;
-		}
-
-		public static Insert<T> WithoutMapping(params string[] parameters)
-		{
-			Insert<T> result = new Insert<T>(false);
-			result.AppendParameters(parameters);
-			return result;
 		}
 
 	}

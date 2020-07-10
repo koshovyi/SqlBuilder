@@ -1,13 +1,10 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace SqlBuilder.Tests
 {
 
 	[TestClass]
-	public class Update
+	public class UpdateTests
 	{
 
 		#region Update Simple
@@ -16,9 +13,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Query - Update")]
 		public void QueryUpdateSimple1()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			Update<DataBaseDemo.Author> u = new Update<DataBaseDemo.Author>();
+			Update u = new Update(Format.MsSQL, "tab_authors");
 			u.Sets.Append("a", "b", "c");
 			u.Sets.AppendValue("d", "1").AppendValue("e", "NOW()");
 
@@ -31,9 +26,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Query - Update")]
 		public void QueryUpdateSimple2()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			Update<DataBaseDemo.Author> u = new Update<DataBaseDemo.Author>();
+			Update u = new Update(Format.MsSQL, "tab_authors");
 			u.Sets.Append("a", "b", "c");
 			u.Where.Equal("d", "e", "f");
 
@@ -46,9 +39,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Query - Update")]
 		public void QueryUpdateAlias()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			Update<DataBaseDemo.Author> u = new Update<DataBaseDemo.Author>(false, "t");
+			Update u = new Update(Format.MsSQL, "tab_authors", "t");
 			u.Sets.Append("a");
 			u.Sets.AppendValue("d", "1").AppendValue("e", "NOW()");
 			u.Where.Equal("id");
@@ -66,9 +57,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Query - Update")]
 		public void UpdateMapping1()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			Update<DataBaseDemo.Author> u = new Update<DataBaseDemo.Author>(true);
+			Update<DataBaseDemo.Author> u = new Update<DataBaseDemo.Author>(Format.MsSQL);
 
 			string result = u.GetSql();
 			string sql = "UPDATE [tab_authors] SET [firstname]=@firstname, [lastname]=@lastname;";
@@ -79,12 +68,10 @@ namespace SqlBuilder.Tests
 		[TestCategory("Query - Update")]
 		public void UpdateMapping2()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			Update<DataBaseDemo.Book> u = new Update<DataBaseDemo.Book>(true);
+			Update<DataBaseDemo.Book> u = new Update<DataBaseDemo.Book>(Format.MsSQL);
 
 			string result = u.GetSql();
-			string sql = "UPDATE [tab_books] SET [created_at]=@created_at, [name]=@name, [year]=@year, [id_author]=@id_author, [id_publisher]=@id_publisher, [id_shop]=@id_shop;";
+			string sql = "UPDATE [tab_books] SET [created_at]=@created_at, [updated_at]=NOW(), [name]=@name, [year]=@year, [id_author]=@id_author, [id_publisher]=@id_publisher, [id_custom1]=@id_custom1, [id_custom2]=@id_custom2, [id_shop]=@id_shop;";
 			Assert.AreEqual(sql, result);
 		}
 
@@ -92,13 +79,47 @@ namespace SqlBuilder.Tests
 		[TestCategory("Query - Update")]
 		public void UpdateMapping3()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			Update<DataBaseDemo.Author> u = new Update<DataBaseDemo.Author>(true);
+			Update<DataBaseDemo.Author> u = new Update<DataBaseDemo.Author>(Format.MsSQL);
 			u.Where.Equal("id").IsNULL("is_activated");
 
 			string result = u.GetSql();
 			string sql = "UPDATE [tab_authors] SET [firstname]=@firstname, [lastname]=@lastname WHERE [id]=@id AND [is_activated] IS NULL;";
+			Assert.AreEqual(sql, result);
+		}
+
+		[TestMethod]
+		[TestCategory("Query - Update")]
+		public void UpdateMappingIgnore()
+		{
+			Update<DataBaseDemo.Author> u = new Update<DataBaseDemo.Author>(Format.MsSQL);
+			u.Where.Equal("id").IsNULL("is_activated");
+
+			string result = u.GetSql();
+			string sql = "UPDATE [tab_authors] SET [firstname]=@firstname, [lastname]=@lastname WHERE [id]=@id AND [is_activated] IS NULL;";
+			Assert.AreEqual(sql, result);
+		}
+
+		[TestMethod]
+		[TestCategory("Query - Update")]
+		public void UpdateMapping4()
+		{
+			Update<DataBaseDemo.Author> u = new Update<DataBaseDemo.Author>(Format.MsSQL);
+			u.Where.Equal("id");
+
+			string result = u.GetSql();
+			string sql = "UPDATE [tab_authors] SET [firstname]=@firstname, [lastname]=@lastname WHERE [id]=@id;";
+			Assert.AreEqual(sql, result);
+		}
+
+		[TestMethod]
+		[TestCategory("Query - Update")]
+		public void UpdateMapping5()
+		{
+			Update<DataBaseDemo.Author> u = new Update<DataBaseDemo.Author>(Format.MsSQL);
+			u.Where.EqualValue("id", "123");
+
+			string result = u.GetSql();
+			string sql = "UPDATE [tab_authors] SET [firstname]=@firstname, [lastname]=@lastname WHERE [id]=123;";
 			Assert.AreEqual(sql, result);
 		}
 

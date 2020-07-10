@@ -1,23 +1,19 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using SqlBuilder.Linq;
 
 namespace SqlBuilder.Tests
 {
 
 	[TestClass]
-	public class Insert
+	public class InsertTests
 	{
 
 		[TestMethod]
 		[TestCategory("Query - Insert")]
 		public void QueryInsertSimple1()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
+			Insert<DataBaseDemo.Author> a = new Insert<DataBaseDemo.Author>(Format.MsSQL);
 
-			Insert<DataBaseDemo.Author> a = new Insert<DataBaseDemo.Author>(true);
-			
 			string result = a.GetSql();
 			string sql = "INSERT INTO [tab_authors]([firstname], [lastname]) VALUES(@firstname, @lastname);";
 			Assert.AreEqual(sql, result);
@@ -27,9 +23,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Query - Insert")]
 		public void QueryInsertSimple2()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			Insert<DataBaseDemo.Author> a = new Insert<DataBaseDemo.Author>(true);
+			Insert<DataBaseDemo.Author> a = new Insert<DataBaseDemo.Author>(Format.MsSQL);
 			a.Columns.Append("created_at", "updated_at");
 			a.Values.Append("NOW()", "'2020-01-01 23:45:22'");
 
@@ -42,9 +36,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Query - Insert")]
 		public void QueryInsertSimple3()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			Insert<DataBaseDemo.Author> a = new Insert<DataBaseDemo.Author>(true);
+			Insert<DataBaseDemo.Author> a = new Insert<DataBaseDemo.Author>(Format.MsSQL);
 			a.Columns.Append("p1", "p2", "p3");
 			a.Values.AppendParameters("p1", "p2", "p3");
 
@@ -57,9 +49,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Query - Insert")]
 		public void QueryInsertSimple4()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			Insert<DataBaseDemo.Author> a = new Insert<DataBaseDemo.Author>(true);
+			Insert<DataBaseDemo.Author> a = new Insert<DataBaseDemo.Author>(Format.MsSQL);
 			a.AppendParameters("p1", "p2", "p3");
 
 			string result = a.GetSql();
@@ -71,36 +61,30 @@ namespace SqlBuilder.Tests
 		[TestCategory("Query - Insert")]
 		public void QueryInsertSimple5()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			Insert<DataBaseDemo.Author> a = new Insert<DataBaseDemo.Author>(false);
-			a.AppendParameters("p1", "p2", "p3");
+			Insert a = new Insert(Format.MsSQL, "table");
+			a.AppendParameters("a", "b", "c");
 
 			string result = a.GetSql();
-			string sql = "INSERT INTO [tab_authors]([p1], [p2], [p3]) VALUES(@p1, @p2, @p3);";
+			string sql = "INSERT INTO [table]([a], [b], [c]) VALUES(@a, @b, @c);";
 			Assert.AreEqual(sql, result);
 		}
 
 		[TestMethod]
 		[TestCategory("Query - Insert")]
-		public void QueryInsertStatic1()
+		public void QueryInsertSimple6()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			string result = Insert<DataBaseDemo.Author>.Mapping("p1", "p2", "p3").GetSql();
-			string sql = "INSERT INTO [tab_authors]([firstname], [lastname], [p1], [p2], [p3]) VALUES(@firstname, @lastname, @p1, @p2, @p3);";
-			Assert.AreEqual(sql, result);
+			string sql1 = new Insert(Format.MsSQL, "table").AppendParameters("a", "b", "c").GetSql();
+			string sql2 = "INSERT INTO [table]([a], [b], [c]) VALUES(@a, @b, @c);";
+			Assert.AreEqual(sql1, sql2);
 		}
 
 		[TestMethod]
 		[TestCategory("Query - Insert")]
-		public void QueryInsertStatic2()
+		public void QueryInsertSimple7()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			string result = Insert<DataBaseDemo.Author>.WithoutMapping("p1", "p2", "p3").GetSql();
-			string sql = "INSERT INTO [tab_authors]([p1], [p2], [p3]) VALUES(@p1, @p2, @p3);";
-			Assert.AreEqual(sql, result);
+			string sql1 = new Insert(Format.MsSQL, "table").AppendParameters("firstName", "lastName").Columns("createdAt").Values("'NOW()'").GetSql();
+			string sql2 = "INSERT INTO [table]([firstName], [lastName], [createdAt]) VALUES(@firstName, @lastName, 'NOW()');";
+			Assert.AreEqual(sql1, sql2);
 		}
 
 	}

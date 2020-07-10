@@ -1,9 +1,7 @@
-﻿using SqlBuilder.Interfaces;
-
-namespace SqlBuilder.Sql
+﻿namespace SqlBuilder.Sql
 {
 
-	public class Column : IColumn
+	public class Column
 	{
 
 		public string Value { get; set; }
@@ -15,6 +13,10 @@ namespace SqlBuilder.Sql
 		public string Postfix { get; set; }
 
 		public bool IsRaw { get; set; }
+
+		internal Column()
+		{
+		}
 
 	}
 

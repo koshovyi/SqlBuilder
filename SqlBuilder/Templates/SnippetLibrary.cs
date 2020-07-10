@@ -1,5 +1,4 @@
 ﻿using System;
-using SqlBuilder.Interfaces;
 
 namespace SqlBuilder.Templates
 {
@@ -9,17 +8,17 @@ namespace SqlBuilder.Templates
 
 		#region Text injection
 
-		public static ITemplateSnippet Start(string value)
+		public static Snippet Start(string value)
 		{
 			return new Snippet("START", value);
 		}
 
-		public static ITemplateSnippet End(string value)
+		public static Snippet End(string value)
 		{
 			return new Snippet("END", value);
 		}
 
-		public static ITemplateSnippet NF()
+		public static Snippet NF()
 		{
 			return new Snippet("NF", Environment.NewLine);
 		}
@@ -28,54 +27,54 @@ namespace SqlBuilder.Templates
 
 		#region SQL
 
-		public static ITemplateSnippet DataBase(string value)
+		public static Snippet DataBase(string value)
 		{
 			return new Snippet("DATABASE", value);
 		}
 
-		public static ITemplateSnippet Table(string table, string tableAlias = "")
+		public static Snippet Table(string table, Format parameters, string tableAlias = "")
 		{
-			table = SqlBuilder.FormatTable(table);
+			table = SqlBuilder.FormatTable(table, parameters);
 			if(!string.IsNullOrEmpty(tableAlias))
-				tableAlias = SqlBuilder.FormatTableAlias(tableAlias);
+				tableAlias = SqlBuilder.FormatTableAlias(tableAlias, parameters);
 
 			if(string.IsNullOrEmpty(tableAlias))
 				return new Snippet("TABLE", table);
 			else
-				return new Snippet("TABLE", table + " as " + tableAlias);
+				return new Snippet("TABLE", table + parameters.AliasOperator + tableAlias);
 		}
 
-		public static ITemplateSnippet Columns(string value)
+		public static Snippet Columns(string value)
 		{
 			return new Snippet("COLUMNS", value);
 		}
 
-		public static ITemplateSnippet Sets(string value)
+		public static Snippet Sets(string value)
 		{
 			return new Snippet("SETS", value);
 		}
 
-		public static ITemplateSnippet Join(string value)
+		public static Snippet Join(string value)
 		{
 			return new Snippet("JOINS", ' ' + value);
 		}
 
-		public static ITemplateSnippet Values(string columns = "")
+		public static Snippet Values(string columns = "")
 		{
 			return new Snippet("VALUES", columns);
 		}
 
-		public static ITemplateSnippet Where(string value)
+		public static Snippet Where(string value)
 		{
 			return new Snippet("WHERE", value, " WHERE ");
 		}
 
-		public static ITemplateSnippet OrderBy(string value)
+		public static Snippet OrderBy(string value)
 		{
 			return new Snippet("ORDERBY", value, " ORDER BY ");
 		}
 
-		public static ITemplateSnippet GroupBy(string value)
+		public static Snippet GroupBy(string value)
 		{
 			return new Snippet("GROUPBY", value, " GROUP BY ");
 		}

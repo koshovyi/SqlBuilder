@@ -1,8 +1,6 @@
-﻿using SqlBuilder.Interfaces;
-
-namespace SqlBuilder.Sql
+﻿namespace SqlBuilder.Sql
 {
-	public class Where : IWhere
+	public class Where
 	{
 
 		public Enums.WhereType Type { get; private set; }

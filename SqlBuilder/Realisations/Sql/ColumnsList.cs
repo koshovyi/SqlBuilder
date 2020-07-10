@@ -8,13 +8,13 @@ namespace SqlBuilder.Sql
 	public class ColumnsList : IColumnsList
 	{
 
-		protected readonly List<IColumn> _expressions;
+		protected readonly List<Column> _expressions;
 
 		#region Properties
 
-		public IFormatter Parameters { get; set; }
+		public Format Parameters { get; set; }
 
-		public IEnumerable<IColumn> Expressions
+		public IEnumerable<Column> Expressions
 		{
 			get
 			{
@@ -34,9 +34,9 @@ namespace SqlBuilder.Sql
 
 		#region Constructor
 
-		public ColumnsList(IFormatter parameters)
+		internal ColumnsList(Format parameters)
 		{
-			this._expressions = new List<IColumn>();
+			this._expressions = new List<Column>();
 			this.Parameters = parameters;
 		}
 
@@ -57,17 +57,15 @@ namespace SqlBuilder.Sql
 			}
 
 			StringBuilder sb = new StringBuilder();
-			foreach (IColumn column in this.Expressions)
+			foreach (Column column in this.Expressions)
 			{
 				if (sb.Length > 0)
 					sb.Append(", ");
-				if (!string.IsNullOrEmpty(tableAlias) && !column.IsRaw)
+				if (!string.IsNullOrEmpty(tableAlias) && !column.IsRaw && string.IsNullOrEmpty(column.Prefix))
 					sb.Append(SqlBuilder.FormatTableAlias(tableAlias, this.Parameters) + '.');
 				if (column.IsRaw)
 				{
-					//sb.Append('(');
 					sb.Append(column.Value);
-					//sb.Append(')');
 				}
 				else
 				{
@@ -77,7 +75,7 @@ namespace SqlBuilder.Sql
 				}
 				if (!string.IsNullOrEmpty(column.Alias))
 				{
-					sb.Append(" as ");
+					sb.Append(this.Parameters.AliasOperator);
 					sb.Append(this.Parameters.AliasEscape);
 					sb.Append(column.Alias);
 					sb.Append(this.Parameters.AliasEscape);

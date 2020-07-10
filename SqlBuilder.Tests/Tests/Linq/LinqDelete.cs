@@ -1,8 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using SqlBuilder.Linq;
+using SqlBuilder.Tests.DataBaseDemo;
 
 namespace SqlBuilder.Tests
 {
@@ -15,9 +13,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Linq")]
 		public void LinqDeleteSimple()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			var q1 = new Delete<DataBaseDemo.Author>();
+			var q1 = new Delete<Author>(Format.MsSQL);
 			string result = q1.GetSql();
 			string sql = "DELETE FROM [tab_authors];";
 			Assert.AreEqual(result, sql);
@@ -27,10 +23,8 @@ namespace SqlBuilder.Tests
 		[TestCategory("Linq")]
 		public void LinqDeleteSimpleWhere()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			var q1 = new Delete<DataBaseDemo.Author>();
-			q1.WhereLinq(x => x.Equal("a").IsNULL("b"));
+			var q1 = new Delete<Author>(Format.MsSQL);
+			q1.Where(x => x.Equal("a").IsNULL("b"));
 			string result = q1.GetSql();
 			string sql = "DELETE FROM [tab_authors] WHERE [a]=@a AND [b] IS NULL;";
 			Assert.AreEqual(result, sql);
@@ -40,9 +34,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Linq")]
 		public void LinqQueryDeleteSimpleWhere()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			string result = Query<DataBaseDemo.Author>.CreateDelete().WhereLinq(x=>x.Equal("a")).GetSql();
+			string result = new Query<Author>(Format.MsSQL).Delete().Where("a").GetSql();
 			string sql = "DELETE FROM [tab_authors] WHERE [a]=@a;";
 			Assert.AreEqual(result, sql);
 		}
@@ -51,9 +43,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Linq")]
 		public void LinqDeleteTableAlias()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			string result = Query<DataBaseDemo.Author>.CreateDelete("t").WhereLinq(x => x.Equal("a")).GetSql();
+			string result = new Query<Author>(Format.MsSQL).Delete("t").Where("a").GetSql();
 			string sql = "DELETE FROM [tab_authors] as [t] WHERE [t].[a]=@a;";
 			Assert.AreEqual(result, sql);
 		}

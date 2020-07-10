@@ -1,14 +1,12 @@
-﻿using SqlBuilder.Interfaces;
-
-namespace SqlBuilder.Sql
+﻿namespace SqlBuilder.Sql
 {
 
-	public class GroupBy : IGroupBy
+	public class GroupBy
 	{
 
 		public string Column { get; set; }
 
-		public GroupBy(string column)
+		internal GroupBy(string column)
 		{
 			this.Column = column;
 		}

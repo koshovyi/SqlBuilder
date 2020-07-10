@@ -5,62 +5,66 @@ using SqlBuilder.Templates;
 namespace SqlBuilder
 {
 
-	public class Select<T> : IStatementSelect
+	public class Select : IStatementSelect
 	{
 
-		public IFormatter Formatter { get; set; }
+		public Format Format { get; set; }
 
 		public Enums.SqlQuery Query { get; private set; }
+
+		public string TableName { get; set; }
 
 		public string TableAlias { get; set; }
 
 		public IColumnsListAggregation Columns { get; set; }
 
-		public IJoinList Join { get; set; }
+		public JoinList Join { get; set; }
 
-		public IWhereList Where { get; set; }
+		public WhereList Where { get; set; }
 
-		public IGroupByList GroupBy { get; set; }
+		public GroupByList GroupBy { get; set; }
 
-		public IOrderByList OrderBy { get; set; }
+		public OrderByList OrderBy { get; set; }
 
-		public Select(string tableAlias = "") : this(SqlBuilder.DefaultFormatter, tableAlias)
-		{
-		}
-
-		public Select(IFormatter parameters, string tableAlias = "")
+		public Select(Format parameters, string tableName, string tableAlias = "")
 		{
 			this.Query = Enums.SqlQuery.Select;
-			this.Formatter = parameters;
+			this.Format = parameters;
+			this.TableName = tableName;
 			this.TableAlias = tableAlias;
-			this.Columns = new ColumnsListAggregation(this.Formatter);
-			this.Join = new JoinList(this.Formatter);
-			this.Where = new WhereList(this.Formatter);
-			this.OrderBy = new OrderByList(this.Formatter);
-			this.GroupBy = new GroupByList(this.Formatter, this.Columns);
+			this.Columns = new ColumnsListAggregation(this.Format);
+			this.Join = new JoinList(this.Format);
+			this.Where = new WhereList(this.Format);
+			this.OrderBy = new OrderByList(this.Format);
+			this.GroupBy = new GroupByList(this.Format, this.Columns);
 		}
 
 		public string GetSql()
 		{
-			string table = Reflection.GetTableName<T>();
-
-			ITemplate result = TemplateLibrary.Select;
-			result.Append(SnippetLibrary.Table(table, this.TableAlias));
+			Template result = TemplateLibrary.Select;
+			result.Append(SnippetLibrary.Table(this.TableName, this.Format, this.TableAlias));
 			result.Append(SnippetLibrary.Columns(this.Columns.GetSql(this.TableAlias)));
 
 			if (this.Join.Count > 0)
 			{
-				string joinTable = string.IsNullOrEmpty(this.TableAlias) ? table : this.TableAlias;
+				string joinTable = string.IsNullOrEmpty(this.TableAlias) ? this.TableName : this.TableAlias;
 				result.Append(SnippetLibrary.Join(this.Join.GetSql(joinTable)));
 			}
 			if (this.Where.Count > 0)
-				result.Append(SnippetLibrary.Where(this.Where.GetSql()));
+				result.Append(SnippetLibrary.Where(this.Where.GetSql(this.TableAlias)));
 			if (this.GroupBy.Count > 0)
-				result.Append(SnippetLibrary.GroupBy(this.GroupBy.GetSql()));
+				result.Append(SnippetLibrary.GroupBy(this.GroupBy.GetSql(this.TableAlias)));
 			if (this.OrderBy.Count > 0)
-				result.Append(SnippetLibrary.OrderBy(this.OrderBy.GetSql()));
+				result.Append(SnippetLibrary.OrderBy(this.OrderBy.GetSql(this.TableAlias)));
 
-			return result.GetSql();
+			return result.GetSql(this.Format);
+		}
+
+		public string GetSql(bool isSubQuery)
+		{
+			if (isSubQuery)
+				return GetSql().TrimEnd(Format.EndOfStatement);
+			return GetSql();
 		}
 
 		public override string ToString()
@@ -68,25 +72,17 @@ namespace SqlBuilder
 			return this.GetSql();
 		}
 
-		public static Select<T> SelectAll(params string[] columns)
+	}
+
+	public class Select<T> : Select
+	{
+
+		public Select(Format format) : base(format, Reflection.GetTableName<T>())
 		{
-			Select<T> result = new Select<T>();
-			result.Columns.Append(columns);
-			return result;
 		}
 
-		public static Select<T> SelectWherePK(params string[] columns)
+		public Select(Format format, string tableAlias) : base(format, Reflection.GetTableName<T>(), tableAlias)
 		{
-			return SelectWherePK(SqlBuilder.DefaultFormatter, columns);
-		}
-
-		public static Select<T> SelectWherePK(IFormatter parameters, params string[] columns)
-		{
-			string pk = Reflection.GetPrimaryKey<T>();
-			Select<T> result = new Select<T>(parameters);
-			result.Columns.Append(columns);
-			result.Where.Equal(pk);
-			return result;
 		}
 
 	}

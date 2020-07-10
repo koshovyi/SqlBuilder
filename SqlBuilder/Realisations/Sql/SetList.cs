@@ -1,16 +1,15 @@
-﻿using SqlBuilder.Interfaces;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text;
 
 namespace SqlBuilder.Sql
 {
 
-	public class SetList : ISetList
+	public class SetList
 	{
 
-		private readonly List<ISet> _expressions;
+		private readonly List<Set> _expressions;
 
-		public IFormatter Parameters { get; set; }
+		public Format Parameters { get; set; }
 
 		public int Count
 		{
@@ -20,19 +19,19 @@ namespace SqlBuilder.Sql
 			}
 		}
 
-		public SetList(IFormatter parameters)
+		public SetList(Format parameters)
 		{
-			this._expressions = new List<ISet>();
+			this._expressions = new List<Set>();
 			this.Parameters = parameters;
 		}
 
-		public ISetList Append(ISet expression)
+		public SetList Append(Set expression)
 		{
 			this._expressions.Add(expression);
 			return this;
 		}
 
-		public ISetList Append(params string[] values)
+		public SetList Append(params string[] values)
 		{
 			foreach(string value in values)
 			{
@@ -41,9 +40,9 @@ namespace SqlBuilder.Sql
 			return this;
 		}
 
-		public ISetList AppendValue(string name, string value)
+		public SetList AppendValue(string name, string value)
 		{
-			ISet set = new Set(name, value);
+			Set set = new Set(name, value);
 			this.Append(set);
 			return this;
 		}
@@ -56,7 +55,7 @@ namespace SqlBuilder.Sql
 		public string GetSql(string tableAlias = "")
 		{
 			StringBuilder sb = new StringBuilder();
-			foreach(ISet value in this._expressions)
+			foreach(Set value in this._expressions)
 			{
 				if (sb.Length > 0)
 					sb.Append(", ");

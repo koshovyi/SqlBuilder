@@ -5,14 +5,14 @@ using System.Text;
 namespace SqlBuilder.Sql
 {
 
-	public class OrderByList : IOrderByList
+	public class OrderByList
 	{
 
-		private readonly List<IOrderBy> _expressions;
+		private readonly List<OrderBy> _expressions;
 
-		public IFormatter Parameters { get; private set; }
+		public Format Parameters { get; private set; }
 
-		public IEnumerable<IOrderBy> Expressions
+		public IEnumerable<OrderBy> Expressions
 		{
 			get
 			{
@@ -28,13 +28,13 @@ namespace SqlBuilder.Sql
 			}
 		}
 
-		public OrderByList(IFormatter parameters)
+		public OrderByList(Format parameters)
 		{
-			this._expressions = new List<IOrderBy>();
+			this._expressions = new List<OrderBy>();
 			this.Parameters = parameters;
 		}
 
-		public void Append(IOrderBy expression)
+		public void Append(OrderBy expression)
 		{
 			this._expressions.Add(expression);
 		}
@@ -44,21 +44,21 @@ namespace SqlBuilder.Sql
 			this._expressions.Clear();
 		}
 
-		public IOrderByList Ascending(params string[] columns)
+		public OrderByList Ascending(params string[] columns)
 		{
 			foreach(string column in columns)
 			{
-				IOrderBy expression = OrderBy.Ascending(column);
+				OrderBy expression = OrderBy.Ascending(column);
 				this.Append(expression);
 			}
 			return this;
 		}
 
-		public IOrderByList Descending(params string[] columns)
+		public OrderByList Descending(params string[] columns)
 		{
 			foreach (string column in columns)
 			{
-				IOrderBy expression = OrderBy.Descending(column);
+				OrderBy expression = OrderBy.Descending(column);
 				this.Append(expression);
 			}
 			return this;
@@ -69,7 +69,7 @@ namespace SqlBuilder.Sql
 			StringBuilder sb = new StringBuilder();
 
 			bool sep = false;
-			foreach (IOrderBy expression in this._expressions)
+			foreach (OrderBy expression in this._expressions)
 			{
 				if (sep)
 					sb.Append(", ");

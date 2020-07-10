@@ -5,16 +5,16 @@ using System.Text;
 namespace SqlBuilder.Sql
 {
 
-	public class GroupByList : IGroupByList
+	public class GroupByList
 	{
 
-		private readonly List<IGroupBy> _expressions;
+		private readonly List<GroupBy> _expressions;
 
-		public IFormatter Parameters { get; private set; }
+		public Format Parameters { get; private set; }
 
 		public IColumnsListAggregation Columns { get; private set; }
 
-		public IEnumerable<IGroupBy> Expressions { get; }
+		public IEnumerable<GroupBy> Expressions { get; }
 
 		public int Count
 		{
@@ -24,14 +24,14 @@ namespace SqlBuilder.Sql
 			}
 		}
 
-		public GroupByList(IFormatter parameters, IColumnsListAggregation columns)
+		internal GroupByList(Format parameters, IColumnsListAggregation columns)
 		{
-			this._expressions = new List<IGroupBy>();
+			this._expressions = new List<GroupBy>();
 			this.Parameters = parameters;
 			this.Columns = columns;
 		}
 
-		public IGroupByList Append(IGroupBy expression, bool copyToColumns = false)
+		public GroupByList Append(GroupBy expression, bool copyToColumns = false)
 		{
 			this._expressions.Add(expression);
 			if (copyToColumns)
@@ -39,14 +39,14 @@ namespace SqlBuilder.Sql
 			return this;
 		}
 
-		public IGroupByList AppendWithColumn(IGroupBy expression, string column, string columnAlias, string prefix = "", string postfix = "")
+		public GroupByList AppendWithColumn(GroupBy expression, string column, string columnAlias, string prefix = "", string postfix = "")
 		{
 			this._expressions.Add(expression);
 			this.Columns.AppendAlias(column, columnAlias, prefix, postfix);
 			return this;
 		}
 
-		public IGroupByList Append(bool copyToColumns = false, params string[] columns)
+		public GroupByList Append(bool copyToColumns, params string[] columns)
 		{
 			foreach (string column in columns)
 			{
@@ -63,28 +63,28 @@ namespace SqlBuilder.Sql
 
 		#region Aggregation
 
-		public IGroupByList FuncMax(string name, string aliasName = "")
+		public GroupByList FuncMax(string name, string aliasName = "")
 		{
 			GroupBy expression = new GroupBy(name);
 			this.AppendWithColumn(expression, name, aliasName, "MAX(", ")");
 			return this;
 		}
 
-		public IGroupByList FuncMin(string name, string aliasName = "")
+		public GroupByList FuncMin(string name, string aliasName = "")
 		{
 			GroupBy expression = new GroupBy(name);
 			this.AppendWithColumn(expression, name, aliasName, "MIN(", ")");
 			return this;
 		}
 
-		public IGroupByList FuncCount(string name, string aliasName = "")
+		public GroupByList FuncCount(string name, string aliasName = "")
 		{
 			GroupBy expression = new GroupBy(name);
 			this.AppendWithColumn(expression, name, aliasName, "COUNT(", ")");
 			return this;
 		}
 
-		public IGroupByList FuncSum(string name, string aliasName = "")
+		public GroupByList FuncSum(string name, string aliasName = "")
 		{
 			GroupBy expression = new GroupBy(name);
 			this.AppendWithColumn(expression, name, aliasName, "SUM(", ")");
@@ -98,7 +98,7 @@ namespace SqlBuilder.Sql
 			StringBuilder sb = new StringBuilder();
 
 			bool sep = false;
-			foreach (IGroupBy expression in this._expressions)
+			foreach (GroupBy expression in this._expressions)
 			{
 				if (sep)
 					sb.Append(", ");

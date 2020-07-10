@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using SqlBuilder.Sql;
+using System.Collections.Generic;
 
 namespace SqlBuilder.Interfaces
 {
@@ -6,9 +7,9 @@ namespace SqlBuilder.Interfaces
 	public interface IColumnsList
 	{
 
-		IFormatter Parameters { get; }
+		Format Parameters { get; }
 
-		IEnumerable<IColumn> Expressions { get; }
+		IEnumerable<Column> Expressions { get; }
 
 		string GetSql(string tableAlias = "");
 
@@ -20,15 +21,17 @@ namespace SqlBuilder.Interfaces
 
 	public interface IColumnsList<out T> where T: IColumnsList
 	{
-		T Append(IColumn expression);
+		T Append(Column expression);
 
-		T Append(params string[] names);
+		T Append(params string[] columns);
 
 		T AppendAlias(string name, string alias, string prefix = "", string postfix = "");
 
 		T Raw(string rawSql, string alias = "");
 
 		T Raw(params string[] rawSql);
+
+		T SubQuery(IStatementSelect select, string alias = "");
 	}
 
 	public interface IColumnsListSimple : IColumnsList, IColumnsList<IColumnsListSimple>

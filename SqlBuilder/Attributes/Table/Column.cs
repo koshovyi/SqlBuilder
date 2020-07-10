@@ -3,19 +3,20 @@
 namespace SqlBuilder.Attributes
 {
 
-	public class ColumnAttribute : Attribute
+	[AttributeUsage(AttributeTargets.Property)]
+	public class ColumnNameAttribute : Attribute
 	{
 
-		public string ColumnName { get; set; }
+		public string Name { get; set; }
 
-		public ColumnAttribute(string columnName)
+		public ColumnNameAttribute(string columnName)
 		{
-			this.ColumnName = columnName;
+			this.Name = columnName;
 		}
 
 		public override string ToString()
 		{
-			return this.ColumnName;
+			return this.Name;
 		}
 
 	}

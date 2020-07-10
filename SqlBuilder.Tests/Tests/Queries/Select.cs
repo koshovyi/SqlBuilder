@@ -1,7 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using SqlBuilder.Linq;
 
 namespace SqlBuilder.Tests
 {
@@ -16,9 +14,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Query - Select")]
 		public void QuerySelectSimpleAllColumns()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			string result = new Select<DataBaseDemo.Author>().GetSql();
+			string result = new Select<DataBaseDemo.Author>(Format.MsSQL).GetSql();
 			string sql = "SELECT * FROM [tab_authors];";
 			Assert.AreEqual(sql, result);
 		}
@@ -27,9 +23,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Query - Select")]
 		public void QuerySelectSimpleAllColumnsAlias()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			string result = new Select<DataBaseDemo.Author>("t").GetSql();
+			string result = new Select<DataBaseDemo.Author>(Format.MsSQL, "t").GetSql();
 			string sql = "SELECT [t].* FROM [tab_authors] as [t];";
 			Assert.AreEqual(sql, result);
 		}
@@ -38,9 +32,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Query - Select")]
 		public void QuerySelectSimpleColumnsList()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			Select<DataBaseDemo.Author> s = new Select<DataBaseDemo.Author>();
+			Select<DataBaseDemo.Author> s = new Select<DataBaseDemo.Author>(Format.MsSQL);
 			s.Columns.Append("a", "b", "c");
 			string result = s.GetSql();
 			string sql = "SELECT [a], [b], [c] FROM [tab_authors];";
@@ -51,9 +43,8 @@ namespace SqlBuilder.Tests
 		[TestCategory("Query - Select")]
 		public void QuerySelectSimpleColumnsListStatic()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			Select<DataBaseDemo.Author> s = Select<DataBaseDemo.Author>.SelectAll("a", "b", "c");
+			var s = new Query<DataBaseDemo.Author>(Format.MsSQL).Select();
+			s.Columns.Append("a", "b", "c");
 			string result = s.GetSql();
 			string sql = "SELECT [a], [b], [c] FROM [tab_authors];";
 			Assert.AreEqual(sql, result);
@@ -63,9 +54,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Query - Select")]
 		public void QuerySelectSimpleColumnsListAlias()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			Select<DataBaseDemo.Author> s = new Select<DataBaseDemo.Author>();
+			Select<DataBaseDemo.Author> s = new Select<DataBaseDemo.Author>(Format.MsSQL);
 			s.Columns.Append("a", "b", "c");
 			s.Columns.AppendAlias("d", "D");
 			string result = s.GetSql();
@@ -81,12 +70,10 @@ namespace SqlBuilder.Tests
 		[TestCategory("Query - Select")]
 		public void QuerySelectSimpleWherePK()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			Select<DataBaseDemo.Author> s = new Select<DataBaseDemo.Author>();
-			s.Where.Equal(global::SqlBuilder.Reflection.GetPrimaryKey<DataBaseDemo.Author>());
+			Select<DataBaseDemo.Author> s = new Select<DataBaseDemo.Author>(Format.MsSQL);
+			s.Where.Equal(Reflection.GetPrimaryKey<DataBaseDemo.Author>());
 			string result = s.GetSql();
-			string sql = "SELECT * FROM [tab_authors] WHERE [ID]=@ID;";
+			string sql = "SELECT * FROM [tab_authors] WHERE [id]=@id;";
 			Assert.AreEqual(sql, result);
 		}
 
@@ -94,12 +81,10 @@ namespace SqlBuilder.Tests
 		[TestCategory("Query - Select")]
 		public void QuerySelectSimpleWherePKAlias()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			Select<DataBaseDemo.Author> s = new Select<DataBaseDemo.Author>("t");
-			s.Where.Equal(global::SqlBuilder.Reflection.GetPrimaryKey<DataBaseDemo.Author>());
+			var s = new Select<DataBaseDemo.Author>(Format.MsSQL, "t");
+			s.Where.Equal(Reflection.GetPrimaryKey<DataBaseDemo.Author>());
 			string result = s.GetSql();
-			string sql = "SELECT [t].* FROM [tab_authors] as [t] WHERE [ID]=@ID;";
+			string sql = "SELECT [t].* FROM [tab_authors] as [t] WHERE [t].[id]=@id;";
 			Assert.AreEqual(sql, result);
 		}
 
@@ -107,11 +92,9 @@ namespace SqlBuilder.Tests
 		[TestCategory("Query - Select")]
 		public void QuerySelectSimpleWherePKStatic()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			Select<DataBaseDemo.Author> s = Select<DataBaseDemo.Author>.SelectWherePK();
+			var s = new Query<DataBaseDemo.Author>(Format.MsSQL).SelectWherePK();
 			string result = s.GetSql();
-			string sql = "SELECT * FROM [tab_authors] WHERE [ID]=@ID;";
+			string sql = "SELECT * FROM [tab_authors] WHERE [id]=@id;";
 			Assert.AreEqual(sql, result);
 		}
 
@@ -119,9 +102,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Query - Select")]
 		public void QuerySelectSimpleWhereAnd()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			Select<DataBaseDemo.Author> s = new Select<DataBaseDemo.Author>();
+			Select<DataBaseDemo.Author> s = new Select<DataBaseDemo.Author>(Format.MsSQL);
 			s.Where.Equal("first_name", "last_name");
 			string result = s.GetSql();
 			string sql = "SELECT * FROM [tab_authors] WHERE [first_name]=@first_name AND [last_name]=@last_name;";
@@ -132,9 +113,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Query - Select")]
 		public void QuerySelectSimpleWhereOr()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			Select<DataBaseDemo.Author> s = new Select<DataBaseDemo.Author>();
+			Select<DataBaseDemo.Author> s = new Select<DataBaseDemo.Author>(Format.MsSQL);
 			s.Where.Equal("position").Or().EqualGreater("age");
 			string result = s.GetSql();
 			string sql = "SELECT * FROM [tab_authors] WHERE [position]=@position OR [age]>=@age;";
@@ -149,9 +128,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Query - Select")]
 		public void QuerySelectSimpleOrderByAsc()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			Select<DataBaseDemo.Author> s = new Select<DataBaseDemo.Author>();
+			Select<DataBaseDemo.Author> s = new Select<DataBaseDemo.Author>(Format.MsSQL);
 			s.OrderBy.Ascending("age");
 			string result = s.GetSql();
 			string sql = "SELECT * FROM [tab_authors] ORDER BY [age] ASC;";
@@ -162,9 +139,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Query - Select")]
 		public void QuerySelectSimpleOrderByDesc()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			Select<DataBaseDemo.Author> s = new Select<DataBaseDemo.Author>();
+			Select<DataBaseDemo.Author> s = new Select<DataBaseDemo.Author>(Format.MsSQL);
 			s.OrderBy.Descending("age");
 			string result = s.GetSql();
 			string sql = "SELECT * FROM [tab_authors] ORDER BY [age] DESC;";
@@ -175,9 +150,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Query - Select")]
 		public void QuerySelectSimpleOrderByAscDesc()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			Select<DataBaseDemo.Author> s = new Select<DataBaseDemo.Author>();
+			Select<DataBaseDemo.Author> s = new Select<DataBaseDemo.Author>(Format.MsSQL);
 			s.OrderBy.Ascending("age").Descending("amount");
 			string result = s.GetSql();
 			string sql = "SELECT * FROM [tab_authors] ORDER BY [age] ASC, [amount] DESC;";
@@ -192,9 +165,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Query - Select")]
 		public void QuerySelectGroupBySimple1()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			Select<DataBaseDemo.Author> s = new Select<DataBaseDemo.Author>();
+			Select<DataBaseDemo.Author> s = new Select<DataBaseDemo.Author>(Format.MsSQL);
 			s.GroupBy.Append(false, "country", "city");
 			string result = s.GetSql();
 			string sql = "SELECT * FROM [tab_authors] GROUP BY [country], [city];";
@@ -205,9 +176,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Query - Select")]
 		public void QuerySelectGroupBySimple2()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			Select<DataBaseDemo.Author> s = new Select<DataBaseDemo.Author>();
+			Select<DataBaseDemo.Author> s = new Select<DataBaseDemo.Author>(Format.MsSQL);
 			s.GroupBy.Append(true, "country", "city");
 			string result = s.GetSql();
 			string sql = "SELECT [country], [city] FROM [tab_authors] GROUP BY [country], [city];";
@@ -218,12 +187,21 @@ namespace SqlBuilder.Tests
 		[TestCategory("Query - Select")]
 		public void QuerySelectGroupBySimple3()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			Select<DataBaseDemo.Author> s = new Select<DataBaseDemo.Author>();
+			Select<DataBaseDemo.Author> s = new Select<DataBaseDemo.Author>(Format.MsSQL);
 			s.GroupBy.FuncMax("sm", "asm");
 			string result = s.GetSql();
 			string sql = "SELECT MAX([sm]) as 'asm' FROM [tab_authors] GROUP BY [sm];";
+			Assert.AreEqual(sql, result);
+		}
+
+		[TestMethod]
+		[TestCategory("Query - Select")]
+		public void QuerySelectGroupBySimple4()
+		{
+			Select<DataBaseDemo.Author> s = new Select<DataBaseDemo.Author>(Format.MsSQL, "t");
+			s.GroupBy.FuncMax("sm", "asm");
+			string result = s.GetSql();
+			string sql = "SELECT MAX([sm]) as 'asm' FROM [tab_authors] as [t] GROUP BY [t].[sm];";
 			Assert.AreEqual(sql, result);
 		}
 
@@ -235,9 +213,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Query - Join")]
 		public void QuerySelectJoinSimple1()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			Select<DataBaseDemo.Author> s = new Select<DataBaseDemo.Author>();
+			Select<DataBaseDemo.Author> s = new Select<DataBaseDemo.Author>(Format.MsSQL);
 			s.Columns.Append("a1", "a2", "a3");
 			s.Join.InnerJoin("users", "u").Append("id_user", "id");
 			string result = s.GetSql();
@@ -249,9 +225,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Query - Join")]
 		public void QuerySelectJoinSimple2()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			Select<DataBaseDemo.Author> s = new Select<DataBaseDemo.Author>("t");
+			Select<DataBaseDemo.Author> s = new Select<DataBaseDemo.Author>(Format.MsSQL, "t");
 			s.Columns.Append("a1");
 			s.Join.InnerJoin("users", "u").Append("id_user", "id").Append("id_status", "id2");
 			string result = s.GetSql();
@@ -263,9 +237,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Query - Join")]
 		public void QuerySelectJoinSimple3()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			Select<DataBaseDemo.Author> s = new Select<DataBaseDemo.Author>("t");
+			Select<DataBaseDemo.Author> s = new Select<DataBaseDemo.Author>(Format.MsSQL, "t");
 			s.Columns.Append("a1");
 			s.Join.InnerJoin("users", "u").Append("id_user", "id");
 			s.Join.LeftJoin("statuses").Append("id_status", "id2");
@@ -279,9 +251,7 @@ namespace SqlBuilder.Tests
 		[TestCategory("Query - Join")]
 		public void QuerySelectJoinSimple4()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			Select<DataBaseDemo.Author> s = new Select<DataBaseDemo.Author>();
+			Select<DataBaseDemo.Author> s = new Select<DataBaseDemo.Author>(Format.MsSQL);
 			s.Columns.Raw("[tab_authors].*", "[u].*", "[s].*");
 			s.Join.LeftJoin("users", "id_user", "id", "u");
 			s.Join.LeftJoin("statuses", "id_status", "id", "s");
@@ -298,15 +268,57 @@ namespace SqlBuilder.Tests
 		[TestCategory("Query - Select")]
 		public void QuerySelectHard1()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			Select<DataBaseDemo.Author> s = new Select<DataBaseDemo.Author>();
+			Select<DataBaseDemo.Author> s = new Select<DataBaseDemo.Author>(Format.MsSQL);
 			s.Columns.Append("s1", "s2", "s3").FuncMin("date");
 			s.Where.Equal("s1", "s2").IsNotNULL("created_at").IsNULL("activated");
 			s.GroupBy.Append(false, "country", "city").FuncCount("lll", "all");
 			s.OrderBy.Ascending("age");
 			string result = s.GetSql();
 			string sql = "SELECT [s1], [s2], [s3], MIN([date]), COUNT([lll]) as 'all' FROM [tab_authors] WHERE [s1]=@s1 AND [s2]=@s2 AND [created_at] IS NOT NULL AND [activated] IS NULL GROUP BY [country], [city], [lll] ORDER BY [age] ASC;";
+			Assert.AreEqual(sql, result);
+		}
+
+		[TestMethod]
+		[TestCategory("Query - Select")]
+		public void QuerySelectHard2()
+		{
+			string sql1 = new Select<DataBaseDemo.Author>(Format.MsSQL)
+				.Columns(c =>
+				{
+					c.Append("s1", "s2", "s3");
+					c.FuncMin("date");
+				})
+				.Where(w =>
+				{
+					w.Equal("s1", "s2");
+					w.IsNotNULL("created_at");
+					w.IsNULL("activated");
+				})
+				.GroupBy(g =>
+				{
+					g.Append(false, "country", "city");
+					g.FuncCount("lll", "all");
+				})
+				.OrderBy("age")
+				.GetSql();
+			
+			string sql2 = "SELECT [s1], [s2], [s3], MIN([date]), COUNT([lll]) as 'all' FROM [tab_authors] WHERE [s1]=@s1 AND [s2]=@s2 AND [created_at] IS NOT NULL AND [activated] IS NULL GROUP BY [country], [city], [lll] ORDER BY [age] ASC;";
+			Assert.AreEqual(sql1, sql2);
+		}
+
+		[TestMethod]
+		[TestCategory("Query - Select")]
+		public void QuerySelectSubQuery1()
+		{
+			Select<DataBaseDemo.Book> sub = new Select<DataBaseDemo.Book>(Format.MsSQL, "b");
+			sub.Columns.FuncCount("id");
+			sub.Where.EqualValue("id_author", "[a].[id]");
+
+			Select<DataBaseDemo.Author> query = new Select<DataBaseDemo.Author>(Format.MsSQL, "a");
+			query.Columns.Raw("[a].*");
+			query.Columns.SubQuery(sub, "cnt");
+			string result = query.GetSql();
+			string sql = "SELECT [a].*, (SELECT COUNT([id]) FROM [tab_books] as [b] WHERE [b].[id_author]=[a].[id]) as 'cnt' FROM [tab_authors] as [a];";
 			Assert.AreEqual(sql, result);
 		}
 

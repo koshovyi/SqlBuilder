@@ -1,7 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using SqlBuilder.Sql;
 
 namespace SqlBuilder.Tests
@@ -15,10 +12,8 @@ namespace SqlBuilder.Tests
 		[TestCategory("GroupBy")]
 		public void GroupBySimpleList1()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			ColumnsListAggregation c = new ColumnsListAggregation(SqlBuilder.DefaultFormatter);
-			GroupByList g = new GroupByList(SqlBuilder.DefaultFormatter, c);
+			ColumnsListAggregation c = new ColumnsListAggregation(global::SqlBuilder.Format.MsSQL);
+			GroupByList g = new GroupByList(global::SqlBuilder.Format.MsSQL, c);
 
 			g.Append(false, "a", "b", "c");
 			string result = g.GetSql();
@@ -30,10 +25,8 @@ namespace SqlBuilder.Tests
 		[TestCategory("GroupBy")]
 		public void GroupBySimpleList2()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			ColumnsListAggregation c = new ColumnsListAggregation(SqlBuilder.DefaultFormatter);
-			GroupByList g = new GroupByList(SqlBuilder.DefaultFormatter, c);
+			ColumnsListAggregation c = new ColumnsListAggregation(global::SqlBuilder.Format.MsSQL);
+			GroupByList g = new GroupByList(global::SqlBuilder.Format.MsSQL, c);
 			g.Append(false, "a", "b", "c");
 
 			string result = g.GetSql();
@@ -45,10 +38,8 @@ namespace SqlBuilder.Tests
 		[TestCategory("GroupBy")]
 		public void GroupBySimpleList3()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			ColumnsListAggregation c = new ColumnsListAggregation(SqlBuilder.DefaultFormatter);
-			GroupByList g = new GroupByList(SqlBuilder.DefaultFormatter, c);
+			ColumnsListAggregation c = new ColumnsListAggregation(global::SqlBuilder.Format.MsSQL);
+			GroupByList g = new GroupByList(global::SqlBuilder.Format.MsSQL, c);
 			g.Append(true, "a", "b", "c");
 
 			string result = g.GetSql();
@@ -61,10 +52,8 @@ namespace SqlBuilder.Tests
 		[TestCategory("GroupBy")]
 		public void GroupBySimpleListAlias()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			ColumnsListAggregation c = new ColumnsListAggregation(SqlBuilder.DefaultFormatter);
-			GroupByList g = new GroupByList(SqlBuilder.DefaultFormatter, c);
+			ColumnsListAggregation c = new ColumnsListAggregation(global::SqlBuilder.Format.MsSQL);
+			GroupByList g = new GroupByList(global::SqlBuilder.Format.MsSQL, c);
 
 			g.Append(false, "a", "b", "c");
 			string result = g.GetSql("t");
@@ -77,10 +66,8 @@ namespace SqlBuilder.Tests
 		[TestCategory("GroupBy")]
 		public void GroupByAggregation1()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			ColumnsListAggregation c = new ColumnsListAggregation(SqlBuilder.DefaultFormatter);
-			GroupByList g = new GroupByList(SqlBuilder.DefaultFormatter, c);
+			ColumnsListAggregation c = new ColumnsListAggregation(global::SqlBuilder.Format.MsSQL);
+			GroupByList g = new GroupByList(global::SqlBuilder.Format.MsSQL, c);
 			g.FuncMax("sm");
 
 			string result1 = g.GetSql();
@@ -97,10 +84,8 @@ namespace SqlBuilder.Tests
 		[TestCategory("GroupBy")]
 		public void GroupByAggregation2()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			ColumnsListAggregation c = new ColumnsListAggregation(SqlBuilder.DefaultFormatter);
-			GroupByList g = new GroupByList(SqlBuilder.DefaultFormatter, c);
+			ColumnsListAggregation c = new ColumnsListAggregation(global::SqlBuilder.Format.MsSQL);
+			GroupByList g = new GroupByList(global::SqlBuilder.Format.MsSQL, c);
 			g.FuncMin("sm");
 
 			string result1 = g.GetSql();
@@ -117,10 +102,8 @@ namespace SqlBuilder.Tests
 		[TestCategory("GroupBy")]
 		public void GroupByAggregation3()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			ColumnsListAggregation c = new ColumnsListAggregation(SqlBuilder.DefaultFormatter);
-			GroupByList g = new GroupByList(SqlBuilder.DefaultFormatter, c);
+			ColumnsListAggregation c = new ColumnsListAggregation(global::SqlBuilder.Format.MsSQL);
+			GroupByList g = new GroupByList(global::SqlBuilder.Format.MsSQL, c);
 			g.FuncCount("sm");
 
 			string result1 = g.GetSql();
@@ -137,10 +120,8 @@ namespace SqlBuilder.Tests
 		[TestCategory("GroupBy")]
 		public void GroupByAggregation4()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			ColumnsListAggregation c = new ColumnsListAggregation(SqlBuilder.DefaultFormatter);
-			GroupByList g = new GroupByList(SqlBuilder.DefaultFormatter, c);
+			ColumnsListAggregation c = new ColumnsListAggregation(global::SqlBuilder.Format.MsSQL);
+			GroupByList g = new GroupByList(global::SqlBuilder.Format.MsSQL, c);
 			g.FuncSum("sm");
 
 			string result1 = g.GetSql();
@@ -157,10 +138,8 @@ namespace SqlBuilder.Tests
 		[TestCategory("GroupBy")]
 		public void GroupByAggregationMany()
 		{
-			SqlBuilder.DefaultFormatter = FormatterLibrary.MsSql;
-
-			ColumnsListAggregation c = new ColumnsListAggregation(SqlBuilder.DefaultFormatter);
-			GroupByList g = new GroupByList(SqlBuilder.DefaultFormatter, c);
+			ColumnsListAggregation c = new ColumnsListAggregation(global::SqlBuilder.Format.MsSQL);
+			GroupByList g = new GroupByList(global::SqlBuilder.Format.MsSQL, c);
 			g.FuncSum("sm", "asm");
 			g.FuncMax("mx", "amx");
 			g.FuncMin("mn", "amn");

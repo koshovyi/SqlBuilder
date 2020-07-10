@@ -5,12 +5,12 @@ using System.Text;
 namespace SqlBuilder.Sql
 {
 
-	public class ValueList : IValueList
+	public class ValueList
 	{
 
-		private readonly List<IValue> _expressions;
+		private readonly List<Value> _expressions;
 
-		public IFormatter Parameters { get; set; }
+		public Format Parameters { get; set; }
 
 		public int Count
 		{
@@ -20,19 +20,19 @@ namespace SqlBuilder.Sql
 			}
 		}
 
-		public ValueList(IFormatter parameters)
+		public ValueList(Format parameters)
 		{
-			this._expressions = new List<IValue>();
+			this._expressions = new List<Value>();
 			this.Parameters = parameters;
 		}
 
-		public IValueList Append(IValue expression)
+		public ValueList Append(Value expression)
 		{
 			this._expressions.Add(expression);
 			return this;
 		}
 
-		public IValueList Append(params string[] values)
+		public ValueList Append(params string[] values)
 		{
 			foreach(string value in values)
 			{
@@ -41,7 +41,7 @@ namespace SqlBuilder.Sql
 			return this;
 		}
 
-		public IValueList AppendParameters(params string[] values)
+		public ValueList AppendParameters(params string[] values)
 		{
 			foreach (string value in values)
 			{
@@ -58,7 +58,7 @@ namespace SqlBuilder.Sql
 		public string GetSql()
 		{
 			StringBuilder sb = new StringBuilder();
-			foreach(IValue value in this._expressions)
+			foreach(Value value in this._expressions)
 			{
 				if (sb.Length > 0)
 					sb.Append(", ");

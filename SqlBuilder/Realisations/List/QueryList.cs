@@ -5,10 +5,10 @@ using System.Text;
 namespace SqlBuilder
 {
 
-	public class QueryList : IQueryList
+	public class QueryList
 	{
 
-		private List<IStatement> _list;
+		private readonly List<IStatement> _list;
 
 		public IEnumerable<IStatement> Queries
 		{
@@ -31,7 +31,7 @@ namespace SqlBuilder
 			this._list = new List<IStatement>();
 		}
 
-		public IQueryList Append(params IStatement[] queries)
+		public QueryList Append(params IStatement[] queries)
 		{
 			foreach(IStatement statement in queries)
 			{

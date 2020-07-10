@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using SqlBuilder.Attributes;
+﻿using SqlBuilder.Attributes;
 
 namespace SqlBuilder.Tests.DataBaseDemo
 {
@@ -10,7 +7,7 @@ namespace SqlBuilder.Tests.DataBaseDemo
 	public class Author
 	{
 
-		[PrimaryKey, IgnoreInsert, IgnoreUpdate]
+		[PrimaryKey(true), IgnoreInsert, IgnoreUpdate]
 		public int ID { get; set; }
 
 		public string FirstName { get; set; }

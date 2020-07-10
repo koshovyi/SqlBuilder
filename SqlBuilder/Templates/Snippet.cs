@@ -1,10 +1,9 @@
-﻿using SqlBuilder.Interfaces;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
 namespace SqlBuilder.Templates
 {
 
-	public class Snippet : ITemplateSnippet
+	public class Snippet
 	{
 
 		private string _Name;
@@ -42,7 +41,7 @@ namespace SqlBuilder.Templates
 		{
 			return Regex.IsMatch(name, "^([A-Za-z0-9_]+)$", RegexOptions.IgnoreCase | RegexOptions.Singleline);
 		}
-		
+
 	}
 
 }

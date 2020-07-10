@@ -1,11 +1,16 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2036
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SqlBuilder", "SqlBuilder\SqlBuilder.csproj", "{F33B1E4D-FE7D-46BE-932A-C66532AF23F1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SqlBuilder", "SqlBuilder\SqlBuilder.csproj", "{F33B1E4D-FE7D-46BE-932A-C66532AF23F1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SqlBuilder.Tests", "SqlBuilder.Tests\SqlBuilder.Tests.csproj", "{32500049-FF12-4F86-B2ED-D8FFD8BC8D7D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SqlBuilder.Tests", "SqlBuilder.Tests\SqlBuilder.Tests.csproj", "{32500049-FF12-4F86-B2ED-D8FFD8BC8D7D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{F618CEBB-C3A2-412B-9012-F7B7E3CE2627}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
