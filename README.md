@@ -22,7 +22,7 @@
 
 ```csharp
 string sql = new Select<Author>(Format.MsSQL)
-	.Columns(c =>
+	.Columns(c =>	
 	{
 		c.Append("s1", "s2", "s3");
 		c.FuncMin("date");
@@ -242,7 +242,7 @@ UPDATE [authors] SET [firstname]=@firstname, [lastname]=@lastname WHERE [id]=123
 SqlBuilder attributes:
 
 | Attribute | Description |
-|--------|-------------|-------------|
+|--------|-------------|
 |TableNameAttribute|Set custom table name (and optionaly alias) |
 |ColumnAttribute|Set custom column name|
 |PrimaryKeyAttribute|Attribute for PK|
