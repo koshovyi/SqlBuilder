@@ -243,14 +243,14 @@ SqlBuilder attributes:
 
 | Attribute | Description |
 |--------|-------------|-------------|
-|`TableNameAttribute`|Set custom table name (and optionaly alias) |
-|`ColumnAttribute`|Set custom column name|
-|`PrimaryKeyAttribute`|Attribute for PK|
-|`ForeignKeyAttribute`|Attribute for FK|
-|`IgnoreInsert`|Ignore property from INSERT statement|
-|`IgnoreUpdate`|Ignore property from UPDATE statement|
-|`InsertDefault`|Default value for INSERT statement|
-|`UpdateDefault`|Default value for UPDATE statement|
+|TableNameAttribute|Set custom table name (and optionaly alias) |
+|ColumnAttribute|Set custom column name|
+|PrimaryKeyAttribute|Attribute for PK|
+|ForeignKeyAttribute|Attribute for FK|
+|IgnoreInsertAttribute|Ignore property from INSERT statement|
+|IgnoreUpdateAttribute|Ignore property from UPDATE statement|
+|InsertDefaultAttribute|Default value for INSERT statement|
+|UpdateDefaultAttribute|Default value for UPDATE statement|
 
 ### Reflection <a name="reflection"></a>
 
